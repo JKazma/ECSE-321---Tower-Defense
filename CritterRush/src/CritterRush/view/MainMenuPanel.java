@@ -7,7 +7,8 @@ import java.awt.Color;
 
 public class MainMenuPanel extends javax.swing.JPanel {
 
-    private TowerDefenseGame TDG;
+	private static final long serialVersionUID = 1L;
+	private TowerDefenseGame TDG;
    
     public MainMenuPanel(TowerDefenseGame frame, boolean visibility) {
         initComponents();

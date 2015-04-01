@@ -7,13 +7,14 @@ package CritterRush.view;
 
 import java.awt.Graphics;
 
+import CritterRush.controller.CritterManager;
 import CritterRush.controller.MapManager;
-import CritterRush.model.ToolBox;
 
 public class GamePanel extends javax.swing.JPanel {
 
-	
-    private TowerDefenseGame TDG;
+	private static final long serialVersionUID = 1L;
+	private TowerDefenseGame TDG;
+    
     /**
      * Creates new form GamePanel
      */
@@ -32,6 +33,7 @@ public class GamePanel extends javax.swing.JPanel {
    public void paintComponent(Graphics g) {
    	super.paintComponent(g);
        MapManager.getSelectedMap().draw(g);
+       CritterManager.draw(g);
    }
 
     /**
@@ -43,19 +45,64 @@ public class GamePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        shopTitle = new javax.swing.JTextField();
+        nextWave = new javax.swing.JButton();
+
+        shopTitle.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        shopTitle.setText("Shop");
+        shopTitle.setBorder(null);
+        shopTitle.setCaretColor(new java.awt.Color(204, 51, 0));
+        shopTitle.setFocusable(false);
+        shopTitle.setOpaque(false);
+        shopTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shopTitleActionPerformed(evt);
+            }
+        });
+
+        nextWave.setText("Next Wave");
+        nextWave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextWaveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 960, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(815, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(shopTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(nextWave, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(shopTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 408, Short.MAX_VALUE)
+                .addComponent(nextWave, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void shopTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shopTitleActionPerformed
+        //Nothing to do here
+    }//GEN-LAST:event_shopTitleActionPerformed
+
+    private void nextWaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextWaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nextWaveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton nextWave;
+    private javax.swing.JTextField shopTitle;
     // End of variables declaration//GEN-END:variables
 }

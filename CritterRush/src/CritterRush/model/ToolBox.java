@@ -22,17 +22,25 @@ public class ToolBox{
 		
 	}
 	
-	//Update the position if the tool
+	/**
+	 * Update the tool position which is controlled by the mouse.
+	 */
 	public static void update() {
 		currentTool.updatePosition();
 		
 	}
 
+	/**
+	 * Perform the left mouse click action.
+	 */
 	public static void performAction1() {
 		currentTool.action1();
 		
 	}
 	
+	/**
+	 * Perform the right mouse click action.
+	 */
 	public static void performAction2() {
 		currentTool.action2();
 		
@@ -55,6 +63,10 @@ public class ToolBox{
 		ToolBox.currentTool = currentTool;
 	}
 
+	/**
+	 * Draw the tool.
+	 * @param g
+	 */
 	public static void draw(Graphics g) {
 		currentTool.draw(g);
 		

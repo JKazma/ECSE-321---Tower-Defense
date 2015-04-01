@@ -1,9 +1,6 @@
 package CritterRush.model;
 
-//import org.newdawn.slick.Image;
-
 import java.awt.Image;
-import org.newdawn.slick.SlickException;
 
 public class CellType {
 	private Image image;
@@ -11,7 +8,7 @@ public class CellType {
 	private boolean isPath;
 	
 	
-	public CellType(Image image, boolean isScenery, boolean isPath) throws SlickException {
+	public CellType(Image image, boolean isScenery, boolean isPath){
 		this.image=image;
 		this.isScenery = isScenery;
 		this.isPath=isPath;

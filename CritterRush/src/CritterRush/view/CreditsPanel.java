@@ -4,7 +4,8 @@ import java.awt.Color;
 
 public class CreditsPanel extends javax.swing.JPanel {
 
-    private TowerDefenseGame TDG;
+	private static final long serialVersionUID = 1L;
+	private TowerDefenseGame TDG;
         
     public CreditsPanel(TowerDefenseGame frame, boolean visibility) {
         initComponents();

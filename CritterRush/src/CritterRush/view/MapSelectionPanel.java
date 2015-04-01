@@ -17,13 +17,17 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     public MapSelectionPanel(TowerDefenseGame frame, boolean visibility) {
         initComponents();
         this.TDG = frame;
-        updateMapIcons();
         
         setBackground(Color.BLACK);
 		setDoubleBuffered(true);
 		setVisible(visibility);
 		this.setFocusable(true);
 		this.requestFocus(true);
+		
+		mapLabels = new JLabel[] {Map1,Map2,Map3,Map4};
+        rButtons = new JRadioButton[] {map1Button, map2Button, map3Button, map4Button};
+        
+        updateMapIcons();
     }
     
     //set map Icons
@@ -32,9 +36,12 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     		if(i <= MapManager.getMapCount()){
     			System.out.println("asdsad");
     			mapLabels[i - 1].setIcon(ICManager.maps[i]);
+    			rButtons[i - 1].setEnabled(true);
+    			
     		}
     		else{
     			mapLabels[i - 1].setIcon(new javax.swing.ImageIcon(getClass().getResource("/empty.png")));
+    			rButtons[i - 1].setEnabled(false);
     		}
     	}	
     }
@@ -64,7 +71,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
         deleteMapButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
         
-        mapLabels = new JLabel[] {Map1,Map2,Map3,Map4};
+        
  
         
 

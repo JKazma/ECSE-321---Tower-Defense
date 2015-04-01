@@ -17,7 +17,9 @@ import CritterRush.controller.MapManager;
 
 
 public class EditorPanel extends javax.swing.JPanel{
-    private TowerDefenseGame TDG;
+
+	private static final long serialVersionUID = 1L;
+	private TowerDefenseGame TDG;
 
     /**
      * Creates new form EditorPanel
@@ -41,7 +43,9 @@ public class EditorPanel extends javax.swing.JPanel{
         ToolBox.draw(g);
     }
     
-    //Take screenshot of map
+    /**
+     * Take a screenshot of the map to be used as an icon.
+     */
     public void mapScreenShot(){
 		BufferedImage bufImage = new BufferedImage(ICManager.fieldSizeX,
 				ICManager.fieldSizeY, BufferedImage.TYPE_INT_RGB);
