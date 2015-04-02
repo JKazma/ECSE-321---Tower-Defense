@@ -6,8 +6,8 @@ public abstract class Critter {
 	
 	//Critter variables
 	protected String name;
-	protected float xPos; //set
-	protected float yPos; //set
+	protected int x;
+	protected int y;
 	protected int health;
 	protected int speed;
 	protected int initialSpeed;
@@ -119,12 +119,12 @@ public abstract class Critter {
 		this.name = name;
 	}
 
-	public void setxPos(float xPos) {
-		this.xPos = xPos;
+	public void setxPos(int x) {
+		this.x = x;
 	}
 
-	public void setyPos(float yPos) {
-		this.yPos = yPos;
+	public void setyPos(int y) {
+		this.y = y;
 	}
 	
 	public void setHealth(int health)
@@ -156,12 +156,12 @@ public abstract class Critter {
 		return name;
 	}
 
-	public float getxPos() {
-		return xPos;
+	public int getX() {
+		return x;
 	}
 
-	public float getyPos() {
-		return yPos;
+	public int getY() {
+		return y;
 	}
 
 	public int getHealth() {

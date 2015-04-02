@@ -40,7 +40,8 @@ public class TowerDefenseGame extends JFrame {
         new CellTypeManager();
         new MapManager();
         new CritterManager();
-        InputManager iman = new InputManager();
+        new TowerManager();
+        //InputManager iman = new InputManager();
         
         //Tools for the mouse
         new ToolBox();
@@ -51,11 +52,11 @@ public class TowerDefenseGame extends JFrame {
         editorPanel = new EditorPanel(this, false);
         gamePanel = new GamePanel (this, false);
      
-        editorPanel.addMouseListener(iman);
-        editorPanel.addMouseMotionListener(iman);
+        //editorPanel.addMouseListener(iman);
+       // editorPanel.addMouseMotionListener(iman);
         
-        gamePanel.addMouseListener(iman);
-        gamePanel.addMouseMotionListener(iman);
+        //gamePanel.addMouseListener(iman);
+        //gamePanel.addMouseMotionListener(iman);
         
         this.add(mainMenuPanel);
         this.pack();

@@ -18,7 +18,7 @@ public class ToolBox{
 		textureTool = new TextureTool();
 		spawnTool = new SpawnTool();
 		towerTool = new TowerTool();
-		currentTool = textureTool;
+		currentTool = null;
 		
 	}
 	
@@ -26,23 +26,30 @@ public class ToolBox{
 	 * Update the tool position which is controlled by the mouse.
 	 */
 	public static void update() {
-		currentTool.updatePosition();
+		if(currentTool != null)
+			currentTool.updatePosition();
 		
 	}
 
-	/**
-	 * Perform the left mouse click action.
-	 */
+	//Left mouse
 	public static void performAction1() {
-		currentTool.action1();
+		if(currentTool != null)
+			currentTool.action1();
 		
 	}
 	
-	/**
-	 * Perform the right mouse click action.
-	 */
+	//Right mouse
 	public static void performAction2() {
-		currentTool.action2();
+		if(currentTool != null)
+			currentTool.action2();
+		
+	}
+	
+	//Can be used instead of left and right mouse in case a boolean is needed.
+	public static boolean performAction3() {
+		if(currentTool != null)
+			return currentTool.action3();
+		return false;
 		
 	}
 	
@@ -55,6 +62,10 @@ public class ToolBox{
 		return spawnTool;
 	}
 
+	public static Tool getTowerTool() {
+		return towerTool;
+	}
+	
 	public static Tool getCurrentTool() {
 		return currentTool;
 	}
@@ -68,7 +79,8 @@ public class ToolBox{
 	 * @param g
 	 */
 	public static void draw(Graphics g) {
-		currentTool.draw(g);
+		if(currentTool != null)
+			currentTool.draw(g);
 		
 		//Draw the entry and exit point highlights in Editor
 		Graphics2D g2 = (Graphics2D) g;

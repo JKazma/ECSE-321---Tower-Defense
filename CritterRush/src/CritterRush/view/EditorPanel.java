@@ -4,19 +4,25 @@ package CritterRush.view;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
+import CritterRush.model.Mouse;
+import CritterRush.model.Tool;
 import CritterRush.model.ToolBox;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
 
 
 
-public class EditorPanel extends javax.swing.JPanel{
+public class EditorPanel extends javax.swing.JPanel implements MouseListener, MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
 	private TowerDefenseGame TDG;
@@ -34,6 +40,9 @@ public class EditorPanel extends javax.swing.JPanel{
 		setVisible(visibility);
 		this.setFocusable(true);
 		this.requestFocus(true);
+		
+		addMouseListener(this);
+		addMouseMotionListener(this);
     }
     
      @Override
@@ -197,6 +206,8 @@ public class EditorPanel extends javax.swing.JPanel{
     	MapManager.setSelectedMap(null);
     	MapManager.resetEditorMap();
         TDG.panelSwap(TDG.editorPanel, TDG.mapSelectionPanel);
+        textureTool.setSelected(true);
+        ToolBox.setCurrentTool(null);
         
     }//GEN-LAST:event_cancelActionPerformed
 
@@ -209,6 +220,8 @@ public class EditorPanel extends javax.swing.JPanel{
         	MapManager.resetEditorMap();
         	TDG.mapSelectionPanel.updateMapIcons();
         	TDG.panelSwap(TDG.editorPanel, TDG.mapSelectionPanel);
+        	textureTool.setSelected(true);
+        	ToolBox.setCurrentTool(null);
     	}
     	else {
     		TDG.printMessage("Current map setup is invalid.");
@@ -224,4 +237,58 @@ public class EditorPanel extends javax.swing.JPanel{
     private javax.swing.JRadioButton spawnTool;
     private javax.swing.JRadioButton textureTool;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+	public void mouseDragged(MouseEvent e) {
+		Mouse.move(e.getX(), e.getY());
+		ToolBox.update();
+		
+		if (SwingUtilities.isLeftMouseButton(e)) 
+			ToolBox.performAction1();
+		else if (SwingUtilities.isRightMouseButton(e)) 
+			ToolBox.performAction2();
+		
+		repaint();
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Mouse.move(e.getX(), e.getY());
+		ToolBox.update();
+		repaint();
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (SwingUtilities.isLeftMouseButton(e)) 
+			ToolBox.performAction1();
+		else if (SwingUtilities.isRightMouseButton(e)) 
+			ToolBox.performAction2();
+		
+		repaint();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

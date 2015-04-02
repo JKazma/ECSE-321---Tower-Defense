@@ -7,6 +7,11 @@ public class PlayerStats {
 	protected int lifeCount;
 	protected int score;
 	
+	/**
+	 * Constructor
+	 * @param bankAmount
+	 * @param lifeCount
+	 */
 	public PlayerStats(int bankAmount, int lifeCount){
 		this.bankAmount = bankAmount;
 		this.lifeCount = lifeCount;	
