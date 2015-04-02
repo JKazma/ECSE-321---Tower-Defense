@@ -35,7 +35,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     	for (int i = 1; i < MapManager.getMaxCount() + 1; i++){
     		if(i <= MapManager.getMapCount()){
     			System.out.println("asdsad");
-    			mapLabels[i - 1].setIcon(ICManager.maps[i]);
+    			mapLabels[i - 1].setIcon(ICManager.maps[i-1]);
     			rButtons[i - 1].setEnabled(true);
     			
     		}
@@ -255,10 +255,11 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_createMapButtonActionPerformed
 
     private void deleteMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMapButtonActionPerformed
-        if(MapManager.getSelectedMap() != null)
-           //Do something here
-        	;
-        else 
+        if(MapManager.getSelectedMap() != null){
+           MapManager.deleteMap(MapManager.getSelectedMap());
+           MapManager.setSelectedMap(null);
+           updateMapIcons();
+        } else 
         	TDG.printMessage("SELECT A FUCKING MAP YA KHANZIR.");
     }//GEN-LAST:event_deleteMapButtonActionPerformed
 

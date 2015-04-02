@@ -64,7 +64,7 @@ public class EditorPanel extends javax.swing.JPanel{
 
 		// clean up
 		graphics2D.dispose();
-		ICManager.maps[MapManager.getMapCount()] = new ImageIcon(resized);
+		ICManager.maps[MapManager.getMapCount() - 1] = new ImageIcon(resized);
 
 		try {
 			imageFile.createNewFile();
