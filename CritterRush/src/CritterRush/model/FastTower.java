@@ -16,7 +16,7 @@ public class FastTower extends Tower {
 		this.damage = 3;
 		this.fireRate = 2;
 		this.buy = 100;
-		this.sell = 500;
+		this.refundValue = 500;
 		this.upgradeCost = 100;
 		this.image = ICManager.fastTower;
 	}
@@ -60,12 +60,12 @@ public class FastTower extends Tower {
 			increasingCost= getBuy()+getUpgradeCost();
 			int newUpgradeCost=getUpgradeCost()+50;
 			this.upgradeCost = newUpgradeCost;
-			this.sell = (increasingCost/2);
+			this.refundValue = (increasingCost/2);
 			int newRange=getRange()+25;
 			this.range = newRange;
 			int newDamage=getDamage()+75;
 			this.damage =(newDamage);
-			float newRateOfFire=getFireRate()+2;
+			int newRateOfFire=getFireRate()+2;
 			this.fireRate = (newRateOfFire);
 			int newLevel=getLevel()+1;
 			this.level = newLevel;

@@ -2,6 +2,7 @@ package CritterRush.model;
 
 import java.awt.Graphics;
 
+import CritterRush.controller.CellTypeManager;
 import CritterRush.controller.ICManager;
 
 public class Map extends GameObject{
@@ -51,8 +52,15 @@ public class Map extends GameObject{
     }
 	
 	//Getters
-	public Cell[][] getCells(){
-		return cells;
+	public int getSceneryCellsCount(){
+		int count = 0;
+        for(int j = 0; j < sizeY; j++){
+            for(int i = 0; i < sizeX; i++){
+            	if(cells[i][j].getType() == CellTypeManager.scenery)
+            		count++;
+            }
+        }
+        return count;
 	}
 	
 	public Cell getCellAt(int x, int y){

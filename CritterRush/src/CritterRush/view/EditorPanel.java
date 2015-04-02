@@ -1,6 +1,7 @@
 package CritterRush.view;
 
 
+import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -16,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 import CritterRush.model.Mouse;
 import CritterRush.model.Tool;
-import CritterRush.model.ToolBox;
+import CritterRush.model.EditorTools;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
 
@@ -48,8 +49,12 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
      @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
+    	
+    	Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(ICManager.squareHighlightTickness));
+		
         MapManager.getEditorMap().draw(g);
-        ToolBox.draw(g);
+        EditorTools.draw(g);
     }
     
     /**
@@ -191,11 +196,11 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
     }// </editor-fold>//GEN-END:initComponents
 
     private void spawnToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spawnToolActionPerformed
-        ToolBox.setCurrentTool(ToolBox.getSpawnTool());
+        EditorTools.setCurrentTool(EditorTools.getSpawnTool());
     }//GEN-LAST:event_spawnToolActionPerformed
     
     private void textureToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textureToolActionPerformed
-        ToolBox.setCurrentTool(ToolBox.getTextureTool());
+        EditorTools.setCurrentTool(EditorTools.getTextureTool());
     }//GEN-LAST:event_textureToolActionPerformed
 
     private void editorToolsTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editorToolsTitleActionPerformed
@@ -207,7 +212,7 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
     	MapManager.resetEditorMap();
         TDG.panelSwap(TDG.editorPanel, TDG.mapSelectionPanel);
         textureTool.setSelected(true);
-        ToolBox.setCurrentTool(null);
+        EditorTools.setCurrentTool(null);
         
     }//GEN-LAST:event_cancelActionPerformed
 
@@ -221,7 +226,7 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
         	TDG.mapSelectionPanel.updateMapIcons();
         	TDG.panelSwap(TDG.editorPanel, TDG.mapSelectionPanel);
         	textureTool.setSelected(true);
-        	ToolBox.setCurrentTool(null);
+        	EditorTools.setCurrentTool(null);
     	}
     	else {
     		TDG.printMessage("Current map setup is invalid.");
@@ -241,12 +246,12 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
     @Override
 	public void mouseDragged(MouseEvent e) {
 		Mouse.move(e.getX(), e.getY());
-		ToolBox.update();
+		EditorTools.update();
 		
 		if (SwingUtilities.isLeftMouseButton(e)) 
-			ToolBox.performAction1();
+			EditorTools.performAction1();
 		else if (SwingUtilities.isRightMouseButton(e)) 
-			ToolBox.performAction2();
+			EditorTools.performAction2();
 		
 		repaint();
 		
@@ -255,16 +260,16 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		Mouse.move(e.getX(), e.getY());
-		ToolBox.update();
+		EditorTools.update();
 		repaint();
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) 
-			ToolBox.performAction1();
+			EditorTools.performAction1();
 		else if (SwingUtilities.isRightMouseButton(e)) 
-			ToolBox.performAction2();
+			EditorTools.performAction2();
 		
 		repaint();
 	}

@@ -5,9 +5,10 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
+import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
-import CritterRush.model.ToolBox;
+import CritterRush.model.EditorTools;
 
 public class MapSelectionPanel extends javax.swing.JPanel {
 
@@ -251,7 +252,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     private void createMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMapButtonActionPerformed
         if(MapManager.getMapCount() < MapManager.getMaxCount()){
             TDG.panelSwap(TDG.mapSelectionPanel, TDG.editorPanel);
-        	ToolBox.setCurrentTool(ToolBox.getTextureTool());
+        	EditorTools.setCurrentTool(EditorTools.getTextureTool());
         } else 
             TDG.printMessage("TOO MANY FUCKING MAPS YA BAGHEL.");
     }//GEN-LAST:event_createMapButtonActionPerformed
@@ -268,6 +269,9 @@ public class MapSelectionPanel extends javax.swing.JPanel {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
     	if(MapManager.getSelectedMap() != null){
+    		TDG.gamePanel.setGame(new GameController());
+    		TDG.gamePanel.updatePlayerStats();
+    		TDG.gamePanel.setVisibleTCInfo(false);
     		TDG.panelSwap(TDG.mapSelectionPanel, TDG.gamePanel);
     	}else 
     		TDG.printMessage("SELECT A FUCKING MAP YA KHANZIR.");

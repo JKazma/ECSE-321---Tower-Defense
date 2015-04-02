@@ -11,9 +11,9 @@ public abstract class Tool {
 	protected static int x;
 	protected static int y;
 	protected Color color=Color.white;
-	protected ToolBox e;
+	protected EditorTools e;
 	
-	public void Tool(ToolBox e){
+	public void Tool(EditorTools e){
 		this.e = e;
 	}
 	
@@ -25,8 +25,6 @@ public abstract class Tool {
 	public abstract void action1();
 	
 	public abstract void action2();
-	
-	public abstract boolean action3();
 	
 	//Draw square highligher
 	public void draw(Graphics g){

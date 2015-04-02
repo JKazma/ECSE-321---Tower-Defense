@@ -7,7 +7,7 @@ import CritterRush.model.*;
 
 public class TowerManager {
 	private static ArrayList<Tower> towers = new ArrayList<Tower>();
-	private static Tower shopTower;
+	private static Tower selectedTower;
 	
 
 	public static void addTower(Tower t)
@@ -36,18 +36,24 @@ public class TowerManager {
 		return null;
 	}
 	
-	public static Tower getShopTower() {
-		return shopTower;
+	public static Tower getSelectedTower() {
+		return selectedTower;
 	}
-	
-	public static void setShopTower(Tower shopTower) {
-		TowerManager.shopTower = shopTower;
+	public static void setSelectedTower(Tower selectedTower) {
+		TowerManager.selectedTower = selectedTower;
 	}
 	
 	public static void draw(Graphics g) {
 		for(Tower t:towers) {
 			t.draw(g);
 		}
+		
+		if(selectedTower != null){
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.red);
+			g2.setStroke(new BasicStroke(ICManager.squareHighlightTickness));
+			g2.drawRect(selectedTower.getX(), selectedTower.getY(), ICManager.cellSize, ICManager.cellSize);	
+		}
+
 	}
-	
 }

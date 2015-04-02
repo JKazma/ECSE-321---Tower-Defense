@@ -3,6 +3,8 @@ package CritterRush.controller;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
+import CritterRush.model.ShopTower;
+
 public class ICManager {
 	public static Image scenery;
 	public static Image path;
@@ -23,10 +25,10 @@ public class ICManager {
 	public static int iniBankAmount;
 	public static int iniLife;
 	
-	public static int fastTowerCost;
-	public static int slowTowerCost;
-	public static int splashTowerCost;
-	public static int powerTowerCost;
+	public static ShopTower fastTowerShop;
+	public static ShopTower slowTowerShop;
+	public static ShopTower splashTowerShop;
+	public static ShopTower powerTowerShop;
 	
 	public ICManager() {
 			initImages();
@@ -58,9 +60,9 @@ public class ICManager {
 		iniLife = 5;
 		
 		//Initialize tower constants
-		fastTowerCost = 500;
-		slowTowerCost = 500;
-		splashTowerCost = 500;
-		powerTowerCost = 500;
+		fastTowerShop = new ShopTower("fastTower", 1,1,1,1,1);
+		slowTowerShop =  new ShopTower("slowTower", 2,1,1,1,1);
+		splashTowerShop =  new ShopTower("splashTower", 1,3,1,1,1);
+		powerTowerShop =  new ShopTower("powerTower", 1,1,1,1,5);
 	}
 }

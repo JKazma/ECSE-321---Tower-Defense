@@ -59,8 +59,13 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="stats" alignment="1" min="-2" pref="64" max="-2" attributes="0"/>
-                                  <Component id="shopTitle" min="-2" pref="66" max="-2" attributes="0"/>
+                                  <Component id="scoreAmount" alignment="1" min="-2" pref="66" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="stats" alignment="1" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <Component id="shopTitle" alignment="0" pref="66" max="32767" attributes="0"/>
+                                      <Component id="livesAmount" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="goldAmount" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
@@ -75,9 +80,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-              <Component id="stats" min="-2" pref="52" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-              <Component id="shopTitle" min="-2" pref="39" max="-2" attributes="0"/>
+              <Component id="stats" min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="goldAmount" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="livesAmount" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+              <Component id="scoreAmount" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="shopTitle" min="-2" pref="36" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="fastTower" min="-2" max="-2" attributes="0"/>
@@ -88,7 +99,7 @@
                   <Component id="slowTower" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="powerTower" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="121" max="32767" attributes="0"/>
+              <EmptySpace pref="104" max="32767" attributes="0"/>
               <Component id="upgradeButton" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="sellButton" min="-2" pref="23" max="-2" attributes="0"/>
@@ -333,6 +344,21 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upgradeButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="goldAmount">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Gold : "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="livesAmount">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Lives: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="scoreAmount">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Score:"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

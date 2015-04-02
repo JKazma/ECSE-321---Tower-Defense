@@ -5,28 +5,32 @@
  */
 package CritterRush.view;
 
+import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import CritterRush.controller.CritterManager;
+import CritterRush.controller.GameController;
+import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
 import CritterRush.controller.TowerManager;
-import CritterRush.model.Game;
 import CritterRush.model.Mouse;
-import CritterRush.model.ToolBox;
+import CritterRush.model.Tower;
 
 public class GamePanel extends javax.swing.JPanel implements MouseListener, MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
 	private TowerDefenseGame TDG;
-	private Game game;
+	private GameController game;
     
     /**
      * Creates new form GamePanel
@@ -34,8 +38,6 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     public GamePanel(TowerDefenseGame frame, boolean visibility) {
         initComponents();
         this.TDG = frame;
-        
-        game = new Game();
         
         setBackground(new java.awt.Color(255, 204, 153));
 		setDoubleBuffered(true);
@@ -46,14 +48,57 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 		addMouseListener(this);
 		addMouseMotionListener(this);
     }
+    /**
+     * Update the displayed player stats.
+     */
+    public void updatePlayerStats(){
+		goldAmount.setText("Gold : " + String.valueOf(game.getPs().getCurrencyPoints()));
+		livesAmount.setText("Lives : " + String.valueOf(game.getPs().getLifeCount()));
+		scoreAmount.setText("Score : " + String.valueOf(game.getPs().getScore()));
+    }
+    
+    /**
+     * Update the displayed tower info.
+     */
+    public void updateTowerInfo(int[] info){
+    	if(info.length >= 1) info1.setText("Level: " + String.valueOf(info[0]));
+    	else info1.setText("");
+    	if(info.length >= 2) info2.setText("Damage: " + String.valueOf(info[1]));
+    	else info2.setText("");
+    	if(info.length >= 3) info3.setText("Range: " + String.valueOf(info[2]));
+    	else info3.setText("");
+    	if(info.length >= 4) info4.setText("Fire rate: " + String.valueOf(info[3]));
+    	else info4.setText("");
+    	if(info.length >= 5) info5.setText("Buy cost: " + String.valueOf(info[4]));
+    	else info5.setText("");
+    	if(info.length >= 6) info6.setText("Sell refund: " + String.valueOf(info[5]));
+    	else info6.setText("");
+    	repaint();
+    }
+    
+    /**
+     * Set the visibility of the tower and critter Info.
+     * @param b
+     */
+    public void setVisibleTCInfo(boolean b){
+    	info1.setVisible(b);
+    	info2.setVisible(b);
+    	info3.setVisible(b);
+    	info4.setVisible(b);
+    	info5.setVisible(b);
+    	info6.setVisible(b);
+    	repaint();
+    }
     
     @Override
    public void paintComponent(Graphics g) {
-   	super.paintComponent(g);
-       MapManager.getSelectedMap().draw(g);
-       ToolBox.draw(g);
-       CritterManager.draw(g);
-       TowerManager.draw(g);
+		super.paintComponent(g);
+		
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(ICManager.squareHighlightTickness));
+		
+		MapManager.getSelectedMap().draw(g);
+		game.draw(g);
    }
 
     /**
@@ -77,6 +122,15 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
         purchaseButton = new javax.swing.JButton();
         sellButton = new javax.swing.JButton();
         upgradeButton = new javax.swing.JButton();
+        goldAmount = new javax.swing.JLabel();
+        livesAmount = new javax.swing.JLabel();
+        scoreAmount = new javax.swing.JLabel();
+        info1 = new javax.swing.JLabel();
+        info2 = new javax.swing.JLabel();
+        info3 = new javax.swing.JLabel();
+        info4 = new javax.swing.JLabel();
+        info5 = new javax.swing.JLabel();
+        info6 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 204, 153));
 
@@ -211,49 +265,93 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
             }
         });
 
+        goldAmount.setText("Gold : ");
+
+        livesAmount.setText("Lives: ");
+
+        scoreAmount.setText("Score:");
+
+        info1.setText("jLabel1");
+
+        info2.setText("jLabel2");
+
+        info3.setText("jLabel3");
+
+        info4.setText("jLabel4");
+
+        info5.setText("jLabel5");
+
+        info6.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(809, Short.MAX_VALUE)
+                .addContainerGap(806, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nextWave, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quit, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(slowTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(powerTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(fastTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(splashTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(scoreAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(stats, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(shopTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(livesAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(goldAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addGap(28, 28, 28)))
+                                .addGap(21, 21, 21))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(quit, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(info5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(info4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(info3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(info2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(info1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap()))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(info6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(nextWave, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(upgradeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(47, 47, 47))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(slowTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(powerTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(fastTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(splashTower, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(stats, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(shopTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)))
-                        .addGap(21, 21, 21))))
+                        .addGap(45, 45, 45))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(stats, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(shopTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(stats, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(goldAmount)
+                .addGap(3, 3, 3)
+                .addComponent(livesAmount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scoreAmount)
+                .addGap(18, 18, 18)
+                .addComponent(shopTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(fastTower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,17 +360,29 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(slowTower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(powerTower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(info1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(info2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(info3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(info4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(info5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(info6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(upgradeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(10, 10, 10)
                 .addComponent(nextWave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(4, 4, 4)
                 .addComponent(quit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addGap(9, 9, 9))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -289,26 +399,33 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     }//GEN-LAST:event_statsActionPerformed
 
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
-        // TODO add your handling code here:
+    	TowerManager.getTowers().clear();
+    	CritterManager.getCritters().clear();
+    	TDG.panelSwap(TDG.gamePanel, TDG.mapSelectionPanel);
     }//GEN-LAST:event_quitActionPerformed
 
     private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
-    	boolean purchaseSuccesful = false;
+    	String purchaseSuccesful = "";
     	
     	if(fastTower.isSelected()){
-    		purchaseSuccesful= game.purchaseTower("fastTower");
+    		purchaseSuccesful = game.purchaseTower(ICManager.fastTowerShop);
     	}else if(splashTower.isSelected()){
-    		purchaseSuccesful = game.purchaseTower("splashTower");
+    		purchaseSuccesful = game.purchaseTower(ICManager.splashTowerShop);
     	}else if(slowTower.isSelected()){
-    		purchaseSuccesful = game.purchaseTower("slowTower");
+    		purchaseSuccesful = game.purchaseTower(ICManager.slowTowerShop);
     	}else if(powerTower.isSelected()){
-    		purchaseSuccesful = game.purchaseTower("powerTower");
+    		purchaseSuccesful = game.purchaseTower(ICManager.powerTowerShop);
     	}
     	
-    	if(purchaseSuccesful == false)
-    		TDG.printMessage("Not enough resources.");
+    	//Notify user if purchase fails
+    	if( "lowResource".equals(purchaseSuccesful))
+    		TDG.printMessage("Not enough gold.");
+    	else if(purchaseSuccesful == "noRoom")
+    		TDG.printMessage("No more room left.");
     	
+    	//Otherwise, disable buttons to place tower
     	else{
+    		updatePlayerStats();
     		for (Component b : getComponents()) {
     		    if(b instanceof JButton || b instanceof JToggleButton)
     		    	b.setEnabled(false);
@@ -318,23 +435,36 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     }//GEN-LAST:event_purchaseButtonActionPerformed
 
     private void fastTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fastTowerActionPerformed
+    	updateTowerInfo(ICManager.fastTowerShop.getInfo());
+    	setVisibleTCInfo(true);
     	purchaseButton.setEnabled(true);
     }//GEN-LAST:event_fastTowerActionPerformed
 
     private void splashTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splashTowerActionPerformed
+    	updateTowerInfo(ICManager.splashTowerShop.getInfo());
+    	setVisibleTCInfo(true);
     	purchaseButton.setEnabled(true);
     }//GEN-LAST:event_splashTowerActionPerformed
 
     private void slowTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_slowTowerActionPerformed
+    	updateTowerInfo(ICManager.slowTowerShop.getInfo());
+    	setVisibleTCInfo(true);
     	purchaseButton.setEnabled(true);
     }//GEN-LAST:event_slowTowerActionPerformed
 
     private void powerTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_powerTowerActionPerformed
+    	updateTowerInfo(ICManager.powerTowerShop.getInfo());
+    	setVisibleTCInfo(true);
     	purchaseButton.setEnabled(true);
     }//GEN-LAST:event_powerTowerActionPerformed
 
     private void sellButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellButtonActionPerformed
-        // TODO add your handling code here:
+        game.sellTower();
+        updatePlayerStats();
+        sellButton.setEnabled(false);
+        upgradeButton.setEnabled(false);
+        setVisibleTCInfo(false);
+        repaint();
     }//GEN-LAST:event_sellButtonActionPerformed
 
     private void upgradeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeButtonActionPerformed
@@ -345,10 +475,19 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JToggleButton fastTower;
+    private javax.swing.JLabel goldAmount;
+    private javax.swing.JLabel info1;
+    private javax.swing.JLabel info2;
+    private javax.swing.JLabel info3;
+    private javax.swing.JLabel info4;
+    private javax.swing.JLabel info5;
+    private javax.swing.JLabel info6;
+    private javax.swing.JLabel livesAmount;
     private javax.swing.JButton nextWave;
     private javax.swing.JToggleButton powerTower;
     private javax.swing.JButton purchaseButton;
     private javax.swing.JButton quit;
+    private javax.swing.JLabel scoreAmount;
     private javax.swing.JButton sellButton;
     private javax.swing.JTextField shopTitle;
     private javax.swing.JToggleButton slowTower;
@@ -357,10 +496,10 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     private javax.swing.JButton upgradeButton;
     // End of variables declaration//GEN-END:variables
 
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -378,7 +517,9 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) 
-			if(ToolBox.performAction3()){
+			
+			//Enable buttons when tower is placed
+			if(game.placeTower()){
 		  		for (Component b : getComponents()) {
 	    		    if(b instanceof JButton || b instanceof JToggleButton)
 	    		    	b.setEnabled(true);
@@ -389,30 +530,31 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 		if(e.getComponent() != fastTower || e.getComponent() != splashTower || e.getComponent() != slowTower || e.getComponent() != powerTower){
 			buttonGroup1.clearSelection();
 			purchaseButton.setEnabled(false);
+			upgradeButton.setEnabled(false);
+			sellButton.setEnabled(false);
+			game.setSelectedTower(null);
+			setVisibleTCInfo(false);
 		}
 	}
-
+	
+    //Select Tower on field
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
-			
-		
+		for (Tower t:TowerManager.getTowers()){
+			if (t.getX() == (e.getX()/ICManager.cellSize)*ICManager.cellSize && t.getY() == (e.getY()/ICManager.cellSize)*ICManager.cellSize){
+				game.setSelectedTower(t);
+				setVisibleTCInfo(true);
+				updateTowerInfo(t.getInfo());
+				upgradeButton.setEnabled(true);
+				sellButton.setEnabled(true);
+				repaint();
+			}
+		}
 	}
 
     @Override
 	public void mouseDragged(MouseEvent e) {
 		Mouse.move(e.getX(), e.getY());
-		ToolBox.update();
-		if (SwingUtilities.isLeftMouseButton(e)) 
-			if(ToolBox.performAction3()){
-		  		for (Component b : getComponents()) {
-	    		    if(b instanceof JButton || b instanceof JToggleButton)
-	    		    	b.setEnabled(true);
-	    		}
-			}
-		else if (SwingUtilities.isRightMouseButton(e)) 
-			ToolBox.performAction2();
-		
 		repaint();
 		
 	}
@@ -420,7 +562,11 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		Mouse.move(e.getX(), e.getY());
-		ToolBox.update();
+		game.getTt().updatePosition();
 		repaint();
+	}
+	
+	public void setGame(GameController gc){
+		game = gc;
 	}
 }

@@ -10,9 +10,9 @@ public class Tower extends GameObject{
 	protected int level;
 	protected int range;
 	protected int damage;
-	protected float fireRate;
+	protected int fireRate; //number of shots per second
 	protected int buy;
-	protected int sell;
+	protected int refundValue;
 	protected int upgradeCost;
 	protected Image image;
 	protected boolean hit;
@@ -61,7 +61,7 @@ public class Tower extends GameObject{
 	{
 		return damage;
 	}
-	public float getFireRate()
+	public int getFireRate()
 	{
 		return fireRate;
 	}
@@ -69,9 +69,9 @@ public class Tower extends GameObject{
 	{
 		return buy;
 	}
-	public int getSell()
+	public int getrefundValue()
 	{
-		return sell;
+		return refundValue;
 	}
 	public int getUpgradeCost()
 	{
@@ -89,6 +89,12 @@ public class Tower extends GameObject{
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	//Get Tower info in an array to be display in the GamePanel
+	public int[] getInfo(){
+		return new int[] {level, damage, range, fireRate, upgradeCost, refundValue};
+	}
+	
 
 	@Override
 	public void drawStrategy(Graphics g) {

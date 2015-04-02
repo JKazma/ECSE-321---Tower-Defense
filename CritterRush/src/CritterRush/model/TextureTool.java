@@ -29,9 +29,4 @@ public class TextureTool extends Tool{
 		c.setType(a2);
 		
 	}
-	@Override
-	public boolean action3() {
-		return true;
-		
-	}	
 }

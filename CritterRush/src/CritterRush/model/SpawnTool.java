@@ -52,10 +52,4 @@ public class SpawnTool extends Tool{
 			MapManager.getEditorMap().getPath().setExit(null);
 		MapManager.getEditorMap().getPath().computePath();
 	}
-
-	@Override
-	public boolean action3() {
-		return true;
-		
-	}
 }

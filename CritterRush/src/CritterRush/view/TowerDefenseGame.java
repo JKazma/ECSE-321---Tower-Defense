@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import CritterRush.controller.*;
-import CritterRush.model.ToolBox;
+import CritterRush.model.EditorTools;
 
 import javax.swing.JOptionPane;
 
@@ -44,7 +44,7 @@ public class TowerDefenseGame extends JFrame {
         //InputManager iman = new InputManager();
         
         //Tools for the mouse
-        new ToolBox();
+        new EditorTools();
 
         mainMenuPanel = new MainMenuPanel(this, true);
         creditsPanel = new CreditsPanel(this, false);
