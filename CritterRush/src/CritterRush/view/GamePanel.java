@@ -9,6 +9,8 @@ import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -17,22 +19,27 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import CritterRush.controller.CritterManager;
 import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
+import CritterRush.controller.IObserver;
 import CritterRush.controller.MapManager;
 import CritterRush.controller.TowerManager;
 import CritterRush.model.Mouse;
-import CritterRush.model.Tower;
+import CritterRush.model.tower.Tower;
 
-public class GamePanel extends javax.swing.JPanel implements MouseListener, MouseMotionListener{
+public class GamePanel extends javax.swing.JPanel implements MouseListener, MouseMotionListener, ActionListener, IObserver{
 
 	private static final long serialVersionUID = 1L;
 	private TowerDefenseGame TDG;
 	private GameController game;
+	
+	private Timer timer;
     
-    /**
+
+	/**
      * Creates new form GamePanel
      */
     public GamePanel(TowerDefenseGame frame, boolean visibility) {
@@ -47,11 +54,50 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		
+		//calls action performed every 10 milliseconds
+		timer = new Timer(16, this);
     }
+    
+	@Override
+	/**
+	 * Stop the timer when no critter are on the map.
+	 * @param b
+	 */
+	public void update(String s) {
+		//Wave Started
+		if("waveStarted".equals(s)){
+			timer.start();
+			game.setReady(true);
+			nextWave.setEnabled(false);
+		}
+		//Wave Complete
+		else if("waveComplete".equals(s)){
+			timer.stop();
+			nextWave.setEnabled(true);
+		}
+		//Game Won
+		else if("gameWon".equals(s)){
+			GameWon();
+		}
+		
+	}
+    
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		game.spawnCritterWave();
+		game.updateEntities();
+		updatePlayerStats();
+		repaint();
+	}
+    
     /**
      * Update the displayed player stats.
      */
     public void updatePlayerStats(){
+    	if(game.getPs().getLifeCount() == 0){
+    		gameOver();
+    	}
 		goldAmount.setText("Gold : " + String.valueOf(game.getPs().getCurrencyPoints()));
 		livesAmount.setText("Lives : " + String.valueOf(game.getPs().getLifeCount()));
 		scoreAmount.setText("Score : " + String.valueOf(game.getPs().getScore()));
@@ -61,17 +107,17 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
      * Update the displayed tower info.
      */
     public void updateTowerInfo(int[] info){
-    	if(info.length >= 1) info1.setText("Level: " + String.valueOf(info[0]));
+    	if(info.length >= 1) info1.setText("Level:  " + String.valueOf(info[0]));
     	else info1.setText("");
-    	if(info.length >= 2) info2.setText("Damage: " + String.valueOf(info[1]));
+    	if(info.length >= 2) info2.setText("Damage:  " + String.valueOf(info[1]));
     	else info2.setText("");
-    	if(info.length >= 3) info3.setText("Range: " + String.valueOf(info[2]));
+    	if(info.length >= 3) info3.setText("Range:  " + String.valueOf(info[2]));
     	else info3.setText("");
-    	if(info.length >= 4) info4.setText("Fire rate: " + String.valueOf(info[3]));
+    	if(info.length >= 4) info4.setText("Fire rate:  " + String.valueOf( ((float)info[3])/10 ));
     	else info4.setText("");
-    	if(info.length >= 5) info5.setText("Buy cost: " + String.valueOf(info[4]));
+    	if(info.length >= 5) info5.setText("Buy cost:  " + String.valueOf(info[4]));
     	else info5.setText("");
-    	if(info.length >= 6) info6.setText("Sell refund: " + String.valueOf(info[5]));
+    	if(info.length >= 6) info6.setText("Sell refund:  " + String.valueOf(info[5]));
     	else info6.setText("");
     	repaint();
     }
@@ -81,9 +127,18 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
      */
     public void updateCritterInfo(int[] currentWave, int[] nextWave, int[] waveCountInfo){
     	info1.setText("WAVE INFO");
-    	info2.setText("Health: " + String.valueOf(currentWave[0]) + " ==> " + String.valueOf(nextWave[0]));
-    	info3.setText("Speed: " + String.valueOf(currentWave[1]) + " ==> " + String.valueOf(nextWave[1]));
-    	info4.setText("Amount: " + String.valueOf(currentWave[2]) + " ==> " + String.valueOf(nextWave[2]));
+    	//Display current wave and next wave info.
+    	if(waveCountInfo[0] != 987654321){
+        	info2.setText("Health: " + String.valueOf(currentWave[0]) + " ==> " + String.valueOf(nextWave[0]));
+        	info3.setText("Speed: " + String.valueOf(currentWave[1]) + " ==> " + String.valueOf(nextWave[1]));
+        	info4.setText("Amount: " + String.valueOf(currentWave[2]) + " ==> " + String.valueOf(nextWave[2]));
+    	}
+    	//If current wave is last wave, display done instead of info.
+    	else{
+    		info2.setText("Health: " + String.valueOf(currentWave[0]) + " ==> Done");
+        	info3.setText("Speed: " + String.valueOf(currentWave[1]) + " ==> Done");
+        	info4.setText("Amount: " + String.valueOf(currentWave[2]) + " ==> Done");
+    	}
     	info5.setText("");
     	info6.setText("Current Wave: " + String.valueOf(waveCountInfo[0]) + " / " + String.valueOf(waveCountInfo[1]));
     	repaint();
@@ -102,6 +157,63 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     	info5.setVisible(b);
     	info6.setVisible(b);
     	repaint();
+    }
+    
+    public Timer getTimer() {
+		return timer;
+	}
+    
+    /**
+     * Resets the layout.
+     */
+    public void reset(){
+    	quit.setEnabled(true);
+    	sellButton.setEnabled(false);
+    	purchaseButton.setEnabled(false);
+    	upgradeButton.setEnabled(false);
+    	nextWave.setEnabled(true);
+    	inspectWaveToggle.setEnabled(true);
+    	
+    	fastTower.setEnabled(true);
+    	splashTower.setEnabled(true);
+    	slowTower.setEnabled(true);
+    	powerTower.setEnabled(true);
+    }
+    /**
+     * Player lost, update UI by disabling all buttons.
+     */
+    public void gameOver(){
+    	timer.stop();
+    	disableButtons();
+		TDG.printMessage("Game Over.\nScore: " + game.getPs().getScore());
+		quit.setEnabled(true);
+
+    	
+    }
+    /**
+     * Player Won, update UI by disabling all buttons.
+     */
+    public void GameWon(){
+    	timer.stop();
+    	disableButtons();
+		TDG.printMessage("Congratulations!\nScore: " + game.getPs().getScore());
+		quit.setEnabled(true);
+    }
+    
+    /**
+     * Disable all buttons except quit.
+     */
+    public void disableButtons(){
+    	sellButton.setEnabled(false);
+    	purchaseButton.setEnabled(false);
+    	upgradeButton.setEnabled(false);
+    	nextWave.setEnabled(false);
+    	inspectWaveToggle.setEnabled(false);
+    	fastTower.setEnabled(false);
+    	splashTower.setEnabled(false);
+    	slowTower.setEnabled(false);
+    	powerTower.setEnabled(false);
+    	buttonGroup1.clearSelection();
     }
     
     @Override
@@ -383,7 +495,7 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(slowTower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(powerTower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                .addGap(8, 8, 8)
                 .addComponent(info1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(info2)
@@ -395,7 +507,7 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
                 .addComponent(info5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(info6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(upgradeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -416,7 +528,12 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     }//GEN-LAST:event_shopTitleActionPerformed
 
     private void nextWaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextWaveActionPerformed
-        game.spawnCritterWave();
+        update("waveStarted");
+        setVisibleTCInfo(false);
+        buttonGroup1.clearSelection();
+        purchaseButton.setEnabled(false);
+        sellButton.setEnabled(false);
+        upgradeButton.setEnabled(false);
     }//GEN-LAST:event_nextWaveActionPerformed
 
     private void statsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsActionPerformed
@@ -426,6 +543,7 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
     	TowerManager.getTowers().clear();
     	CritterManager.getCritters().clear();
+    	timer.stop();
     	TDG.panelSwap(TDG.gamePanel, TDG.mapSelectionPanel);
     }//GEN-LAST:event_quitActionPerformed
 
@@ -439,7 +557,7 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     	}else if(slowTower.isSelected()){
     		purchaseSuccesful = game.purchaseTower(ICManager.slowTowerShop);
     	}else if(powerTower.isSelected()){
-    		purchaseSuccesful = game.purchaseTower(ICManager.powerTowerShop);
+    		purchaseSuccesful = game.purchaseTower(ICManager.supremeTowerShop);
     	}
     	
     	//Notify user if purchase fails
@@ -478,7 +596,7 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     }//GEN-LAST:event_slowTowerActionPerformed
 
     private void powerTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_powerTowerActionPerformed
-    	updateTowerInfo(ICManager.powerTowerShop.getInfo());
+    	updateTowerInfo(ICManager.supremeTowerShop.getInfo());
     	setVisibleTCInfo(true);
     	purchaseButton.setEnabled(true);
     }//GEN-LAST:event_powerTowerActionPerformed
@@ -493,13 +611,25 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     }//GEN-LAST:event_sellButtonActionPerformed
 
     private void upgradeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeButtonActionPerformed
-        // TODO add your handling code here:
+        String result = game.upgradeTower();
+    	if("lowResource".equals(result)){
+        	TDG.printMessage("Not enough gold.");
+        }else if("maxLevel".equals(result)){
+        	TDG.printMessage("Max level reached.");
+        }else{
+        	updateTowerInfo(game.getSelectedTower().getInfo());
+            repaint();
+        }
+        		
+
     }//GEN-LAST:event_upgradeButtonActionPerformed
 
     private void inspectWaveToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inspectWaveToggleActionPerformed
     	updateCritterInfo(game.getWaveInfo(), game.getNextWaveInfo(), game.getWaveCountInfo());
     	setVisibleTCInfo(true);
-    	purchaseButton.setEnabled(true);
+    	purchaseButton.setEnabled(false);
+        sellButton.setEnabled(false);
+        upgradeButton.setEnabled(false);
     }//GEN-LAST:event_inspectWaveToggleActionPerformed
 
 
@@ -600,5 +730,9 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 	
 	public void setGame(GameController gc){
 		game = gc;
+	}
+
+	public GameController getGame() {
+		return game;
 	}
 }

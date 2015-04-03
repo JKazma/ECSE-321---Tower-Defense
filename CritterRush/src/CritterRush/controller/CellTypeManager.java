@@ -1,6 +1,6 @@
 package CritterRush.controller;
 
-import CritterRush.model.CellType;
+import CritterRush.model.map.CellType;
 
 public class CellTypeManager {
 

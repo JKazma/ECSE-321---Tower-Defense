@@ -3,7 +3,8 @@ package CritterRush.controller;
 import java.awt.*;
 import java.util.ArrayList;
 
-import CritterRush.model.*;
+import CritterRush.model.critter.Critter;
+import CritterRush.model.tower.Tower;
 
 public class TowerManager {
 	private static ArrayList<Tower> towers = new ArrayList<Tower>();
@@ -18,11 +19,13 @@ public class TowerManager {
 	{
 		towers.remove(t);
 	}
-	//for area damage
-	public static void doAreaDamage()
-	{
-		
+	
+	public static void shootCritters(){
+		for(Tower t : towers) {
+					t.shootCritters(CritterManager.getCritters());
+		}
 	}
+	
 	public static ArrayList<Tower> getTowers()
 	{
 		return towers;
@@ -57,7 +60,7 @@ public class TowerManager {
 			//Draw tower circle
 			if(selectedTower != null){
 				g2.setColor(Color.white);
-				g.drawOval(selectedTower.getX() + ICManager.cellSize / 2 - selectedTower.getRange()/2,selectedTower.getY() + ICManager.cellSize / 2 - selectedTower.getRange()/2, selectedTower.getRange(),selectedTower.getRange());
+				g.drawOval(selectedTower.getX() + ICManager.cellSize / 2 - selectedTower.getRange(),selectedTower.getY() + ICManager.cellSize / 2 - selectedTower.getRange(), selectedTower.getRange()*2,selectedTower.getRange()*2);
 			}
 		}
 

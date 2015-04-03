@@ -118,7 +118,7 @@
                   <Component id="slowTower" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="powerTower" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Component id="info1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="info2" min="-2" max="-2" attributes="0"/>
@@ -130,7 +130,7 @@
               <Component id="info5" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="info6" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="19" max="32767" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
               <Component id="upgradeButton" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="sellButton" min="-2" pref="23" max="-2" attributes="0"/>

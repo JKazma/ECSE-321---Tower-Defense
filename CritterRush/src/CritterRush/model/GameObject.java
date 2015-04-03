@@ -7,7 +7,7 @@ public abstract class GameObject {
 	
 	//If visible, do draw strategy
 	public void draw(Graphics g) {
-		if(visible) {
+		if(isVisible()) {
 			drawStrategy(g);
 		}
 	}
@@ -17,11 +17,18 @@ public abstract class GameObject {
 	
 	//show object
 	public void show() {
-		visible=true;
+		setVisible(true);
 	}
 	
 	//hide object
 	public void hide() {
-		visible=false;
+		setVisible(false);
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }

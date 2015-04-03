@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 import CritterRush.model.Mouse;
-import CritterRush.model.EditorTools;
+import CritterRush.model.tools.EditorTools;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
 

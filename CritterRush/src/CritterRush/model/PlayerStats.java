@@ -3,9 +3,9 @@ package CritterRush.model;
 
 public class PlayerStats {
 
-	protected int bankAmount;
-	protected int lifeCount;
-	protected int score;
+	private int bankAmount;
+	private int lifeCount;
+	private int score;
 	
 	/**
 	 * Constructor

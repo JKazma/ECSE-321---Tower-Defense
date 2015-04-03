@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import CritterRush.controller.*;
-import CritterRush.model.EditorTools;
+import CritterRush.model.tools.EditorTools;
 
 import javax.swing.JOptionPane;
 
@@ -41,7 +41,6 @@ public class TowerDefenseGame extends JFrame {
         new MapManager();
         new CritterManager();
         new TowerManager();
-        //InputManager iman = new InputManager();
         
         //Tools for the mouse
         new EditorTools();
@@ -52,12 +51,6 @@ public class TowerDefenseGame extends JFrame {
         editorPanel = new EditorPanel(this, false);
         gamePanel = new GamePanel (this, false);
      
-        //editorPanel.addMouseListener(iman);
-       // editorPanel.addMouseMotionListener(iman);
-        
-        //gamePanel.addMouseListener(iman);
-        //gamePanel.addMouseMotionListener(iman);
-        
         this.add(mainMenuPanel);
         this.pack();
 

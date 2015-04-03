@@ -2,7 +2,7 @@ package CritterRush.controller;
 
 import java.util.ArrayList;
 
-import CritterRush.model.Map;
+import CritterRush.model.map.Map;
 
 public class MapManager {
 	private static ArrayList<Map> maps;

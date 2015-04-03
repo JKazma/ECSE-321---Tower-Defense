@@ -1,13 +1,11 @@
 package CritterRush.controller;
 import java.util.ArrayList;
 import java.awt.Graphics;
-import CritterRush.model.*;
-
-import CritterRush.model.Critter;
+import CritterRush.model.critter.Critter;
 
 public class CritterManager {
 
-	private static ArrayList<Critter> critters=new ArrayList<Critter>();
+	private static ArrayList<Critter> critters = new ArrayList<Critter>();
 	
 	public static ArrayList<Critter> getCritters() {
 		return critters;
@@ -25,9 +23,13 @@ public class CritterManager {
 		critters.clear();
 	}
 	
-	public static void travelCritters(Path path) {
-		for(Critter c:critters) {
-			if(c!=null) c.travelTo(path);
+	public static void travelCritters() {
+		try{
+			for(Critter c:CritterManager.getCritters()) {
+				if(c != null) c.travelTo();
+			}
+		}catch(java.util.ConcurrentModificationException e){
+			//Do Nothing
 		}
 	}
 	
@@ -36,4 +38,6 @@ public class CritterManager {
 			if(c!=null)	c.draw(g);
 		}
 	}
+
+
 }

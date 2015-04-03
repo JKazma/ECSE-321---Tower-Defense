@@ -12,10 +12,10 @@ public class CreditsPanel extends javax.swing.JPanel {
         this.TDG = frame;
         
         setBackground(Color.BLACK);
-	this.setDoubleBuffered(true);
-	this.setVisible(visibility);
-	this.setFocusable(true);
-	this.requestFocus(true);
+		this.setDoubleBuffered(true);
+		this.setVisible(visibility);
+		this.setFocusable(true);
+		this.requestFocus(true);
     }
 
     /**
