@@ -69,7 +69,7 @@ public class Tower extends GameObject{
 	{
 		return buy;
 	}
-	public int getrefundValue()
+	public int getRefundValue()
 	{
 		return refundValue;
 	}

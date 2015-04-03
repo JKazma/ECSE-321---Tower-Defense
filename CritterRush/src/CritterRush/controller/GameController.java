@@ -4,14 +4,10 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import CritterRush.model.Critter;
-import CritterRush.model.FastTower;
 import CritterRush.model.PlayerStats;
 import CritterRush.model.ShopTower;
-import CritterRush.model.SplashTower;
-import CritterRush.model.EditorTools;
 import CritterRush.model.Tower;
 import CritterRush.model.TowerTool;
-import CritterRush.model.slowTower;
 
 public class GameController {
 	
@@ -20,10 +16,12 @@ public class GameController {
 	private PlayerStats ps;
 	private TowerTool tt;
 	private ShopTower toBePurchased;
+	private int currentWave;
 	
 	public GameController(){
 		ps = new PlayerStats(ICManager.iniBankAmount, ICManager.iniLife);
 		tt = new TowerTool();
+		currentWave = 0;
 	}
 	
 	
@@ -51,11 +49,11 @@ public class GameController {
 
 	}
 	
+	
 	public boolean placeTower(){
 		return tt.placeTower(toBePurchased);
 		
 	}
-	
 	
 	public void upgradeTower(Tower t){
 		
@@ -63,18 +61,14 @@ public class GameController {
 	
 	public void sellTower(){
 		if(TowerManager.getSelectedTower() != null){
-			ps.setCurrencyPoints(ps.getCurrencyPoints() + TowerManager.getSelectedTower().getSell());
+			ps.setCurrencyPoints(ps.getCurrencyPoints() + TowerManager.getSelectedTower().getRefundValue());
 			TowerManager.removeTower(TowerManager.getSelectedTower());
 			TowerManager.setSelectedTower(null);
 		}
 	}
 	
-	public Tower getTowerAt(int x, int y){
-		
-	}
-	
 	public void spawnCritterWave(){
-		
+		CritterManager.addCritter (new Critter ("Steve", currentWave));
 	}
 	
 	public void shootCritters(){
@@ -85,10 +79,10 @@ public class GameController {
 		
 	}
 	
+	//Getter and setters
 	public PlayerStats getPs() {
 		return ps;
 	}
-
 
 	public TowerTool getTt() {
 		return tt;
@@ -108,9 +102,22 @@ public class GameController {
 		TowerManager.setSelectedTower(selectedTower);
 	}
 	
+	public int[] getWaveInfo(){
+		return new int[] {ICManager.critterHealth[currentWave], ICManager.critterInitialSpeed[currentWave], ICManager.critterCount[currentWave]};
+	}
+	
+	public int[] getNextWaveInfo(){
+		return new int[] {ICManager.critterHealth[currentWave + 1], ICManager.critterInitialSpeed[currentWave + 1], ICManager.critterCount[currentWave + 1]};
+	}
+	
+	public int[] getWaveCountInfo(){
+		return new int[] {currentWave + 1, ICManager.waveCount};
+	}
+	
 	public void draw(Graphics g){
+		MapManager.getSelectedMap().draw(g);
 		tt.draw(g);
-		TowerManager.draw(g);
 		CritterManager.draw(g);
+		TowerManager.draw(g);
 	}
 }

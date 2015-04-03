@@ -1,8 +1,7 @@
 package CritterRush.controller;
-
-
 import java.util.ArrayList;
 import java.awt.Graphics;
+import CritterRush.model.*;
 
 import CritterRush.model.Critter;
 
@@ -26,9 +25,9 @@ public class CritterManager {
 		critters.clear();
 	}
 	
-	public static void travelCritters() {
+	public static void travelCritters(Path path) {
 		for(Critter c:critters) {
-			if(c!=null) c.travelTo();
+			if(c!=null) c.travelTo(path);
 		}
 	}
 	

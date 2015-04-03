@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 import CritterRush.model.Mouse;
-import CritterRush.model.Tool;
 import CritterRush.model.EditorTools;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
@@ -64,7 +63,7 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
 		BufferedImage bufImage = new BufferedImage(ICManager.fieldSizeX,
 				ICManager.fieldSizeY, BufferedImage.TYPE_INT_RGB);
 		this.paint(bufImage.createGraphics());
-		File imageFile = new File("resources/map" +  String.valueOf(MapManager.getMapCount()) + ".png");
+		File imageFile = new File("resources/map/map" +  String.valueOf(MapManager.getMapCount()) + ".png");
 
 		BufferedImage resized = new BufferedImage(195, 150,
 				bufImage.TYPE_INT_RGB);
@@ -102,6 +101,10 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
         done = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
         editorToolsTitle = new javax.swing.JTextField();
+        obstacleTool = new javax.swing.JRadioButton();
+        leftClickLabel = new javax.swing.JLabel();
+        rightClickLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 204, 153));
         setForeground(new java.awt.Color(255, 204, 153));
@@ -159,6 +162,23 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
             }
         });
 
+        buttonGroup1.add(obstacleTool);
+        obstacleTool.setText("Obstacle Tool");
+        obstacleTool.setContentAreaFilled(false);
+        obstacleTool.setFocusable(false);
+        obstacleTool.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                obstacleToolActionPerformed(evt);
+            }
+        });
+
+        leftClickLabel.setText("Left click: path");
+
+        rightClickLabel.setText("Right click: scenery");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Actions");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,16 +187,23 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
                 .addContainerGap(804, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textureTool)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(cancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(done, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(spawnTool, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(49, 49, 49))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(leftClickLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editorToolsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rightClickLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(editorToolsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cancel, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                            .addComponent(done, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(38, 38, 38))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spawnTool, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textureTool, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(obstacleTool, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,9 +212,17 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
                 .addComponent(editorToolsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(textureTool)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(spawnTool)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(obstacleTool)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(leftClickLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rightClickLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                 .addComponent(done, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,11 +232,21 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
 
     private void spawnToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spawnToolActionPerformed
         EditorTools.setCurrentTool(EditorTools.getSpawnTool());
+        leftClickLabel.setText("Left Click: entry");
+        rightClickLabel.setText("Right Click: exit");
     }//GEN-LAST:event_spawnToolActionPerformed
     
     private void textureToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textureToolActionPerformed
         EditorTools.setCurrentTool(EditorTools.getTextureTool());
+        leftClickLabel.setText("Left Click: path");
+        rightClickLabel.setText("Right Click: scenery");
     }//GEN-LAST:event_textureToolActionPerformed
+    
+    private void obstacleToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obstacleToolActionPerformed
+    	EditorTools.setCurrentTool(EditorTools.getObstacleTool());
+    	leftClickLabel.setText("Left Click: obstacle");
+        rightClickLabel.setText("");
+    }//GEN-LAST:event_obstacleToolActionPerformed
 
     private void editorToolsTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editorToolsTitleActionPerformed
         //Nothing to do here
@@ -239,6 +284,10 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
     private javax.swing.JButton cancel;
     private javax.swing.JButton done;
     private javax.swing.JTextField editorToolsTitle;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel leftClickLabel;
+    private javax.swing.JRadioButton obstacleTool;
+    private javax.swing.JLabel rightClickLabel;
     private javax.swing.JRadioButton spawnTool;
     private javax.swing.JRadioButton textureTool;
     // End of variables declaration//GEN-END:variables

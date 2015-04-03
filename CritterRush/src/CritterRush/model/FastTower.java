@@ -12,7 +12,7 @@ public class FastTower extends Tower {
 	{
 		super(x,y);
 		this.level = 1;
-		this.range = 5;
+		this.range = 150;
 		this.damage = 3;
 		this.fireRate = 2;
 		this.buy = 100;

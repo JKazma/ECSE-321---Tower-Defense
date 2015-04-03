@@ -78,7 +78,7 @@ public class Path extends GameObject{
 			//For each adjacent cells to current cell,
 			//If it's not null or has never been visited and is not a scenery cell, then add to queue
 			for(int i = 0; i < 4; i++){
-				if (current.getAdjacentCells()[i] != null && current.getAdjacentCells()[i].getVisited() == false && current.getAdjacentCells()[i].getType() != CellTypeManager.scenery){
+				if (current.getAdjacentCells()[i] != null && current.getAdjacentCells()[i].getVisited() == false && current.getAdjacentCells()[i].getType() != CellTypeManager.scenery && current.getAdjacentCells()[i].getType() != CellTypeManager.obstacle){
 					q.add(current.getAdjacentCells()[i]);
 					current.getAdjacentCells()[i].setVisited(true);
 					current.getAdjacentCells()[i].setPreviousCell(current);

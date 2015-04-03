@@ -53,6 +53,12 @@ public class TowerManager {
 			g2.setColor(Color.red);
 			g2.setStroke(new BasicStroke(ICManager.squareHighlightTickness));
 			g2.drawRect(selectedTower.getX(), selectedTower.getY(), ICManager.cellSize, ICManager.cellSize);	
+			
+			//Draw tower circle
+			if(selectedTower != null){
+				g2.setColor(Color.white);
+				g.drawOval(selectedTower.getX() + ICManager.cellSize / 2 - selectedTower.getRange()/2,selectedTower.getY() + ICManager.cellSize / 2 - selectedTower.getRange()/2, selectedTower.getRange(),selectedTower.getRange());
+			}
 		}
 
 	}

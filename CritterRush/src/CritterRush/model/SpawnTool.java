@@ -27,11 +27,12 @@ public class SpawnTool extends Tool{
 				
 				//set the new entry cell
 				MapManager.getEditorMap().getPath().setEntry(c);
+				
+				//set texture and compute path
 				c.setType(a1);
+				MapManager.getEditorMap().getPath().computePath();
 			}
-		}else 
-			MapManager.getEditorMap().getPath().setEntry(null);
-		MapManager.getEditorMap().getPath().computePath();
+		}
 	}
 
 
@@ -46,10 +47,11 @@ public class SpawnTool extends Tool{
 				
 				//set the new exit cell
 				MapManager.getEditorMap().getPath().setExit(c);
+				
+				//set texture and compute path
 				c.setType(a2);
+				MapManager.getEditorMap().getPath().computePath();
 			}
-		} else 
-			MapManager.getEditorMap().getPath().setExit(null);
-		MapManager.getEditorMap().getPath().computePath();
+		} 
 	}
 }

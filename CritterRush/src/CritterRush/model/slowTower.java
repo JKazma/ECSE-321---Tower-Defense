@@ -8,9 +8,9 @@ import java.awt.Point;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
 
-public class slowTower extends Tower {
+public class SlowTower extends Tower {
 
-	public slowTower(int x, int y)
+	public SlowTower(int x, int y)
 	{
 		super(x,y);
 		this.level = 1;

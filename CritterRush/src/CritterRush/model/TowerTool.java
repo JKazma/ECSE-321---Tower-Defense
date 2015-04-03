@@ -42,7 +42,7 @@ public class TowerTool extends Tool{
 				else if (tower.getType() == ICManager.splashTowerShop.getType())
 					TowerManager.addTower(new SplashTower(x, y));
 				else if (tower.getType() == ICManager.slowTowerShop.getType())
-					TowerManager.addTower(new slowTower(x, y));
+					TowerManager.addTower(new SlowTower(x, y));
 				/*else if (tower.getType() == ICManager.powerTowerShop.getType())
 					TowerManager.addTower(new PowerTower(x, y));*/
 				

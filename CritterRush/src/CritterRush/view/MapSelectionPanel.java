@@ -36,13 +36,12 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     public void updateMapIcons(){
     	for (int i = 1; i < MapManager.getMaxCount() + 1; i++){
     		if(i <= MapManager.getMapCount()){
-    			System.out.println("asdsad");
     			mapLabels[i - 1].setIcon(ICManager.maps[i-1]);
     			rButtons[i - 1].setEnabled(true);
     			
     		}
     		else{
-    			mapLabels[i - 1].setIcon(new javax.swing.ImageIcon(getClass().getResource("/empty.png")));
+    			mapLabels[i - 1].setIcon(new javax.swing.ImageIcon(getClass().getResource("/map/empty.png")));
     			rButtons[i - 1].setEnabled(false);
     		}
     	}	
@@ -254,7 +253,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
             TDG.panelSwap(TDG.mapSelectionPanel, TDG.editorPanel);
         	EditorTools.setCurrentTool(EditorTools.getTextureTool());
         } else 
-            TDG.printMessage("TOO MANY FUCKING MAPS YA BAGHEL.");
+            TDG.printMessage("The maximum number of maps has been reached.");
     }//GEN-LAST:event_createMapButtonActionPerformed
 
     private void deleteMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMapButtonActionPerformed
@@ -264,7 +263,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
            updateMapIcons();
            buttonGroup1.clearSelection();
         } else 
-        	TDG.printMessage("SELECT A FUCKING MAP YA KHANZIR.");
+        	TDG.printMessage("No map selected.");
     }//GEN-LAST:event_deleteMapButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
@@ -274,7 +273,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     		TDG.gamePanel.setVisibleTCInfo(false);
     		TDG.panelSwap(TDG.mapSelectionPanel, TDG.gamePanel);
     	}else 
-    		TDG.printMessage("SELECT A FUCKING MAP YA KHANZIR.");
+    		TDG.printMessage("No map selected.");
     }//GEN-LAST:event_startButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

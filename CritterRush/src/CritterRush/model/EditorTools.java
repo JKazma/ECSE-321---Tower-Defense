@@ -11,12 +11,14 @@ import CritterRush.controller.MapManager;
 public class EditorTools{
 	private static Tool textureTool;
 	private static Tool spawnTool;
+	private static Tool obstacleTool;
 	//private static Tool towerTool;
 	private static Tool currentTool;
 	
 	public EditorTools(){
 		textureTool = new TextureTool();
 		spawnTool = new SpawnTool();
+		obstacleTool = new ObstacleTool();
 	//	towerTool = new TowerTool();
 		currentTool = null;
 		
@@ -53,6 +55,10 @@ public class EditorTools{
 	public static Tool getSpawnTool() {
 		return spawnTool;
 	}
+	
+	public static Tool getObstacleTool() {
+		return obstacleTool;
+	}
 
 	/*public static Tool getTowerTool() {
 		return towerTool;
@@ -80,7 +86,7 @@ public class EditorTools{
 		
 		MapManager.getEditorMap().getPath().draw(g);
 		if(MapManager.getEditorMap().getPath().getEntry()!=null) {
-			g2.setColor(Color.ORANGE);
+			g2.setColor(Color.cyan);
 			g2.drawRect(MapManager.getEditorMap().getPath().getEntry().getX(), MapManager.getEditorMap().getPath().getEntry().getY(), ICManager.cellSize, ICManager.cellSize);
 		}
 		if(MapManager.getEditorMap().getPath().getExit()!=null) {

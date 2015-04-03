@@ -1,44 +1,58 @@
 package CritterRush.model;
-
 import java.awt.Graphics;
+import java.awt.Image;
 
-public abstract class Critter {
-	
-	//Critter variables
-	protected String name;
-	protected int x;
-	protected int y;
-	protected int health;
-	protected int speed;
-	protected int initialSpeed;
-	protected int resistance; 
-	protected int scoreReward; 
-	protected int currencyPointReward; //change in UML
-	protected boolean alive;
-	protected int slowDuration;
-	protected int wave=1;
-	
-	
-	public abstract void draw(Graphics g);
+import CritterRush.controller.CritterManager;
+import CritterRush.controller.ICManager;
 
-	//The following is the constructor of the Critter class which sets the name of the Tower. 
-	public Critter(String name) 
+public class Critter extends GameObject{
+	
+	private String name;
+	private int x; //set
+	private int y; //set
+	private int dx;
+	private int dy;
+	private int health;
+	private int speed;
+	private int initialSpeed;
+	private int scoreReward; 
+	private int currencyPointReward;
+	private int wave;
+	private boolean alive;
+	private int slowDuration;
+	private Cell cell;
+	private Image image;
+	
+	
+	public Critter(String name, int wave) 
 	{
 		this.setName(name);
-		this.initialSpeed=speed;
-		this.slowDuration=0;
-		//hide();
-	}
-
-	public void waveUp(int wave)
-	{
-		health=15+wave*2;
-		speed=2+wave/2;
-		resistance=3+wave/2;
-		scoreReward+=10;
-		currencyPointReward+=10;		
+		this.initialSpeed = ICManager.critterInitialSpeed[wave];
+		this.health= ICManager.critterHealth[wave];
+		this.speed= ICManager.critterInitialSpeed[wave];
+		this.scoreReward = ICManager.critterScoreReward[wave];
+		this.currencyPointReward = ICManager.critterCurrencyPointReward[wave];
+		this.wave = wave;
+		this.slowDuration = 0;
+		this.x = 50;
+		this.y = 50;
+		this.image = ICManager.critterImage;
+//		hide();
 	}
 	
+	public void spawn(Cell entry) 
+	{
+		this.cell=entry;
+		this.x = entry.getX();
+		this.y = entry.getY();
+		this.alive = true;
+//		show();
+	}
+
+	public void despawn() {
+		this.alive=false;
+		hide();
+	}
 	public boolean isAlive() {
 		return alive;
 	}
@@ -47,30 +61,28 @@ public abstract class Critter {
 		return !alive;
 	}
 	
-	public void critterKilled(int currencyPoints, int score)
-	{
-		if(isDead())
-		{
-			currencyPoints+=currencyPointReward;
-			score+=scoreReward;
-		}
-	}
-	
-	public void reduceHealth(int damage) {
+	public void reduceHealth(int damage, Critter c, int currencyPoints, int score) {
 		this.health -= damage;
 		if(health<=0)
 		{
-			alive=false;
+			isDead();
+			currencyPoints+=currencyPointReward;
+			score+=scoreReward;
+			CritterManager.removeCritter(c);
+			this.despawn();
+			return;
 		}
-		alive=true;
+		isAlive();
 	}
 	
-	public void reachesExit(Critter c, int exit, int currencyPoints, int lifeCount)
+	public void reachesExit(Critter c, int lifeCount, Path path)
 	{
-		if(true/*c reaches exit before dying*/)
+		Cell exit=path.getExit();
+		if(c.getX()==exit.getX() && c.getY()==exit.getY())
 		{
-			currencyPoints-=currencyPointReward;
-			//lifeCount-=1;
+			lifeCount-=1;
+			this.despawn();
+			CritterManager.removeCritter(c);
 			if(lifeCount<=0)
 			{
 				//GAME OVER
@@ -86,7 +98,16 @@ public abstract class Critter {
 		this.slowDuration = slowDuration;
 	}
 	
-	public void travelTo() {
+//	public void moveOnPath(Path path)
+//	{
+//		for(int i=1;i<path.getPath().size();i++)
+//		{
+//			travelCritters(path);
+//		}
+//	}
+	
+	public void travelTo(Path path) {
+		System.out.print("Yo");
 		if(alive) {
 			if (slowDuration > 0) {
 				slowDuration--;
@@ -95,6 +116,32 @@ public abstract class Critter {
 				this.speed = this.initialSpeed;
 			}
 			
+			int i=0;
+			if(speed!=0 && Timer.getTime()%(11-speed)==0)
+			{
+				if(cell==null)
+				{
+					this.despawn();
+					return;
+				}
+				
+				if(x==cell.getX() && y==cell.getY())
+				{
+					cell=path.getPath().get(i);
+					if(cell!=null)
+					{
+						dx=(cell.getX()-x)/ICManager.cellSize;
+						dy=(cell.getY()-y)/ICManager.cellSize;						
+					}
+				}
+				else 
+				{
+					x+=dx;
+					y+=dy;					
+				}
+			}
+		}
+	}			
 //			if(speed!=0 && Counter.getCount()%(11-speed)==0) {
 //				if(waypoint==null) {
 //					this.despawn();
@@ -111,20 +158,18 @@ public abstract class Critter {
 //					y+=vy;
 //				}
 //			}
-		}
-	}
 	
-	//The following setter methods set the critter characteristics.
+	//setters and getters
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setxPos(int x) {
-		this.x = x;
+	public void setX(int xPos) {
+		this.x = xPos;
 	}
 
-	public void setyPos(int y) {
-		this.y = y;
+	public void setY(int yPos) {
+		this.y = yPos;
 	}
 	
 	public void setHealth(int health)
@@ -137,10 +182,6 @@ public abstract class Critter {
 		this.speed=speed;
 	}
 
-	public void setResistance(int resistance) {
-		this.resistance = resistance;
-	}
-
 	public void setScoreReward(int scoreReward) {
 		this.scoreReward = scoreReward;
 	}
@@ -148,7 +189,10 @@ public abstract class Critter {
 	public void setCurrencyPointReward(int currencyPointReward) {
 		this.currencyPointReward = currencyPointReward;
 	}
-
+	
+	public void setCell(Cell cell) {
+		this.cell=cell;
+	}
 	
 	//The following getter methods return the critter characteristics.
 	public String getName()
@@ -176,15 +220,20 @@ public abstract class Critter {
 		return initialSpeed;
 	}
 
-	public int getResistance() {
-		return resistance;
-	}
-
 	public int getScoreReward() {
 		return scoreReward;
 	}
 
 	public int getCurrencyPointReward() {
 		return currencyPointReward;
+	}
+	
+	public Cell getCell() {
+		return cell;
+	}
+	
+	@Override
+	public void drawStrategy(Graphics g) {
+		g.drawImage(image, x, y, null);
 	}
 }

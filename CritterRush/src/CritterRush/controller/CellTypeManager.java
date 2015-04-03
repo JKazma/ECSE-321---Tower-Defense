@@ -14,6 +14,7 @@ public class CellTypeManager {
 			scenery = new CellType(ICManager.scenery, true, false);
 			path = new CellType(ICManager.path, false, true);
 			entry = new CellType(ICManager.entry, false, true);
-			exit = new CellType(ICManager.exit, false, true);	
+			exit = new CellType(ICManager.exit, false, true);
+			obstacle = new CellType(ICManager.obstacleCell, false, false);
 		}
 	}
