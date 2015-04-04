@@ -22,9 +22,14 @@ public class GameController {
 	public GameController(){
 		ps = new PlayerStats(ICManager.iniBankAmount, ICManager.iniLife);
 		tt = new TowerTool();
+		
 		currentWave = 0;
 		playerReady = false;
 		critterIndex = 0;
+		
+		TowerManager.removeAllTowers();
+		CritterManager.removeAllCritters();
+		ProjectileManager.removeAllProjectiles();
 		
 		new Timer();
 	}
@@ -126,6 +131,8 @@ public class GameController {
 			Timer.increment();
 			CritterManager.travelCritters();
 			TowerManager.shootCritters();
+			ProjectileManager.moveAllProjectiles();
+			ProjectileManager.checkAllCollisions();
 	}
 	
 	
@@ -208,8 +215,9 @@ public class GameController {
 
 	public void draw(Graphics g){
 		MapManager.getSelectedMap().draw(g);
-		tt.draw(g);
 		CritterManager.draw(g);
 		TowerManager.draw(g);
+		ProjectileManager.draw(g);
+		tt.draw(g);
 	}
 }

@@ -2,62 +2,119 @@ package CritterRush.model.tower;
 
 import java.awt.*;
 
+import CritterRush.controller.*;
 import CritterRush.model.GameObject;
+import CritterRush.model.critter.Critter;
 
-public class Projectile extends GameObject
-{
-	protected Point start;
-	protected Point end;
-	protected double x;
-	protected double y;
-	protected float vx;
-	protected float vy;
-	protected Image image;
+public abstract class Projectile extends GameObject{
+	protected int x;
+	protected int y;
 	protected int damage;
+	protected double dx;
+	protected double dy;
+	protected double speed;
+	protected boolean alive;
+	protected Rectangle projectileShape;
+	protected Image image;
 
-	public Projectile(Point start, Point end, int damage, Image image)
-	{
-		this.start = start;
-		x = start.getX();
-		y = start.getY();	
-		this.end = end;
+	protected Critter c;
+
+	public Projectile(int x, int y, int damage, Critter c){
+		this.x = x;
+		this.y = y;
 		this.damage = damage;
-		this.image = image;
+		this.speed = ICManager.projectileSpeed;
+		this.c = c;
+		appear();
 	}
 	
-	public double getX()
+	public Projectile(){
+		this.speed = ICManager.projectileSpeed;
+	}
+	
+	public void angleProjectile() {
+		dx = c.getX() + (ICManager.cellSize / 2) - x;
+		dy = c.getY() + (ICManager.cellSize / 2) - y;
+		
+		double angle = Math.atan2(dy, dx);
+		
+		dx = Math.cos(angle);
+		dy = Math.sin(angle);
+		
+	}
+	
+	public void move(){		
+		if(alive){	
+			//recompute the angle, the delta x and y
+			angleProjectile();
+			x += dx * speed;
+			y += dy * speed;
+			
+			//If it misses its target, clear when out of bounds
+			if(x < 0 || x > ICManager.fieldSizeX || y < 0 || y > ICManager.fieldSizeY) 
+				this.disappear();
+			
+		}
+	}
+	public void checkCollision(){
+			if(c.isAlive() && this.alive){
+				
+				Rectangle critterShape = new Rectangle(c.getX(), c.getY(), ICManager.cellSize, ICManager.cellSize);
+				Rectangle projectile = new Rectangle(x,y,image.getWidth(null),image.getHeight(null)); 
+				if(critterShape.intersects(projectile)) 
+				{
+					disappear();
+					doDamage(c);
+				}
+			}
+			else
+				disappear();
+		}
+	
+	protected abstract void doDamage(Critter c);
+	
+	//Getter and setters
+	public boolean isAlive() 
+	{
+		return alive;
+	}
+	
+	public void appear()
+	{
+		this.alive = true;
+		show();
+	}
+	public void disappear()
+	{
+		this.alive = false;
+		hide();
+	}
+	public int getX()
 	{
 		return x;
 	}
-	public double getY()
+	public int getY()
 	{
 		return y;
 	}
-	public float getVX()
+	public double getDX()
 	{
-		return vx;
+		return dx;
 	}
-	public float getVY()
+	public double getDY()
 	{
-		return vy;
+		return dy;
 	}
 	public int getDamage()
 	{
 		return damage;
 	}
-	public void move()
-	{
-		
-	}
-	public void checkCollision()
-	{
-		
-	}
+	
 	@Override
 	public void drawStrategy(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		if(alive){
+			g.drawImage(image,x,y,null);
+		}
 	}
-
 }
 	

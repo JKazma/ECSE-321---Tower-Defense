@@ -178,6 +178,10 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     	splashTower.setEnabled(true);
     	slowTower.setEnabled(true);
     	powerTower.setEnabled(true);
+    	
+		updatePlayerStats();
+		setVisibleTCInfo(false);
+		repaint();
     }
     /**
      * Player lost, update UI by disabling all buttons.
@@ -541,8 +545,6 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     }//GEN-LAST:event_statsActionPerformed
 
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
-    	TowerManager.getTowers().clear();
-    	CritterManager.getCritters().clear();
     	timer.stop();
     	TDG.panelSwap(TDG.gamePanel, TDG.mapSelectionPanel);
     }//GEN-LAST:event_quitActionPerformed

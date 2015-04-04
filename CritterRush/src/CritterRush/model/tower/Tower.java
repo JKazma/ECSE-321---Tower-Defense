@@ -44,18 +44,19 @@ public abstract class Tower extends GameObject{
 				critPos = Math.pow((c.getX() - x), 2) + Math.pow ((c.getY() - y),2);
 				
 				if(Math.sqrt(critPos) < range && c.isAlive() && c.isVisible()){
-					temp = c;
+					if(temp == null) temp = c;
+					
 					if(c.getCellIndex() > temp.getCellIndex()){
 						temp = c;
 					}
-					
 				}
 			}
-			//Damage critter
-			if(temp != null) temp.reduceHealth(damage);
-			//addProjectile(temp);
+			//Create projectile
+			if(temp != null) {
+				addProjectile(temp);
 			}
 		}
+	}
 	
 	protected abstract void addProjectile(Critter c);
 	

@@ -41,6 +41,7 @@ public class TowerDefenseGame extends JFrame {
         new MapManager();
         new CritterManager();
         new TowerManager();
+        new ProjectileManager();
         
         //Tools for the mouse
         new EditorTools();

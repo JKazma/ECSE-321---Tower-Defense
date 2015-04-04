@@ -16,11 +16,13 @@ public class ProjectileManager {
 	{
 		projectiles.remove(p);
 	}
+	
 	public static void removeAllProjectiles()
 	{
 		projectiles.clear();
 	}
-	public static void moveAllProjectiles() { //not sure if necessary
+	
+	public static void moveAllProjectiles() { 
 		for(Projectile p:projectiles) {
 			p.move();
 		}

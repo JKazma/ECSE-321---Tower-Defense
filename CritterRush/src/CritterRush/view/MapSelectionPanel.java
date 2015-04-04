@@ -8,6 +8,7 @@ import javax.swing.JRadioButton;
 import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
+import CritterRush.controller.TowerManager;
 import CritterRush.model.tools.EditorTools;
 
 public class MapSelectionPanel extends javax.swing.JPanel {
@@ -271,8 +272,6 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     		TDG.gamePanel.setGame(new GameController());
     		TDG.gamePanel.getGame().setObserver(TDG.gamePanel);
     		TDG.gamePanel.reset();
-    		TDG.gamePanel.updatePlayerStats();
-    		TDG.gamePanel.setVisibleTCInfo(false);
     		TDG.panelSwap(TDG.mapSelectionPanel, TDG.gamePanel);
     	}else 
     		TDG.printMessage("No map selected.");

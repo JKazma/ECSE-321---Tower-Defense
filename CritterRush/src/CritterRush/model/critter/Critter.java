@@ -80,22 +80,17 @@ public class Critter extends GameObject{
 	}
 	
 	
-	public void slowdown(float slowFactor, int slowDuration) {
-		if (this.slowDuration <= 0) {
-			this.speed -= slowFactor;
+	public void slowdown(int slowFactor, int slowDuration) {
+			this.speed =  initialSpeed - slowFactor;
+			this.slowDuration = slowDuration;
 		}
-		this.slowDuration = slowDuration;
-	}
-	
-	
+		
 	public void travelTo() {
 		if(isVisible()) {
-//			if (slowDuration > 0) {
-//				slowDuration--;
-//			}
-//			else {
-//				this.speed = this.originSpeed;
-//			}
+			if (slowDuration > 0) 
+				slowDuration--;
+			else 
+				speed = initialSpeed;
 			
 			//Set the speed of the critter
 			if(speed!=0 && Timer.getTravelTime()%(maxSpeed + 1 - speed) == 0) {

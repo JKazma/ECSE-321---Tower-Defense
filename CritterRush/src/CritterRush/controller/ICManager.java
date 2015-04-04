@@ -26,6 +26,8 @@ public class ICManager {
 	public static Image splashTower;
 	public static Image supremeTower;
 	
+	public static Image projectileImage;
+	
 	public static ShopTower fastTowerShop;
 	public static ShopTower slowTowerShop;
 	public static ShopTower splashTowerShop;
@@ -37,6 +39,8 @@ public class ICManager {
 	public static int[] supremeTowerAttributes;
 	
 	public static int slowestFireRate;
+	public static int projectileSpeed;
+	public static int slowDuration;
 	
 	//Critter variables
 	public static Image critterImage;
@@ -81,24 +85,28 @@ public class ICManager {
 		slowTower = new ImageIcon(getClass().getResource("/towers/slowTower.png")).getImage();
 		supremeTower = new ImageIcon(getClass().getResource("/towers/powerTower.png")).getImage();
 		
+		projectileImage = new ImageIcon(getClass().getResource("/towers/projectile.png")).getImage();
+		
 		//order: type, initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerShop = new ShopTower("fastTower", 300, 100, 5, 50, 6);
-		slowTowerShop =  new ShopTower("slowTower", 2,1,50,1,1);
-		splashTowerShop =  new ShopTower("splashTower", 1,3,1,1,1);
+		fastTowerShop = new ShopTower("fastTower", 300, 150, 5, 50, 6);
+		slowTowerShop =  new ShopTower("slowTower", 300,150, 5, 50, 6);
+		splashTowerShop =  new ShopTower("splashTower", 300,150,5,50,6);
 		supremeTowerShop =  new ShopTower("supremeTower", 1,1,1,1,5);
 		
 		//Order: initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerAttributes = new int[] {300,100,5,50,6};
-		splashTowerAttributes = new int[] {1,1,1,1,1};;
-		slowTowerAttributes = new int[] {1,1,1,1,1};;
-		supremeTowerAttributes = new int[] {1,1,1,1,1};;
+		fastTowerAttributes = new int[] {300,150,5,50,6};
+		slowTowerAttributes = new int[] {300,150,5,50,6};
+		splashTowerAttributes = new int[] {300,150,5,50,6};
+		supremeTowerAttributes = new int[] {300,150,5,50,6};
 		
 		slowestFireRate = 5;	//2 seconds for a shot
+		projectileSpeed = 5;
+		slowDuration = 120;		//2 seconds
 		
 		//Initialize critter variables
 		critterImage = new ImageIcon(getClass().getResource("/critters/critter.png")).getImage();
 		
-		critterHealth = new int[] {40,60,70};
+		critterHealth = new int[] {80,60,70};
 		critterInitialSpeed = new int[] {10,10,70};
 		critterScoreReward = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		critterCurrencyPointReward = new int[] {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150};

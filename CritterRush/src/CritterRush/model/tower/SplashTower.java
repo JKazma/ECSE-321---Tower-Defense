@@ -1,9 +1,11 @@
 package CritterRush.model.tower;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
+import CritterRush.model.Timer;
 import CritterRush.model.critter.Critter;
 
 public class SplashTower extends Tower{
@@ -25,8 +27,37 @@ public class SplashTower extends Tower{
 		this.upgradable = true;
 	}
 	
-	protected void addProjectile(Critter c){
-		ProjectileManager.addProjectile(new SplashProjectile (new Point(this.getX(),this.getY()), new Point(c.getX(),c.getY()), damage, image)); //image should be updated	
+	@Override
+	public void shootCritters(ArrayList <Critter> critters){
+		
+		//Check if tower is loaded.
+		if(Timer.getTravelTime()%(ICManager.frameRate / fireRate) == 0) {
+			double critPos;
+			ArrayList<Critter> crittersInRange = new ArrayList<Critter>();
+			
+			//For each critter in range, add to list
+			for(Critter c: critters){
+				critPos = Math.pow((c.getX() - x), 2) + Math.pow ((c.getY() - y),2);
+				
+				if(Math.sqrt(critPos) < range && c.isAlive() && c.isVisible()){
+						crittersInRange.add(c);
+					}
+				}
+			//Create projectile
+			if(crittersInRange.size() != 0)
+				addProjectile(crittersInRange);
+		}
+	}
+	
+	protected void addProjectile(ArrayList <Critter> critters){
+		ProjectileManager.addProjectile(new SplashProjectile (this.getX()+ (ICManager.cellSize / 2),
+				this.getY() + (ICManager.cellSize / 2), damage, range, critters));
+	}
+
+	@Override
+	protected void addProjectile(Critter c) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

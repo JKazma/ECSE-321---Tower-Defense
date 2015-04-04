@@ -1,14 +1,22 @@
 package CritterRush.model.tower;
 import java.awt.*;
 
+import CritterRush.controller.ICManager;
+import CritterRush.model.critter.Critter;
+
 public class SlowProjectile extends Projectile{
-	public SlowProjectile(Point start, Point end,int damage, Image image)
-	{
-		super(start, end, damage, image);
+	private int slowDuration;
+	
+	public SlowProjectile(int x, int y, int damage, Critter c) {
+		super(x, y, damage, c);
+		image = ICManager.projectileImage;
+		slowDuration = ICManager.slowDuration;
 		
 	}
-	public void slowShot()
-	{
-		
+
+	@Override
+	protected void doDamage(Critter c) {
+		c.reduceHealth(damage);
+		c.slowdown(1, slowDuration);
 	}
 }

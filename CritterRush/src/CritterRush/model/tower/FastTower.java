@@ -1,13 +1,9 @@
 package CritterRush.model.tower;
 
 import java.awt.Point;
-import java.util.ArrayList;
-
-import javax.xml.transform.Templates;
 
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
-import CritterRush.model.Timer;
 import CritterRush.model.critter.Critter;
 
 public class FastTower extends Tower {
@@ -28,31 +24,9 @@ public class FastTower extends Tower {
 		this.upgradable = true;
 	}
 	
-	/*
-	public boolean shootCritter(int rangeOfCritter,int healthOfCritter)
-	{
-		while(rangeOfCritter<=getRange() && healthOfCritter>0)
-		{
-			healthOfCritter-=(getDamage()*getFireRate());
-			hit=true;
-		}
-		
-		if(healthOfCritter<=0)
-		{
-			return true;
-		}
-		
-		else if(rangeOfCritter>getRange())
-		{
-			
-			hit=false; //changes the value of the boolean hit to false which will be used in the attackCritter method
-		}
-		
-		return false;
-	}*/
-	
 	protected void addProjectile(Critter c){
-		ProjectileManager.addProjectile(new FastProjectile (new Point(this.getX(),this.getY()), new Point(c.getX(),c.getY()), damage, image)); //image should be updated	
+		ProjectileManager.addProjectile(new FastProjectile (this.getX() + (ICManager.cellSize / 2),
+				this.getY() + (ICManager.cellSize / 2), damage, c));	
 	}
 
 }

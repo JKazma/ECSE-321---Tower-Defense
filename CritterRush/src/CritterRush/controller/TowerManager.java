@@ -15,9 +15,15 @@ public class TowerManager {
 	{
 		towers.add(t);
 	}
+	
 	public static void removeTower(Tower t)
 	{
 		towers.remove(t);
+	}
+	
+	public static void removeAllTowers()
+	{
+		towers.clear();
 	}
 	
 	public static void shootCritters(){

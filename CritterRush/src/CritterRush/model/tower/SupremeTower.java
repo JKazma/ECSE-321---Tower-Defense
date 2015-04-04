@@ -25,7 +25,8 @@ public class SupremeTower extends Tower {
 	}
 	
 	protected void addProjectile(Critter c){
-		ProjectileManager.addProjectile(new SupremeProjectile (new Point(this.getX(),this.getY()), new Point(c.getX(),c.getY()), damage, image)); //image should be updated	
+		ProjectileManager.addProjectile(new SupremeProjectile (this.getX() + (ICManager.cellSize / 2),
+				this.getY() + (ICManager.cellSize / 2), damage, c));	
 	}
 }
 
