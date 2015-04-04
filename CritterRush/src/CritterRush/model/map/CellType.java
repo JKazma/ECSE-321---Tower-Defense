@@ -7,7 +7,12 @@ public class CellType {
 	private boolean isScenery;
 	private boolean isPath;
 	
-	
+	/**
+	 * Constructor
+	 * @param image
+	 * @param isScenery
+	 * @param isPath
+	 */
 	public CellType(Image image, boolean isScenery, boolean isPath){
 		this.image=image;
 		this.isScenery = isScenery;

@@ -3,7 +3,6 @@ package CritterRush.controller;
 import java.awt.*;
 import java.util.ArrayList;
 
-import CritterRush.model.critter.Critter;
 import CritterRush.model.tower.Tower;
 
 public class TowerManager {

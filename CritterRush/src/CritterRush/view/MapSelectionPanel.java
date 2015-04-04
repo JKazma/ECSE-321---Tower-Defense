@@ -28,14 +28,15 @@ public class MapSelectionPanel extends javax.swing.JPanel {
 		this.requestFocus(true);
 		
 		mapLabels = new JLabel[] {Map1,Map2,Map3,Map4};
-        rButtons = new JRadioButton[] {map1Button, map2Button, map3Button, map4Button};
+        rButtons = new JRadioButton[] {defaultMapButton, map2Button, map3Button, map4Button};
         
         updateMapIcons();
     }
     
     //set map Icons
     public void updateMapIcons(){
-    	for (int i = 1; i < MapManager.getMaxCount() + 1; i++){
+    	mapLabels[0].setIcon(ICManager.maps[0]);
+    	for (int i = 2; i < MapManager.getMaxCount() + 1; i++){
     		if(i <= MapManager.getMapCount()){
     			mapLabels[i - 1].setIcon(ICManager.maps[i-1]);
     			rButtons[i - 1].setEnabled(true);
@@ -57,12 +58,11 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         backButton = new javax.swing.JButton();
         Map1 = new javax.swing.JLabel();
-        map1Button = new javax.swing.JRadioButton();
+        defaultMapButton = new javax.swing.JRadioButton();
         map2Button = new javax.swing.JRadioButton();
         Map2 = new javax.swing.JLabel();
         map3Button = new javax.swing.JRadioButton();
@@ -72,13 +72,10 @@ public class MapSelectionPanel extends javax.swing.JPanel {
         createMapButton = new javax.swing.JButton();
         deleteMapButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
-        
-        
- 
-        
+        background = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 0));
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(null);
 
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/back unpressed.png"))); // NOI18N
         backButton.setBorderPainted(false);
@@ -92,139 +89,125 @@ public class MapSelectionPanel extends javax.swing.JPanel {
                 backButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 5;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        add(backButton, gridBagConstraints);
+        add(backButton);
+        backButton.setBounds(20, 20, 138, 46);
 
         Map1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/back pressed.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 50;
-        add(Map1, gridBagConstraints);
+        Map1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/map/empty.png"))); // NOI18N
+        add(Map1);
+        Map1.setBounds(50, 140, 215, 200);
 
-        buttonGroup1.add(map1Button);
-        map1Button.setText("Map 1");
-        map1Button.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(defaultMapButton);
+        defaultMapButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        defaultMapButton.setForeground(new java.awt.Color(255, 255, 255));
+        defaultMapButton.setText("Default Map");
+        defaultMapButton.setContentAreaFilled(false);
+        defaultMapButton.setFocusable(false);
+        defaultMapButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                map1ButtonActionPerformed(evt);
+                defaultMapButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        add(map1Button, gridBagConstraints);
+        add(defaultMapButton);
+        defaultMapButton.setBounds(100, 350, 130, 25);
 
         buttonGroup1.add(map2Button);
-        map2Button.setText("Map 2");
+        map2Button.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        map2Button.setForeground(new java.awt.Color(255, 255, 255));
+        map2Button.setText("Custom Map 1");
+        map2Button.setContentAreaFilled(false);
+        map2Button.setFocusable(false);
         map2Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 map2ButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        add(map2Button, gridBagConstraints);
+        add(map2Button);
+        map2Button.setBounds(310, 350, 150, 25);
 
         Map2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/back pressed.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 50;
-        add(Map2, gridBagConstraints);
+        Map2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/map/empty.png"))); // NOI18N
+        add(Map2);
+        Map2.setBounds(270, 140, 215, 200);
 
         buttonGroup1.add(map3Button);
-        map3Button.setText("Map 3");
+        map3Button.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        map3Button.setForeground(new java.awt.Color(255, 255, 255));
+        map3Button.setText("Custom Map 2");
+        map3Button.setContentAreaFilled(false);
+        map3Button.setFocusable(false);
         map3Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 map3ButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        add(map3Button, gridBagConstraints);
+        add(map3Button);
+        map3Button.setBounds(530, 350, 130, 25);
 
         buttonGroup1.add(map4Button);
-        map4Button.setText("Map 4");
+        map4Button.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        map4Button.setForeground(new java.awt.Color(255, 255, 255));
+        map4Button.setText("Custom Map 3");
+        map4Button.setContentAreaFilled(false);
+        map4Button.setFocusable(false);
         map4Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 map4ButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        add(map4Button, gridBagConstraints);
+        add(map4Button);
+        map4Button.setBounds(730, 350, 150, 25);
 
         Map3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/back pressed.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 50;
-        add(Map3, gridBagConstraints);
+        Map3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/map/empty.png"))); // NOI18N
+        add(Map3);
+        Map3.setBounds(480, 140, 215, 200);
 
         Map4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/back pressed.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 50;
-        add(Map4, gridBagConstraints);
+        Map4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/map/empty.png"))); // NOI18N
+        add(Map4);
+        Map4.setBounds(700, 140, 215, 200);
 
         createMapButton.setText("Create Map");
+        createMapButton.setMaximumSize(new java.awt.Dimension(100, 50));
+        createMapButton.setMinimumSize(new java.awt.Dimension(100, 50));
         createMapButton.setPreferredSize(new java.awt.Dimension(100, 50));
         createMapButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createMapButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.insets = new java.awt.Insets(50, 50, 50, 50);
-        add(createMapButton, gridBagConstraints);
+        add(createMapButton);
+        createMapButton.setBounds(107, 484, 100, 50);
 
         deleteMapButton.setText("Delete Map");
+        deleteMapButton.setMaximumSize(new java.awt.Dimension(100, 50));
+        deleteMapButton.setMinimumSize(new java.awt.Dimension(100, 50));
         deleteMapButton.setPreferredSize(new java.awt.Dimension(100, 50));
         deleteMapButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteMapButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.insets = new java.awt.Insets(50, 50, 50, 50);
-        add(deleteMapButton, gridBagConstraints);
+        add(deleteMapButton);
+        deleteMapButton.setBounds(322, 484, 100, 50);
 
         startButton.setText("Start");
+        startButton.setMaximumSize(new java.awt.Dimension(100, 50));
+        startButton.setMinimumSize(new java.awt.Dimension(100, 50));
         startButton.setPreferredSize(new java.awt.Dimension(100, 50));
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 7;
-        add(startButton, gridBagConstraints);
+        add(startButton);
+        startButton.setBounds(752, 484, 100, 50);
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background.png"))); // NOI18N
+        background.setText("jLabel1");
+        add(background);
+        background.setBounds(0, 0, 960, 600);
     }// </editor-fold>//GEN-END:initComponents
 
     //Swing control functions
@@ -232,10 +215,10 @@ public class MapSelectionPanel extends javax.swing.JPanel {
         TDG.panelSwap(TDG.mapSelectionPanel, TDG.mainMenuPanel);
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void map1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_map1ButtonActionPerformed
+    private void defaultMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultMapButtonActionPerformed
         MapManager.setSelectedMap(MapManager.getMap(1));
         //System.out.println("RETARD");
-    }//GEN-LAST:event_map1ButtonActionPerformed
+    }//GEN-LAST:event_defaultMapButtonActionPerformed
     
     private void map2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_map2ButtonActionPerformed
     	MapManager.setSelectedMap(MapManager.getMap(2));
@@ -259,10 +242,15 @@ public class MapSelectionPanel extends javax.swing.JPanel {
 
     private void deleteMapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMapButtonActionPerformed
         if(MapManager.getSelectedMap() != null){
-           MapManager.deleteMap(MapManager.getSelectedMap());
-           MapManager.setSelectedMap(null);
-           updateMapIcons();
-           buttonGroup1.clearSelection();
+        	if(MapManager.getSelectedMap() == MapManager.getMap(1)){
+        		TDG.printMessage("Cannot delete default map.");
+        	}
+        	else{
+                MapManager.deleteMap(MapManager.getSelectedMap());
+                MapManager.setSelectedMap(null);
+                updateMapIcons();
+                buttonGroup1.clearSelection();
+        	}
         } else 
         	TDG.printMessage("No map selected.");
     }//GEN-LAST:event_deleteMapButtonActionPerformed
@@ -283,10 +271,11 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     private javax.swing.JLabel Map3;
     private javax.swing.JLabel Map4;
     private javax.swing.JButton backButton;
+    private javax.swing.JLabel background;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton createMapButton;
+    private javax.swing.JRadioButton defaultMapButton;
     private javax.swing.JButton deleteMapButton;
-    private javax.swing.JRadioButton map1Button;
     private javax.swing.JRadioButton map2Button;
     private javax.swing.JRadioButton map3Button;
     private javax.swing.JRadioButton map4Button;

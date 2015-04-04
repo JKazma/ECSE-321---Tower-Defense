@@ -11,7 +11,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
 	private TowerDefenseGame TDG;
    
     public MainMenuPanel(TowerDefenseGame frame, boolean visibility) {
-        initComponents();
+    	initComponents();
         this.TDG = frame;
         
         setBackground(Color.BLACK);
@@ -29,16 +29,16 @@ public class MainMenuPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         playButton = new javax.swing.JButton();
         creditsButton = new javax.swing.JButton();
         GameTitle = new javax.swing.JLabel();
+        background = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 0));
         setMinimumSize(new java.awt.Dimension(960, 600));
         setPreferredSize(new java.awt.Dimension(960, 600));
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(null);
 
         playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/Play button unpressed.png"))); // NOI18N
         playButton.setBorderPainted(false);
@@ -53,10 +53,8 @@ public class MainMenuPanel extends javax.swing.JPanel {
                 playButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        add(playButton, gridBagConstraints);
+        add(playButton);
+        playButton.setBounds(373, 338, 213, 73);
 
         creditsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/credits unpressed.png"))); // NOI18N
         creditsButton.setBorderPainted(false);
@@ -69,20 +67,18 @@ public class MainMenuPanel extends javax.swing.JPanel {
                 creditsButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        add(creditsButton, gridBagConstraints);
+        add(creditsButton);
+        creditsButton.setBounds(383, 411, 193, 59);
 
         GameTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CritterRushTitle.png"))); // NOI18N
         GameTitle.setAlignmentY(0.0F);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(-50, 0, 80, 0);
-        add(GameTitle, gridBagConstraints);
+        add(GameTitle);
+        GameTitle.setBounds(249, 79, 462, 179);
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background.png"))); // NOI18N
+        background.setText("jLabel1");
+        add(background);
+        background.setBounds(0, 0, 960, 600);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
@@ -96,6 +92,7 @@ public class MainMenuPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel GameTitle;
+    private javax.swing.JLabel background;
     private javax.swing.JButton creditsButton;
     private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables

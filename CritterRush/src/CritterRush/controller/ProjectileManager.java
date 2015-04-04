@@ -3,7 +3,6 @@ package CritterRush.controller;
 import java.awt.*;
 import java.util.ArrayList;
 
-import CritterRush.model.*;
 import CritterRush.model.tower.Projectile;
 public class ProjectileManager {
 	private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();

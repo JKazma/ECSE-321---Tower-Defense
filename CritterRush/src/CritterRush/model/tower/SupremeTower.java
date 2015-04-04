@@ -1,15 +1,20 @@
 package CritterRush.model.tower;
 
-import java.awt.Point;
-
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
 import CritterRush.model.critter.Critter;
 
 public class SupremeTower extends Tower {
+	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 */
 	public SupremeTower(int x, int y)
 	{
 		super(x,y);
+		type = "Supreme Tower";
 		this.level = 1;
 		this.initialCost = ICManager.supremeTowerAttributes[0];
 		this.range = ICManager.supremeTowerAttributes[1];
@@ -24,6 +29,10 @@ public class SupremeTower extends Tower {
 		this.upgradable = false;
 	}
 	
+	/**
+	 * Add projectile of type supreme to the projectileManager.
+	 * @param c
+	 */
 	protected void addProjectile(Critter c){
 		ProjectileManager.addProjectile(new SupremeProjectile (this.getX() + (ICManager.cellSize / 2),
 				this.getY() + (ICManager.cellSize / 2), damage, c));	

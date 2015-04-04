@@ -7,6 +7,8 @@ import CritterRush.model.GameObject;
 import CritterRush.model.critter.Critter;
 
 public abstract class Projectile extends GameObject{
+	
+	//constants
 	protected int x;
 	protected int y;
 	protected int damage;
@@ -18,7 +20,14 @@ public abstract class Projectile extends GameObject{
 	protected Image image;
 
 	protected Critter c;
-
+	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 * @param damage
+	 * @param c
+	 */
 	public Projectile(int x, int y, int damage, Critter c){
 		this.x = x;
 		this.y = y;
@@ -28,10 +37,16 @@ public abstract class Projectile extends GameObject{
 		appear();
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public Projectile(){
 		this.speed = ICManager.projectileSpeed;
 	}
 	
+	/**
+	 * Calculate the angle at which the projectile should move at.
+	 */
 	public void angleProjectile() {
 		dx = c.getX() + (ICManager.cellSize / 2) - x;
 		dy = c.getY() + (ICManager.cellSize / 2) - y;
@@ -43,8 +58,12 @@ public abstract class Projectile extends GameObject{
 		
 	}
 	
+	/**
+	 * Move the projectile taking into account the calculated angle.
+	 */
 	public void move(){		
 		if(alive){	
+			
 			//recompute the angle, the delta x and y
 			angleProjectile();
 			x += dx * speed;
@@ -56,13 +75,19 @@ public abstract class Projectile extends GameObject{
 			
 		}
 	}
+	
+	/**
+	 * Check for collision with critters
+	 */
 	public void checkCollision(){
 			if(c.isAlive() && this.alive){
 				
-				Rectangle critterShape = new Rectangle(c.getX(), c.getY(), ICManager.cellSize, ICManager.cellSize);
+				//Create rectangles for the projectile and the critter to detect collisions when they intersect
+				Rectangle critterShape = new Rectangle((int) c.getX(), (int) c.getY(), ICManager.cellSize, ICManager.cellSize);
 				Rectangle projectile = new Rectangle(x,y,image.getWidth(null),image.getHeight(null)); 
 				if(critterShape.intersects(projectile)) 
 				{
+					//Inflict damage and kill projectile.
 					disappear();
 					doDamage(c);
 				}
@@ -71,42 +96,45 @@ public abstract class Projectile extends GameObject{
 				disappear();
 		}
 	
+	/**
+	 * Inflict damage to critter.
+	 * @param c
+	 */
 	protected abstract void doDamage(Critter c);
 	
+	
 	//Getter and setters
-	public boolean isAlive() 
-	{
+	public boolean isAlive() {
 		return alive;
 	}
 	
-	public void appear()
-	{
+	public void appear(){
 		this.alive = true;
 		show();
 	}
-	public void disappear()
-	{
+	
+	public void disappear(){
 		this.alive = false;
 		hide();
 	}
-	public int getX()
-	{
+	
+	public int getX(){
 		return x;
 	}
-	public int getY()
-	{
+	
+	public int getY(){
 		return y;
 	}
-	public double getDX()
-	{
+	
+	public double getDX(){
 		return dx;
 	}
-	public double getDY()
-	{
+	
+	public double getDY(){
 		return dy;
 	}
-	public int getDamage()
-	{
+	
+	public int getDamage(){
 		return damage;
 	}
 	

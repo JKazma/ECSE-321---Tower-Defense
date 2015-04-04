@@ -26,7 +26,9 @@ public class ICManager {
 	public static Image splashTower;
 	public static Image supremeTower;
 	
-	public static Image projectileImage;
+	public static Image fastProjImage;
+	public static Image slowProjImage;
+	public static Image supremeProjImage;
 	
 	public static ShopTower fastTowerShop;
 	public static ShopTower slowTowerShop;
@@ -46,12 +48,13 @@ public class ICManager {
 	public static Image critterImage;
 	
 	public static int[] critterHealth;
-	public static int[] critterInitialSpeed;
+	public static double[] critterInitialSpeed;
 	public static int[] critterScoreReward;
 	public static int[] critterCurrencyPointReward;
 	public static int[] critterCount;
+	
+	public static double[] possibleSpeed;
 	public static int waveCount;
-	public static int maxSpeed;
 	public static int spawnRate;
 
 	//Game variables
@@ -60,9 +63,11 @@ public class ICManager {
 	public static int frameRate;
 	
 	
+	
 	public ICManager() {
 			initVariables();
 		}
+	
 	
 	public void initVariables(){
 		//Initialize map variables
@@ -73,6 +78,7 @@ public class ICManager {
 		obstacleCell = new ImageIcon(getClass().getResource("/map/obstacleCell.png")).getImage();
 		mapIconEmpty = new ImageIcon(getClass().getResource("/map/empty.png")).getImage();
 		maps = new ImageIcon[4];
+		maps[0] = new ImageIcon(getClass().getResource("/map/defaultMap.png"));
 		
 		cellSize = 30;
 		fieldSizeX = 780;
@@ -83,15 +89,17 @@ public class ICManager {
 		fastTower = new ImageIcon(getClass().getResource("/towers/fastTower.png")).getImage();
 		splashTower = new ImageIcon(getClass().getResource("/towers/splashTower.png")).getImage();
 		slowTower = new ImageIcon(getClass().getResource("/towers/slowTower.png")).getImage();
-		supremeTower = new ImageIcon(getClass().getResource("/towers/powerTower.png")).getImage();
+		supremeTower = new ImageIcon(getClass().getResource("/towers/supremeTower.png")).getImage();
 		
-		projectileImage = new ImageIcon(getClass().getResource("/towers/projectile.png")).getImage();
+		fastProjImage = new ImageIcon(getClass().getResource("/towers/fastTowerProjectile.png")).getImage();
+		slowProjImage = new ImageIcon(getClass().getResource("/towers/slowTowerProjectile.png")).getImage();
+		supremeProjImage = new ImageIcon(getClass().getResource("/towers/supremeTowerProjectile.png")).getImage();
 		
 		//order: type, initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerShop = new ShopTower("fastTower", 300, 150, 5, 50, 6);
-		slowTowerShop =  new ShopTower("slowTower", 300,150, 5, 50, 6);
-		splashTowerShop =  new ShopTower("splashTower", 300,150,5,50,6);
-		supremeTowerShop =  new ShopTower("supremeTower", 1,1,1,1,5);
+		fastTowerShop = new ShopTower("Fast Tower", 300, 150, 5, 50, 6);
+		slowTowerShop =  new ShopTower("Slow Tower", 300,150, 5, 50, 6);
+		splashTowerShop =  new ShopTower("Splash Tower", 300,150,5,50,6);
+		supremeTowerShop =  new ShopTower("Supreme Tower", 1,1,1,1,5);
 		
 		//Order: initialCost, range, damage, fireRate (times 10), maxLevel
 		fastTowerAttributes = new int[] {300,150,5,50,6};
@@ -100,19 +108,21 @@ public class ICManager {
 		supremeTowerAttributes = new int[] {300,150,5,50,6};
 		
 		slowestFireRate = 5;	//2 seconds for a shot
-		projectileSpeed = 5;
+		projectileSpeed = 10;
 		slowDuration = 120;		//2 seconds
 		
 		//Initialize critter variables
 		critterImage = new ImageIcon(getClass().getResource("/critters/critter.png")).getImage();
 		
+		//Critter speed can only have one of the following values: 1.0, 1.5, 2.0, 2.5, 3.0, 5.0, 6.0
+		critterInitialSpeed = new double[] {3.75,10,70};
 		critterHealth = new int[] {80,60,70};
-		critterInitialSpeed = new int[] {10,10,70};
 		critterScoreReward = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		critterCurrencyPointReward = new int[] {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150};
 		critterCount = new int[] {2,3,30,30,30,30,30,30,30,30,30,30,30,30,30};
+		
 		waveCount = 1;
-		maxSpeed = 10;
+		possibleSpeed = new double[] {1.0, 1.5, 2.0, 2.5, 3.0, 3.75, 5.0, 6.0};
 		spawnRate = 60; //1 critter per second
 		
 		//Initialize game variables

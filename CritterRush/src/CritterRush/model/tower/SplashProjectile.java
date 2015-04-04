@@ -3,7 +3,6 @@ package CritterRush.model.tower;
 import java.awt.*;
 import java.util.ArrayList;
 
-import CritterRush.controller.CritterManager;
 import CritterRush.controller.ICManager;
 import CritterRush.model.critter.Critter;
 
@@ -13,6 +12,14 @@ public class SplashProjectile extends Projectile{
 	int currentRadius;
 	ArrayList<Critter> critters;
 	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 * @param damage
+	 * @param radius
+	 * @param critters
+	 */
 	public SplashProjectile(int x, int y, int damage, int radius, ArrayList<Critter> critters){
 		this.x = x;
 		this.y = y;	
@@ -23,6 +30,10 @@ public class SplashProjectile extends Projectile{
 		currentRadius = 0;
 		appear();
 	}
+	
+	/**
+	 * Move projectile radially.
+	 */
 	@Override
 	public void move(){
 		if(alive){	
@@ -34,21 +45,33 @@ public class SplashProjectile extends Projectile{
 		}
 	}
 	
+	/**
+	 * Check collision when projectile has reached its max radius.
+	 */
 	@Override
 	public void checkCollision(){
-		for(Critter c: critters){
-			if(c.isAlive() && c.isVisible() && this.isAlive() && currentRadius >= finalRadius){
-				doDamage(c);
+		if(currentRadius >= finalRadius){
+			for(Critter c: critters){
+				if(c.isAlive() && c.isVisible() && this.isAlive())
+					doDamage(c);
 			}
-		}
-		if(currentRadius >= finalRadius)
 			disappear();
+		}
 	}
+	
+	/**
+	 * Inflict damage to critter
+	 * @param c
+	 */
 	@Override
 	protected void doDamage(Critter c) {
 		c.reduceHealth(damage);
 	}
 	
+	/**
+	 * Draw projectile.
+	 * @param g
+	 */
 	@Override
 	public void drawStrategy(Graphics g) {
 		//Draw tower circle

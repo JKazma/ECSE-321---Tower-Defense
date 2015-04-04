@@ -22,6 +22,9 @@ public class TowerTool extends Tool{
 	private boolean enabled;
 	private ShopTower st;
 	
+	/**
+	 * Constructor
+	 */
 	public TowerTool(){
 		enabled = false;
 	}
@@ -37,12 +40,18 @@ public class TowerTool extends Tool{
 		 
 	}
 
-
+	/**
+	 * Place a tower on the field and return a boolean value specifying if placement was successful.
+	 * @param tower
+	 * @return
+	 */
 	public boolean placeTower(ShopTower tower) {
 		st = tower;
-		//Add tower only if there are no tower and a scenery cell
+		
 		Cell c = MapManager.getSelectedMap().getCellAt(x, y);
 		Tower t = TowerManager.getTowerAt(x, y);
+		
+		//Add tower only if there are no tower and a scenery cell
 		if(c != null) {
 			if(c.getType() == CellTypeManager.scenery && t == null && enabled) {
 				
@@ -65,6 +74,7 @@ public class TowerTool extends Tool{
 		
 	}
 
+	//Getter
 	public void enabled(boolean b) {
 		enabled = b;
 	}

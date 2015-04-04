@@ -12,6 +12,14 @@ public class Cell extends GameObject{
 	private CellType type;
 	private boolean visited;
 	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param type
+	 */
 	public Cell(int x, int y, int width, int height, CellType type){
 		this.x = x;
 		this.y = y;
@@ -19,6 +27,8 @@ public class Cell extends GameObject{
 		this.height = height;
 		this.type = type;
 	}
+	
+	
 	//Setters
 	public void setType(CellType type) {
 		this.type=type;

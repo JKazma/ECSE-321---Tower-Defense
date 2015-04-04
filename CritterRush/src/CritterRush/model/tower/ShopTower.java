@@ -4,6 +4,15 @@ public class ShopTower {
 	private int initialCost, level, range, damage, fireRate;
 	private String type;
 	
+	/**
+	 * Constructor
+	 * @param type
+	 * @param initialCost
+	 * @param range
+	 * @param damage
+	 * @param fireRate
+	 * @param level
+	 */
 	public ShopTower(String type, int initialCost, int range, int damage, int fireRate, int level){
 		this.type = type;
 		this.initialCost = initialCost;
@@ -12,7 +21,8 @@ public class ShopTower {
 		this.damage = damage;
 		this.fireRate = fireRate;
 	}
-
+	
+	//Getters
 	public int getInitialCost() {
 		return initialCost;
 	}
@@ -37,9 +47,17 @@ public class ShopTower {
 		return fireRate;
 	}	
 	
-	//Get Tower info in an array to be display in the GamePanel
-	public int[] getInfo(){
-		return new int[] {level, damage, range, fireRate, initialCost};
+	/**
+	 * Get tower info to be displayed in the GUI
+	 * @return
+	 */
+	public String[] getInfo(){
+		return new String[] {"Type: " + type, 
+				"Level: " + String.valueOf(level), 
+				"Damage: " + String.valueOf(damage), 
+				"Range: " + String.valueOf(range), 
+				"Fire Rate: " + String.valueOf(fireRate), 
+				"Buy Cost: " + String.valueOf(initialCost)};
 	}
 	
 	

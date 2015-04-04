@@ -18,6 +18,9 @@ public class SpawnTool extends Tool{
 		color=Color.magenta;
 	}
 	
+	/**
+	 * Set cell type to entry cell.
+	 */
 	@Override
 	public void action1() {
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
@@ -37,7 +40,9 @@ public class SpawnTool extends Tool{
 		}
 	}
 
-
+	/**
+	 * Set cell type to exit cell.
+	 */
 	@Override
 	public void action2() {
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);

@@ -11,15 +11,16 @@ import CritterRush.model.map.CellType;
 public class ObstacleTool extends Tool{
 	
 	private CellType a1 = CellTypeManager.obstacle;
-	private CellType a2 = CellTypeManager.scenery;
 	
 	public ObstacleTool() {
 		color=Color.black;
 	}
 	
 	
+	/**
+	 * Set cell type to obstacle.
+	 */
 	@Override
-	//Set cell to path cell.
 	public void action1() {
 		
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
@@ -37,9 +38,7 @@ public class ObstacleTool extends Tool{
 		
 	}
 	@Override
-	//Set cell to scenery cell.
 	public void action2() {
 		//Nothing.
-		
 	}
 }

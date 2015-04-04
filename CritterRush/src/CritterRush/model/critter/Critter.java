@@ -7,37 +7,39 @@ import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
 import CritterRush.model.GameObject;
-import CritterRush.model.Timer;
 
 public class Critter extends GameObject{
 	
 	private String name;
-	private int x; //set
-	private int y; //set
-	private int dx;
-	private int dy;
+	private double x;
+	private double y;
+	private double dx;
+	private double dy;
 	private int initialHealth;
 	private int health;
-	private int speed;
-	private int initialSpeed;
+	private double speed;
+	private double initialSpeed;
 	private int scoreReward; 
 	private int currencyPointReward;
 	private boolean alive;
 	private int slowDuration;
 	private Image image;
-	private int maxSpeed;
 	private GameController gc;
 	
 	//Incremented variables
 	private int cellIndex;
 	
-	
+	/**
+	 * Constructor
+	 * @param name
+	 * @param wave
+	 * @param gc
+	 */
 	public Critter(String name, int wave, GameController gc) 
 	{
 		hide();
 		this.name = name;
 		this.initialSpeed = ICManager.critterInitialSpeed[wave];
-		this.maxSpeed = ICManager.maxSpeed;
 		this.health= ICManager.critterHealth[wave];
 		this.initialHealth = health;
 		this.speed= ICManager.critterInitialSpeed[wave];;
@@ -52,21 +54,33 @@ public class Critter extends GameObject{
 		
 	}
 	
+	/**
+	 * Display critter on screen.
+	 */
 	public void spawn() 
 	{
 		this.x = MapManager.getSelectedMap().getPath().getEntry().getX();
 		this.y = MapManager.getSelectedMap().getPath().getEntry().getY();
 		show();
 	}
-
+	
+	/**
+	 * Remove critter from screen and check if the wave is cleared.
+	 */
 	public void despawn() {
 		this.alive = false;
 		hide();
 		gc.checkCleared();
 	}
 	
+	/**
+	 * Reduce critter's health.
+	 * @param damage
+	 */
 	public void reduceHealth(int damage){
 		this.health -= damage;
+		
+		//If dead, update player stats.
 		if(health <= 0)
 			despawn();
 		
@@ -74,26 +88,39 @@ public class Critter extends GameObject{
 		gc.getPs().setScore(gc.getPs().getScore() + scoreReward);
 	}
 	
+	/**
+	 * Update player stats when critter reaches exit.
+	 */
 	public void reachedExit(){
 		despawn();
 		gc.getPs().setLifeCount(gc.getPs().getLifeCount() - 1);
 	}
 	
-	
-	public void slowdown(int slowFactor, int slowDuration) {
-			this.speed =  initialSpeed - slowFactor;
-			this.slowDuration = slowDuration;
+	/**
+	 * Slowdown effect with slowdown time.
+	 * @param slowDuration
+	 */
+	public void slowdown(int slowDuration) {
+			for(int i = 0; i< ICManager.possibleSpeed.length; i++) 
+				if(initialSpeed == ICManager.possibleSpeed[i]){
+					speed =  ICManager.possibleSpeed[i - 1];
+					this.slowDuration = slowDuration;
+					break;
+				} 
 		}
-		
+	/**
+	 * Travel the critter on the map.
+	 */
 	public void travelTo() {
 		if(isVisible()) {
+			//Set the slowdown speed if the slow timer hasn't elapsed yet.
 			if (slowDuration > 0) 
 				slowDuration--;
 			else 
 				speed = initialSpeed;
 			
-			//Set the speed of the critter
-			if(speed!=0 && Timer.getTravelTime()%(maxSpeed + 1 - speed) == 0) {
+			//Set the speed of the critter && Timer.getTravelTime()%(maxSpeed + 1 - speed) == 0
+			if(speed!=0) {
 				if(cellIndex >= MapManager.getSelectedMap().getPath().getPath().size()) {
 					reachedExit();
 					return;
@@ -102,8 +129,8 @@ public class Critter extends GameObject{
 				if(x == MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() && y == MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY()) {
 					cellIndex++;
 					if(cellIndex < MapManager.getSelectedMap().getPath().getPath().size()) {
-						dx = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() - x)/ICManager.cellSize*2;
-						dy = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY() - y)/ICManager.cellSize*2;
+						dx = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() - x)/ICManager.cellSize*speed;
+						dy = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY() - y)/ICManager.cellSize*speed;
 					}
 				//Move critter
 				}else {
@@ -138,11 +165,11 @@ public class Critter extends GameObject{
 		return name;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
@@ -150,11 +177,11 @@ public class Critter extends GameObject{
 		return health;
 	}
 	
-	public int getSpeed(){
+	public double getSpeed(){
 		return speed;
 	}
 
-	public int getInitialSpeed() {
+	public double getInitialSpeed() {
 		return initialSpeed;
 	}
 
@@ -176,8 +203,8 @@ public class Critter extends GameObject{
 	
 	@Override
 	public void drawStrategy(Graphics g) {
-		g.drawImage(image, x, y, null);
+		g.drawImage(image, (int) x, (int) y, null);
 		g.setColor(Color.red);
-		g.drawLine(x, y - 5, x + (int) (ICManager.cellSize * ((double) health/ (double)initialHealth)), y - 5);
+		g.drawLine((int) x, (int) (y - 5), (int)(x + (ICManager.cellSize * (double) health/ (double)initialHealth)), (int) (y - 5));
 	}
 }

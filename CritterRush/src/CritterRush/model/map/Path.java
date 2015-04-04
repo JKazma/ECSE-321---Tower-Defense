@@ -55,7 +55,7 @@ public class Path extends GameObject{
 	}
 	
 	/**
-	 * Compute shortest path using breadth first search.
+	 * Compute shortest path using breadth-first search.
 	 */
 	private void shortestPath(){
 		

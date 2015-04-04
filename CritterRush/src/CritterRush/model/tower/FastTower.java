@@ -1,15 +1,20 @@
 package CritterRush.model.tower;
 
-import java.awt.Point;
-
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
 import CritterRush.model.critter.Critter;
 
 public class FastTower extends Tower {
+	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 */
 	public FastTower(int x, int y)
 	{
 		super(x,y);
+		type = "Fast Tower";
 		this.level = 1;
 		this.initialCost = ICManager.fastTowerAttributes[0];
 		this.range = ICManager.fastTowerAttributes[1];
@@ -24,6 +29,9 @@ public class FastTower extends Tower {
 		this.upgradable = true;
 	}
 	
+	/**
+	 * Create a projectile of type fastTower.
+	 */
 	protected void addProjectile(Critter c){
 		ProjectileManager.addProjectile(new FastProjectile (this.getX() + (ICManager.cellSize / 2),
 				this.getY() + (ICManager.cellSize / 2), damage, c));	

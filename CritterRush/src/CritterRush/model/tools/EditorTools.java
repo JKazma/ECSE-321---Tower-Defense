@@ -15,6 +15,10 @@ public class EditorTools{
 	//private static Tool towerTool;
 	private static Tool currentTool;
 	
+	
+	/**
+	 * Constructor
+	 */
 	public EditorTools(){
 		textureTool = new TextureTool();
 		spawnTool = new SpawnTool();
@@ -33,14 +37,18 @@ public class EditorTools{
 		
 	}
 
-	//Left mouse
+	/**
+	 * Left mouse click.
+	 */
 	public static void performAction1() {
 		if(currentTool != null)
 			currentTool.action1();
 		
 	}
 	
-	//Right mouse
+	/**
+	 * Right mouse click.
+	 */
 	public static void performAction2() {
 		if(currentTool != null)
 			currentTool.action2();
@@ -59,10 +67,6 @@ public class EditorTools{
 	public static Tool getObstacleTool() {
 		return obstacleTool;
 	}
-
-	/*public static Tool getTowerTool() {
-		return towerTool;
-	}*/
 	
 	public static Tool getCurrentTool() {
 		return currentTool;

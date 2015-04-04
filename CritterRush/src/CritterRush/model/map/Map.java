@@ -7,19 +7,28 @@ import CritterRush.controller.ICManager;
 import CritterRush.model.GameObject;
 
 public class Map extends GameObject{
-	private String name;
 	private Cell[][] cells;
 	private int sizeX, sizeY;
 	private Path path;
 	
-	public Map (String name, int sizeX, int sizeY, CellType cellType){
-		this.name = name;
+	/**
+	 * Constructor
+	 * @param name
+	 * @param sizeX
+	 * @param sizeY
+	 * @param cellType
+	 */
+	public Map (int sizeX, int sizeY, CellType cellType){
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.path=new Path();
 		initializeCells(cellType);
 	}
 	
+	/**
+	 * Initialize all the cells to a specified cell type.
+	 * @param cellType
+	 */
     private void initializeCells(CellType cellType){
     	this.cells = new Cell[sizeX][sizeY];
         //Initialize cells.
@@ -38,11 +47,18 @@ public class Map extends GameObject{
             }
         }
     }
+    /**
+     * Check the map validity.
+     * @return
+     */
     public boolean checkValidity(){
     	return path.checkPathValidity();
     }
     
-    //Reset the cells for the shortpath computation
+    /**
+     * Reset the cells for the shortest path computation by clearing 
+     * the data used for a breadth-first search algorithm.
+     */
     public void resetCells(){
         for(int j = 0; j < sizeY; j++){
             for(int i = 0; i < sizeX; i++){
@@ -52,6 +68,7 @@ public class Map extends GameObject{
         }
     }
 	
+    
 	//Getters
 	public int getSceneryCellsCount(){
 		int count = 0;

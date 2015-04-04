@@ -4,12 +4,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import CritterRush.controller.ICManager;
-import CritterRush.controller.ProjectileManager;
 import CritterRush.model.GameObject;
 import CritterRush.model.Timer;
 import CritterRush.model.critter.Critter;
 
 public abstract class Tower extends GameObject{
+	
+	protected String type;
 	protected int x;
 	protected int y;
 	protected int level;
@@ -26,12 +27,20 @@ public abstract class Tower extends GameObject{
 	protected boolean upgradable;
 
 
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 */
 	public Tower(int x, int y){
 		this.x = x;
 		this.y = y;	
 	}
 	
-	
+	/**
+	 * Shoot critters using a closest to exit strategy.
+	 * @param critters
+	 */
 	public void shootCritters(ArrayList <Critter> critters){
 		
 		//Check if tower is loaded.
@@ -58,6 +67,10 @@ public abstract class Tower extends GameObject{
 		}
 	}
 	
+	/**
+	 * Add projectile to the projectileManager
+	 * @param c
+	 */
 	protected abstract void addProjectile(Critter c);
 	
 	/**
@@ -75,7 +88,6 @@ public abstract class Tower extends GameObject{
 		if(level == maxLevel)
 			upgradable  = false;
 	}
-//	public abstract void upgradeTower();
 	
 	// getters
 	public int getX()
@@ -135,9 +147,18 @@ public abstract class Tower extends GameObject{
 		return maxLevel;
 	}
 	
-	//Get Tower info in an array to be display in the GamePanel
-	public int[] getInfo(){
-		return new int[] {level, damage, range, (int)(fireRate * 10), upgradeCost, refundValue};
+	/**
+	 * Get Tower info in an array to be display in the GUI.
+	 * @return
+	 */
+	public String[] getInfo(){
+		return new String[] {"Type: " + type, 
+				"Level: " + String.valueOf(level), 
+				"Damage: " + String.valueOf(damage), 
+				"Range: " + String.valueOf(range), 
+				"Fire Rate: " + String.valueOf(fireRate), 
+				"Upgrade Cost: " + String.valueOf(upgradeCost),
+				"Refund value: " + String.valueOf(refundValue)};
 	}
 	
 

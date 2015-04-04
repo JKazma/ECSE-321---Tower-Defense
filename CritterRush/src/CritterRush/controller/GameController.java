@@ -31,6 +31,8 @@ public class GameController {
 		CritterManager.removeAllCritters();
 		ProjectileManager.removeAllProjectiles();
 		
+		TowerManager.setSelectedTower(null);
+		
 		new Timer();
 	}
 	
@@ -165,7 +167,41 @@ public class GameController {
 		o.update("gameWon");
 	}
 	
+	/**
+	 * Return the current wave and next wave info
+	 * @return
+	 */
+	public String[] getWaveInfo(){
+		
+		//If next wave exists
+		if(currentWave + 1 < ICManager.waveCount){
+			return new String[] {"", "WAVE INFO", 
+			"Health: " + String.valueOf(ICManager.critterHealth[currentWave]) + " ==> " + String.valueOf(ICManager.critterHealth[currentWave + 1]), 
+			"Speed: " + String.valueOf(ICManager.critterInitialSpeed[currentWave]) + " ==> " + String.valueOf(ICManager.critterInitialSpeed[currentWave + 1]),
+			"Amount: " + String.valueOf(ICManager.critterCount[currentWave]) + " ==> " + String.valueOf(ICManager.critterCount[currentWave + 1]),
+			"", 
+			"Current Wave: " + String.valueOf(currentWave + 1) + " / " + String.valueOf(ICManager.waveCount)};
+		}
+		
+		//If it doesn't
+		else{
+			return new String[] {"", "WAVE INFO", 
+			"Health: " + String.valueOf(ICManager.critterHealth[currentWave]) + " ==> Done", 
+			"Speed: " + String.valueOf(ICManager.critterInitialSpeed[currentWave]) + " ==> Done",
+			"Amount: " + String.valueOf(ICManager.critterCount[currentWave]) + " ==> Done",
+			"", 
+			"Current Wave: " + String.valueOf(currentWave + 1) + " / " + String.valueOf(ICManager.waveCount)};
+		}
+				
+	}
+
+	public void setObserver (IObserver o) {
+		this.o = o;
+	}
 	
+	public void setReady(boolean b){
+		playerReady = b;
+	}
 	
 	//Getter and setters
 	public PlayerStats getPs() {
@@ -188,29 +224,6 @@ public class GameController {
 
 	public void setSelectedTower(Tower selectedTower) {
 		TowerManager.setSelectedTower(selectedTower);
-	}
-	
-	public int[] getWaveInfo(){
-		return new int[] {ICManager.critterHealth[currentWave], ICManager.critterInitialSpeed[currentWave], ICManager.critterCount[currentWave]};
-	}
-	
-	public int[] getNextWaveInfo(){
-		if(currentWave + 1 <= ICManager.waveCount)
-			return new int[] {ICManager.critterHealth[currentWave + 1], ICManager.critterInitialSpeed[currentWave + 1], ICManager.critterCount[currentWave + 1]};
-		else
-			return new int[]{987654321, 987654321};
-	}
-	
-	public int[] getWaveCountInfo(){
-		return new int[] {currentWave + 1, ICManager.waveCount};
-	}
-	
-	public void setObserver (IObserver o) {
-		this.o = o;
-	}
-	
-	public void setReady(boolean b){
-		playerReady = b;
 	}
 
 	public void draw(Graphics g){

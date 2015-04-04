@@ -1,15 +1,20 @@
 package CritterRush.model.tower;
 
-import java.awt.Point;
-
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
 import CritterRush.model.critter.Critter;
 
 public class SlowTower extends Tower {
+	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 */
 	public SlowTower(int x, int y)
 	{
 		super(x,y);
+		type = "Slow Tower";
 		this.level = 1;
 		this.initialCost = ICManager.slowTowerAttributes[0];
 		this.range = ICManager.slowTowerAttributes[1];
@@ -24,6 +29,10 @@ public class SlowTower extends Tower {
 		this.upgradable = true;
 	}
 	
+	/**
+	 * Add a slowProjectile to the projectile manager.
+	 * @param c
+	 */
 	protected void addProjectile(Critter c){
 		ProjectileManager.addProjectile(new SlowProjectile (this.getX()+ (ICManager.cellSize / 2), this.getY()+ (ICManager.cellSize / 2), damage, c));
 	}

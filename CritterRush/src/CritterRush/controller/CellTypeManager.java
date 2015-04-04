@@ -9,7 +9,10 @@ public class CellTypeManager {
 		public static CellType entry;
 		public static CellType exit;
 		public static CellType obstacle;
-
+		
+		/**
+		 * Initialize the different cell types
+		 */
 		public CellTypeManager () {
 			scenery = new CellType(ICManager.scenery, true, false);
 			path = new CellType(ICManager.path, false, true);

@@ -5,26 +5,37 @@ import java.awt.Graphics;
 public abstract class GameObject {
 	private boolean visible=true;
 	
-	//If visible, do draw strategy
+	/**
+	 * Perform drawing strategy
+	 * @param g
+	 */
 	public void draw(Graphics g) {
 		if(isVisible()) {
 			drawStrategy(g);
 		}
 	}
 	
-	//Drawing logic specified in children classes
+	/**
+	 * Drawing strategy specified in children class
+	 * @param g
+	 */
 	public abstract void drawStrategy(Graphics g);
 	
-	//show object
+	/**
+	 * Show object.
+	 */
 	public void show() {
 		setVisible(true);
 	}
 	
-	//hide object
+	/**
+	 * Hide object.
+	 */
 	public void hide() {
 		setVisible(false);
 	}
-
+	
+	//Getters and setters
 	public boolean isVisible() {
 		return visible;
 	}

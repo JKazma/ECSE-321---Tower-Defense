@@ -1,6 +1,5 @@
 package CritterRush.model.tower;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import CritterRush.controller.ICManager;
@@ -10,9 +9,16 @@ import CritterRush.model.critter.Critter;
 
 public class SplashTower extends Tower{
 	int areaRadius;
+	
+	/**
+	 * Constructor
+	 * @param x
+	 * @param y
+	 */
 	public SplashTower(int x, int y)
 	{
 		super(x,y);
+		type = "Splash Tower";
 		this.level = 1;
 		this.initialCost = ICManager.splashTowerAttributes[0];
 		this.range = ICManager.splashTowerAttributes[1];
@@ -27,6 +33,9 @@ public class SplashTower extends Tower{
 		this.upgradable = true;
 	}
 	
+	/**
+	 * Shoot all critters in range.
+	 */
 	@Override
 	public void shootCritters(ArrayList <Critter> critters){
 		
@@ -49,6 +58,10 @@ public class SplashTower extends Tower{
 		}
 	}
 	
+	/**
+	 * Add a splashTower projectile to the projectileManager.
+	 * @param critters
+	 */
 	protected void addProjectile(ArrayList <Critter> critters){
 		ProjectileManager.addProjectile(new SplashProjectile (this.getX()+ (ICManager.cellSize / 2),
 				this.getY() + (ICManager.cellSize / 2), damage, range, critters));
