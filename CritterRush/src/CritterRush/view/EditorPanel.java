@@ -60,9 +60,12 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
      * Take a screenshot of the map to be used as an icon.
      */
     public void mapScreenShot(){
-		BufferedImage bufImage = new BufferedImage(ICManager.fieldSizeX,
-				ICManager.fieldSizeY, BufferedImage.TYPE_INT_RGB);
-		this.paint(bufImage.createGraphics());
+		
+    	BufferedImage bufImage = new BufferedImage(ICManager.fieldSizeX,
+    			ICManager.fieldSizeY, BufferedImage.TYPE_INT_RGB);
+		
+    	this.paint(bufImage.createGraphics());
+    	
 		File imageFile = new File("resources/map/map" +  String.valueOf(MapManager.getMapCount()) + ".png");
 
 		BufferedImage resized = new BufferedImage(195, 150,

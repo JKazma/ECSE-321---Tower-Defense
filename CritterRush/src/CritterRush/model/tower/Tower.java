@@ -58,16 +58,16 @@ public abstract class Tower extends GameObject{
 		
 		//Check if tower is loaded. The fire rate is bounded by the frame rate.
 		if(time >= ICManager.frameRate / fireRate) {
-			time = 0;
 			double critPos;
 			Critter temp = null;
 			
 			//For each critter in range, find closest to exit
 			for(Critter c: critters){
 				critPos = Math.pow((c.getX() - x), 2) + Math.pow ((c.getY() - y),2);
-				
 				if(Math.sqrt(critPos) < range && c.isAlive() && c.isVisible()){
-					if(temp == null) temp = c;
+					time = 0;
+					if(temp == null) 
+						temp = c;
 					
 					if(c.getCellIndex() > temp.getCellIndex()){
 						temp = c;

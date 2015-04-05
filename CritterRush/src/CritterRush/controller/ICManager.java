@@ -43,23 +43,26 @@ public class ICManager {
 	public static int[] slowTowerAttributes;
 	public static int[] supremeTowerAttributes;
 	
-	public static int slowestFireRate;
 	public static int projectileSpeed;
 	public static int slowDuration;
 	
 	//Critter variables
-	public static Image critterImage;
-	public static Image slowCritterImage;
+	public static Image normalCritterI;
+	public static Image fastCritterI;
+	public static Image strongCritterI;
+	public static Image slowCritterI;
+	public static Image[] critterImage;
 	
 	public static int[] critterHealth;
 	public static double[] critterInitialSpeed;
 	public static int[] critterScoreReward;
 	public static int[] critterCurrencyPointReward;
 	public static int[] critterCount;
+	public static int[] spawnRate;
 	
 	public static double[] possibleSpeed;
 	public static int waveCount;
-	public static int spawnRate;
+
 
 	//Game variables
 	public static int iniBankAmount;
@@ -113,39 +116,46 @@ public class ICManager {
 		supremeProjImage = new ImageIcon(getClass().getResource("/towers/supremeTowerProjectile.png")).getImage();
 		
 		//order: type, initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerShop = new ShopTower("Fast Tower", 300, 150, 5, 3, 6);
-		slowTowerShop =  new ShopTower("Slow Tower", 300,150, 5, 50, 6);
-		splashTowerShop =  new ShopTower("Splash Tower", 300,150,5,50,6);
-		supremeTowerShop =  new ShopTower("Supreme Tower", 1,1,1,1,5);
+		fastTowerShop = new ShopTower("Fast Tower", 300,85,5,40,1);
+		slowTowerShop =  new ShopTower("Slow Tower", 350,70,5,20,1);
+		splashTowerShop =  new ShopTower("Splash Tower", 650,60,9,10,1);
+		supremeTowerShop =  new ShopTower("Supreme Tower", 2800,120,45,50,1);
 		
 		//Order: initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerAttributes = new int[] {300,150,2,10,6};
-		slowTowerAttributes = new int[] {300,150,2,10,6};
-		splashTowerAttributes = new int[] {300,150,5,50,6};
-		supremeTowerAttributes = new int[] {300,150,5,50,6};
+		fastTowerAttributes = new int[] {300,85,5,40,6};
+		slowTowerAttributes = new int[] {350,70,5,20,5};
+		splashTowerAttributes = new int[] {650,60,9,10,3};
+		supremeTowerAttributes = new int[] {2800,120,50,50,2};
 		
-		slowestFireRate = 5;	//2 seconds for a shot
 		projectileSpeed = 10;
-		slowDuration = 120;		//2 seconds
+		slowDuration = 120;		//60 -> 1 second
 		
 		//Initialize critter variables
-		critterImage = new ImageIcon(getClass().getResource("/critters/critter.png")).getImage();
-		slowCritterImage = new ImageIcon(getClass().getResource("/critters/slowCritter.png")).getImage();
+		normalCritterI = new ImageIcon(getClass().getResource("/critters/normalCritter.png")).getImage();
+		fastCritterI = new ImageIcon(getClass().getResource("/critters/fastCritter.png")).getImage();
+		strongCritterI = new ImageIcon(getClass().getResource("/critters/strongCritter.png")).getImage();
+		slowCritterI = new ImageIcon(getClass().getResource("/critters/slowCritter.png")).getImage();
 		
-		//Critter speed can only have one of the following values: 1.0, 1.5, 2.0, 2.5, 3.0, 3.75, 5.0, 6.0
+		//Critter speed can only have one of the following values: 0.75, 1.0, 1.5, 2.0, 3.0, 3.75, 5.0, 6.0
 		//Because the speed system works only with values respecting this formula: cellSize / speed = n where n is an int
-		critterInitialSpeed = new double[] {1.0,6,70};
-		critterHealth = new int[] {20,60,70};
-		critterScoreReward = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-		critterCurrencyPointReward = new int[] {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150};
-		critterCount = new int[] {2,3,30,30,30,30,30,30,30,30,30,30,30,30,30};
+		critterInitialSpeed = new double[] {2.0, 2.0, 1.5, 3.0, 3.0, 1.0, 2.0, 2.0, 1.5, 3.0, 3.0, 1.0, 2.0, 2.0, 1.0};
+		critterHealth = new int[] {30, 30, 200, 50, 50, 500, 100, 130, 600, 160, 180, 1500, 200, 210, 4000};
+		critterCurrencyPointReward = new int[] {35, 35, 110, 35, 35, 450, 90, 90, 200, 55, 55, 650, 130, 150, 2000};
+		critterScoreReward = new int[] {50, 40, 100, 50, 35, 250, 75, 60, 150, 65, 50, 500, 100, 80, 1500};
+		critterCount = new int[] {10, 15, 5, 20, 25, 2, 10, 15, 5, 20, 25, 2, 10, 15, 1};
+		//60 -> 1 critter per second, lower is faster. 
+		spawnRate = new int[] {60, 60, 120, 40, 30, 240, 60, 60, 120, 40, 30, 240, 60, 60, 60};
+		critterImage = new Image[] {normalCritterI, normalCritterI, strongCritterI, fastCritterI, fastCritterI, strongCritterI, 
+				normalCritterI, normalCritterI, strongCritterI, fastCritterI, fastCritterI, strongCritterI, normalCritterI, 
+				normalCritterI, strongCritterI};
 		
-		waveCount = 2;
-		possibleSpeed = new double[] {0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 3.75, 5.0, 6.0};
-		spawnRate = 60; //1 critter per second
+		possibleSpeed = new double[] {0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 3.75, 5.0, 6.0};
+		waveCount = 15;
+		
+		
 		
 		//Initialize game variables
-		iniBankAmount = 150220;
+		iniBankAmount = 700;
 		iniLife = 5;
 		frameRate = 60;
 	}

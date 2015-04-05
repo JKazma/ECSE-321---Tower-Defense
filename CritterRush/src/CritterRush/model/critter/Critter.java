@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import CritterRush.controller.CritterManager;
 import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
@@ -16,15 +15,20 @@ public class Critter extends GameObject{
 	private double y;
 	private double dx;
 	private double dy;
+	
 	private int initialHealth;
 	private int health;
-	private double speed;
-	private double initialSpeed;
 	private int scoreReward; 
 	private int currencyPointReward;
-	private boolean alive;
 	private int slowDuration;
-	private Image image;
+	private double speed;
+	private double initialSpeed;
+
+	private boolean alive;
+	private boolean slowedDown;
+	
+	private Image normalSpeedImage;
+	private Image slowSpeedImage;
 	private GameController gc;
 	
 	//Incremented variables
@@ -51,7 +55,8 @@ public class Critter extends GameObject{
 		this.gc = gc;
 		this.alive = true;
 
-		this.image = ICManager.critterImage;
+		this.normalSpeedImage = ICManager.critterImage[wave];
+		this.slowSpeedImage = ICManager.slowCritterI;
 		
 	}
 	
@@ -117,12 +122,11 @@ public class Critter extends GameObject{
 			//Set the slowdown speed if the slow timer hasn't elapsed yet.
 			if (slowDuration > 0) {
 				slowDuration--;
-				image = ICManager.slowCritterImage;
+				slowedDown = true;
 			}
-				
 			else {
 				speed = initialSpeed;
-				image = ICManager.critterImage;
+				slowedDown = false;
 			}
 				
 			//Set the speed of the critter
@@ -209,7 +213,10 @@ public class Critter extends GameObject{
 	
 	@Override
 	public void drawStrategy(Graphics g) {
-		g.drawImage(image, (int) x, (int) y, null);
+		if (slowedDown)
+			g.drawImage(slowSpeedImage, (int) x, (int) y, null);
+		else
+			g.drawImage(normalSpeedImage, (int) x, (int) y, null);
 		g.setColor(Color.red);
 		g.drawLine((int) x, (int) (y - 5), (int)(x + (ICManager.cellSize * (double) health/ (double)initialHealth)), (int) (y - 5));
 	}

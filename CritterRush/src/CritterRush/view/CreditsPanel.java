@@ -43,7 +43,7 @@ public class CreditsPanel extends javax.swing.JPanel {
         backButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         backButton.setDefaultCapable(false);
         backButton.setFocusable(false);
-        backButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/buttons/back pressed.png"))); // NOI18N
+        backButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/buttons/back pressed.png"))); // NOI18N
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);

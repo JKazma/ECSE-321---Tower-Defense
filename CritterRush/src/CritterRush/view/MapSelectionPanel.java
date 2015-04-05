@@ -1,7 +1,12 @@
 package CritterRush.view;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
@@ -35,7 +40,33 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     
     //set map Icons
     public void updateMapIcons(){
+    	//default map
     	mapLabels[0].setIcon(ICManager.maps[0]);
+    	
+    	//Shift images
+    	for(int i = 2; i <= MapManager.getMaxCount(); i++){
+    		File newF = new File("resources/map/map" +  String.valueOf(i) + ".png");
+    		
+    		//check if image icon for map doesn't exist
+    		if(!newF.exists() && i <= MapManager.getMapCount()) {
+    			
+    			File oldF = new File("resources/map/map" +  String.valueOf(i+1) + ".png");
+
+    			BufferedImage imageToShift;
+				
+    			//Shift images
+    			try {
+    				imageToShift = ImageIO.read(oldF);
+	    		    File shiftedFile = new File("resources/map/map" +  String.valueOf(i) + ".png");
+	    		    ImageIO.write(imageToShift, "png", shiftedFile);
+	    		    oldF.delete();
+	    		    
+	    		    ICManager.maps[i - 1] = new ImageIcon(imageToShift);
+				} catch (IOException e) {}
+    		}
+    	}
+    	
+    	//update all icons
     	for (int i = 2; i < MapManager.getMaxCount() + 1; i++){
     		if(i <= MapManager.getMapCount()){
     			mapLabels[i - 1].setIcon(ICManager.maps[i-1]);
@@ -46,7 +77,7 @@ public class MapSelectionPanel extends javax.swing.JPanel {
     			mapLabels[i - 1].setIcon(new javax.swing.ImageIcon(getClass().getResource("/map/empty.png")));
     			rButtons[i - 1].setEnabled(false);
     		}
-    	}	
+    	}
     }
     
 
@@ -246,7 +277,14 @@ public class MapSelectionPanel extends javax.swing.JPanel {
         		TDG.printMessage("Cannot delete default map.");
         	}
         	else{
-                MapManager.deleteMap(MapManager.getSelectedMap());
+                //delete map icon
+                System.out.println("resources/map/map" + String.valueOf(MapManager.getIndex() + 1) + ".png");
+                File f = new File("resources/map/map" + String.valueOf(MapManager.getIndex() + 1) + ".png");
+        		if(f.exists()) f.delete();
+        		
+        		MapManager.deleteMap(MapManager.getSelectedMap());
+        		
+        		//remove map from map manager and reset UI
                 MapManager.setSelectedMap(null);
                 updateMapIcons();
                 buttonGroup1.clearSelection();

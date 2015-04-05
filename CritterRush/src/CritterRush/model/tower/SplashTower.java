@@ -39,15 +39,14 @@ public class SplashTower extends Tower{
 		
 		//Check if tower is loaded.
 		if(time >= ICManager.frameRate / fireRate) {
-			time = 0;
 			double critPos;
 			ArrayList<Critter> crittersInRange = new ArrayList<Critter>();
 			
 			//For each critter in range, add to list
 			for(Critter c: critters){
 				critPos = Math.pow((c.getX() - x), 2) + Math.pow ((c.getY() - y),2);
-				
 				if(Math.sqrt(critPos) < range && c.isAlive() && c.isVisible()){
+						time = 0;
 						crittersInRange.add(c);
 					}
 				}

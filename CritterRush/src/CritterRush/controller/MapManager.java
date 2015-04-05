@@ -16,11 +16,12 @@ public class MapManager {
 	private MapManager(){
 		maps = new ArrayList<Map>();
         this.maxCount = 4;
-        resetEditorMap();
         
         //Add default map
         maps.add(new Map(ICManager.fieldSizeX/ICManager.cellSize, ICManager.fieldSizeY/ICManager.cellSize, 
         		CellTypeManager.scenery));
+        
+        resetEditorMap();
         
         //Horizontal
         for(int i = 1; i <= 5 || i >= 21; i++) maps.get(0).getCellAt(i * ICManager.cellSize, 9 * ICManager.cellSize).setType(CellTypeManager.path);
@@ -44,6 +45,8 @@ public class MapManager {
         maps.get(0).getPath().setEntry(maps.get(0).getCellAt(0, 9 * ICManager.cellSize));
         maps.get(0).getPath().setExit(maps.get(0).getCellAt(25 * ICManager.cellSize, 9 * ICManager.cellSize));
         maps.get(0).getPath().computePath();
+        
+        
 	}
 	
 	/**
@@ -56,7 +59,6 @@ public class MapManager {
         }
         return uniqueInstance;
     }
-	
 	
 	/**
 	 * Set editor map to an empty map.
@@ -75,6 +77,7 @@ public class MapManager {
 	public static void setEditorMap(Map m) {
 		MapManager.editorMap = m;
 	}
+	
 	public static Map getEditorMap() {
 		return editorMap;
 	}
@@ -92,8 +95,16 @@ public class MapManager {
 			maps.add(m);
 	}
 	
+	public static int getIndex(){
+		return maps.indexOf(selectedMap);
+	}
+	
 	public static void deleteMap(Map m){
-		maps.remove(m);
+		for(Map map:maps)
+			if (map == m){
+				maps.remove(map);
+				break;
+			}
 	}
 	
 	public static Map getMap(int i){

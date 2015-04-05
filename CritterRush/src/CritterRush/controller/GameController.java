@@ -119,7 +119,7 @@ public class GameController {
 		if(playerReady)
 			createWave();
 		//Spawn critters at a specific spawn rate
-		if(Timer.getSpawnTime() > ICManager.spawnRate && critterIndex < CritterManager.getCritters().size()){
+		if(Timer.getSpawnTime() > ICManager.spawnRate[currentWave] && critterIndex < CritterManager.getCritters().size()){
 			CritterManager.getCritters().get(critterIndex).spawn();
 			Timer.setSpawnTime(0);
 			critterIndex++;

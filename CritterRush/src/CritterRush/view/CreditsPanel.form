@@ -44,7 +44,7 @@
         <Property name="defaultCapable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/resources/buttons/back pressed.png"/>
+          <Image iconType="3" name="/buttons/back pressed.png"/>
         </Property>
       </Properties>
       <Events>
