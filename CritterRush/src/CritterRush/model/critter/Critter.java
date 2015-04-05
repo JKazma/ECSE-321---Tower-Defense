@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import CritterRush.controller.CritterManager;
 import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
 import CritterRush.controller.MapManager;
@@ -81,19 +82,19 @@ public class Critter extends GameObject{
 		this.health -= damage;
 		
 		//If dead, update player stats.
-		if(health <= 0)
+		if(health <= 0){
+			gc.getPs().setCurrencyPoints(gc.getPs().getCurrencyPoints() + currencyPointReward);
+			gc.getPs().setScore(gc.getPs().getScore() + scoreReward);
 			despawn();
-		
-		gc.getPs().setCurrencyPoints(gc.getPs().getCurrencyPoints() + currencyPointReward);
-		gc.getPs().setScore(gc.getPs().getScore() + scoreReward);
+		}
 	}
 	
 	/**
 	 * Update player stats when critter reaches exit.
 	 */
 	public void reachedExit(){
-		despawn();
 		gc.getPs().setLifeCount(gc.getPs().getLifeCount() - 1);
+		despawn();
 	}
 	
 	/**
@@ -114,12 +115,17 @@ public class Critter extends GameObject{
 	public void travelTo() {
 		if(isVisible()) {
 			//Set the slowdown speed if the slow timer hasn't elapsed yet.
-			if (slowDuration > 0) 
+			if (slowDuration > 0) {
 				slowDuration--;
-			else 
+				image = ICManager.slowCritterImage;
+			}
+				
+			else {
 				speed = initialSpeed;
-			
-			//Set the speed of the critter && Timer.getTravelTime()%(maxSpeed + 1 - speed) == 0
+				image = ICManager.critterImage;
+			}
+				
+			//Set the speed of the critter
 			if(speed!=0) {
 				if(cellIndex >= MapManager.getSelectedMap().getPath().getPath().size()) {
 					reachedExit();

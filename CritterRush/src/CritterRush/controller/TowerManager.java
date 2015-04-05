@@ -6,9 +6,22 @@ import java.util.ArrayList;
 import CritterRush.model.tower.Tower;
 
 public class TowerManager {
+	
+	private static TowerManager uniqueInstance = null;
+	
 	private static ArrayList<Tower> towers = new ArrayList<Tower>();
 	private static Tower selectedTower;
 	
+	/**
+	 * Return unique instance of game controller
+	 * @return
+	 */
+    public static synchronized TowerManager getUniqueInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new TowerManager();
+        }
+        return uniqueInstance;
+    }
 
 	public static void addTower(Tower t)
 	{

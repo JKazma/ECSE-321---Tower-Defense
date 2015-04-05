@@ -52,10 +52,10 @@ public class SplashProjectile extends Projectile{
 	public void checkCollision(){
 		if(currentRadius >= finalRadius){
 			for(Critter c: critters){
-				if(c.isAlive() && c.isVisible() && this.isAlive())
+				if(c.isVisible() && this.isAlive())
 					doDamage(c);
 			}
-			disappear();
+			despawn();
 		}
 	}
 	
@@ -74,10 +74,12 @@ public class SplashProjectile extends Projectile{
 	 */
 	@Override
 	public void drawStrategy(Graphics g) {
-		//Draw tower circle
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.orange);
-		g2.setStroke(new BasicStroke(ICManager.squareHighlightTickness));
-		g.drawOval(x - currentRadius, y - currentRadius, currentRadius*2, currentRadius*2);
+		if(alive){
+			//Draw tower circle
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.orange);
+			g2.setStroke(new BasicStroke(ICManager.squareHighlightTickness));
+			g.drawOval(x - currentRadius, y - currentRadius, currentRadius*2, currentRadius*2);
+		}
 	}
 }

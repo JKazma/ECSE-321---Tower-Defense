@@ -3,13 +3,17 @@ package CritterRush.controller;
 import java.util.ArrayList;
 import CritterRush.model.map.Map;
 
+
 public class MapManager {
+	
+	private static MapManager uniqueInstance = null;
+
 	private static ArrayList<Map> maps;
 	private static Map selectedMap;
 	private static Map editorMap;
 	private static int maxCount;
 	
-	public MapManager(){
+	private MapManager(){
 		maps = new ArrayList<Map>();
         this.maxCount = 4;
         resetEditorMap();
@@ -41,6 +45,18 @@ public class MapManager {
         maps.get(0).getPath().setExit(maps.get(0).getCellAt(25 * ICManager.cellSize, 9 * ICManager.cellSize));
         maps.get(0).getPath().computePath();
 	}
+	
+	/**
+	 * Return unique instance of game controller
+	 * @return
+	 */
+    public static synchronized MapManager getUniqueInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new MapManager();
+        }
+        return uniqueInstance;
+    }
+	
 	
 	/**
 	 * Set editor map to an empty map.

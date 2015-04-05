@@ -4,9 +4,23 @@ import java.awt.Graphics;
 import CritterRush.model.critter.Critter;
 
 public class CritterManager {
-
+	
+	private static CritterManager uniqueInstance = null;
 	private static ArrayList<Critter> critters = new ArrayList<Critter>();
 	
+	
+	/**
+	 * Return unique instance of game controller
+	 * @return
+	 */
+    public static synchronized CritterManager getUniqueInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new CritterManager();
+        }
+        return uniqueInstance;
+    }
+    
+    
 	/**
 	 * Return an ArrayList of critters
 	 * @return
@@ -42,13 +56,9 @@ public class CritterManager {
 	 * Order all critters to travel on the path.
 	 */
 	public static void travelCritters() {
-		try{
-			for(Critter c:CritterManager.getCritters()) {
+			for(Critter c: critters) {
 				if(c != null) c.travelTo();
 			}
-		}catch(java.util.ConcurrentModificationException e){
-			//Do Nothing
-		}
 	}
 	
 	public static void draw(Graphics g) {

@@ -36,12 +36,12 @@ public class TowerDefenseGame extends JFrame {
         requestFocus();
         
         //Managers
-        new ICManager();
-        new CellTypeManager();
-        new MapManager();
-        new CritterManager();
-        new TowerManager();
-        new ProjectileManager();
+        ICManager.getUniqueInstance();
+        CellTypeManager.getUniqueInstance();
+        MapManager.getUniqueInstance();
+        CritterManager.getUniqueInstance();
+        TowerManager.getUniqueInstance();
+        ProjectileManager.getUniqueInstance();
         
         //Tools for the mouse
         new EditorTools();

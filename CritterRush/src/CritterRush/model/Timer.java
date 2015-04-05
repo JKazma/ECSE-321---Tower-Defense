@@ -2,20 +2,24 @@ package CritterRush.model;
 
 public class Timer {
 	
-	private static long travelTime = 0;
+	private static long waveEndTime = 0;
 	private static long spawnTime = 0;
 	
 	/**
 	 * Increment the timer.
 	 */
 	public static void increment() {
-		travelTime++;
+		waveEndTime++;
 		spawnTime++;
 	}
 	
 	//Getter and setters
-	public static long getTravelTime() {
-		return travelTime;
+	public static long getWaveEndTime() {
+		return waveEndTime;
+	}
+	
+	public static void setWaveEndTime(int n) {
+		waveEndTime = n;
 	}
 	
 	public static long getSpawnTime() {

@@ -6,6 +6,9 @@ import javax.swing.ImageIcon;
 import CritterRush.model.tower.ShopTower;
 
 public class ICManager {
+	
+	private static ICManager uniqueInstance = null;
+	
 	//Map variables
 	public static Image scenery;
 	public static Image path;
@@ -46,6 +49,7 @@ public class ICManager {
 	
 	//Critter variables
 	public static Image critterImage;
+	public static Image slowCritterImage;
 	
 	public static int[] critterHealth;
 	public static double[] critterInitialSpeed;
@@ -64,11 +68,24 @@ public class ICManager {
 	
 	
 	
-	public ICManager() {
+	private ICManager() {
 			initVariables();
 		}
-	
-	
+	/**
+	 * Return unique instance of game controller
+	 * @return
+	 */
+    public static synchronized ICManager getUniqueInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new ICManager();
+        }
+        return uniqueInstance;
+    }
+    
+    
+    /**
+     * Initialize variables
+     */
 	public void initVariables(){
 		//Initialize map variables
 		scenery = new ImageIcon(getClass().getResource("/map/scenery.png")).getImage();
@@ -96,14 +113,14 @@ public class ICManager {
 		supremeProjImage = new ImageIcon(getClass().getResource("/towers/supremeTowerProjectile.png")).getImage();
 		
 		//order: type, initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerShop = new ShopTower("Fast Tower", 300, 150, 5, 50, 6);
+		fastTowerShop = new ShopTower("Fast Tower", 300, 150, 5, 3, 6);
 		slowTowerShop =  new ShopTower("Slow Tower", 300,150, 5, 50, 6);
 		splashTowerShop =  new ShopTower("Splash Tower", 300,150,5,50,6);
 		supremeTowerShop =  new ShopTower("Supreme Tower", 1,1,1,1,5);
 		
 		//Order: initialCost, range, damage, fireRate (times 10), maxLevel
-		fastTowerAttributes = new int[] {300,150,5,50,6};
-		slowTowerAttributes = new int[] {300,150,5,50,6};
+		fastTowerAttributes = new int[] {300,150,2,10,6};
+		slowTowerAttributes = new int[] {300,150,2,10,6};
 		splashTowerAttributes = new int[] {300,150,5,50,6};
 		supremeTowerAttributes = new int[] {300,150,5,50,6};
 		
@@ -113,20 +130,22 @@ public class ICManager {
 		
 		//Initialize critter variables
 		critterImage = new ImageIcon(getClass().getResource("/critters/critter.png")).getImage();
+		slowCritterImage = new ImageIcon(getClass().getResource("/critters/slowCritter.png")).getImage();
 		
-		//Critter speed can only have one of the following values: 1.0, 1.5, 2.0, 2.5, 3.0, 5.0, 6.0
-		critterInitialSpeed = new double[] {3.75,10,70};
-		critterHealth = new int[] {80,60,70};
+		//Critter speed can only have one of the following values: 1.0, 1.5, 2.0, 2.5, 3.0, 3.75, 5.0, 6.0
+		//Because the speed system works only with values respecting this formula: cellSize / speed = n where n is an int
+		critterInitialSpeed = new double[] {1.0,6,70};
+		critterHealth = new int[] {20,60,70};
 		critterScoreReward = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		critterCurrencyPointReward = new int[] {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150};
 		critterCount = new int[] {2,3,30,30,30,30,30,30,30,30,30,30,30,30,30};
 		
-		waveCount = 1;
-		possibleSpeed = new double[] {1.0, 1.5, 2.0, 2.5, 3.0, 3.75, 5.0, 6.0};
+		waveCount = 2;
+		possibleSpeed = new double[] {0.75, 1.0, 1.5, 2.0, 2.5, 3.0, 3.75, 5.0, 6.0};
 		spawnRate = 60; //1 critter per second
 		
 		//Initialize game variables
-		iniBankAmount = 1500;
+		iniBankAmount = 150220;
 		iniLife = 5;
 		frameRate = 60;
 	}

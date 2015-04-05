@@ -39,14 +39,7 @@
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="scoreAmount" alignment="1" min="-2" pref="66" max="-2" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="stats" alignment="1" min="-2" pref="64" max="-2" attributes="0"/>
-                              <Component id="livesAmount" alignment="0" max="32767" attributes="0"/>
-                              <Component id="goldAmount" alignment="0" min="-2" pref="66" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="scoreAmount" min="-2" pref="66" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -59,6 +52,31 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                              <Component id="info5" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="info4" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="info3" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="info2" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="info1" min="-2" pref="144" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="info6" alignment="1" min="-2" pref="144" max="-2" attributes="0"/>
+                          <Component id="info7" alignment="1" min="-2" pref="144" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="goldLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="heartLabel" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="livesAmount" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="goldAmount" alignment="0" min="-2" pref="66" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="shopTitle" min="-2" pref="66" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -79,18 +97,8 @@
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                              <Component id="info5" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
-                              <Component id="info4" min="-2" pref="144" max="-2" attributes="0"/>
-                              <Component id="info3" min="-2" pref="144" max="-2" attributes="0"/>
-                              <Component id="info2" min="-2" pref="144" max="-2" attributes="0"/>
-                              <Component id="info1" min="-2" pref="144" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="info6" alignment="1" min="-2" pref="144" max="-2" attributes="0"/>
-                          <Component id="info7" alignment="1" min="-2" pref="144" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="stats" min="-2" pref="64" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -99,12 +107,18 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Component id="stats" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="goldAmount" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="goldLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="goldAmount" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="livesAmount" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="livesAmount" min="-2" max="-2" attributes="0"/>
+                  <Component id="heartLabel" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="scoreAmount" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
@@ -133,7 +147,7 @@
               <Component id="info6" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="info7" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="22" max="32767" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Component id="upgradeButton" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="sellButton" min="-2" pref="23" max="-2" attributes="0"/>
@@ -450,6 +464,20 @@
     <Component class="javax.swing.JLabel" name="info7">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel7"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="goldLabel">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/stats/gold.png"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="heartLabel">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/stats/life.png"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

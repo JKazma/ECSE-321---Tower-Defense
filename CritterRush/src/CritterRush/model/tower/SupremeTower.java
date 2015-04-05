@@ -15,15 +15,14 @@ public class SupremeTower extends Tower {
 	{
 		super(x,y);
 		type = "Supreme Tower";
-		this.level = 1;
 		this.initialCost = ICManager.supremeTowerAttributes[0];
 		this.range = ICManager.supremeTowerAttributes[1];
 		this.damage = ICManager.supremeTowerAttributes[2];
 		this.fireRate = ICManager.supremeTowerAttributes[3] / 10; //The firerate in the constants is multiplied by 10 to allow a range from 0.1 to infinity
 		this.maxLevel = ICManager.supremeTowerAttributes[4];
 		this.totalCost = initialCost;
-		this.refundValue = (int)(totalCost * 0.7);
-		this.upgradeCost = (int)(totalCost * 0.5);
+		this.refundValue = (int)(totalCost * upgRefundFactor);
+		this.upgradeCost = (int)(totalCost * upgUpgradeFactor);
 		
 		this.image = ICManager.supremeTower;
 		this.upgradable = false;

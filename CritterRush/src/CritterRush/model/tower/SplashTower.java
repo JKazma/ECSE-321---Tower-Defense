@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import CritterRush.controller.ICManager;
 import CritterRush.controller.ProjectileManager;
-import CritterRush.model.Timer;
 import CritterRush.model.critter.Critter;
 
 public class SplashTower extends Tower{
@@ -19,15 +18,14 @@ public class SplashTower extends Tower{
 	{
 		super(x,y);
 		type = "Splash Tower";
-		this.level = 1;
 		this.initialCost = ICManager.splashTowerAttributes[0];
 		this.range = ICManager.splashTowerAttributes[1];
 		this.damage = ICManager.splashTowerAttributes[2];
 		this.fireRate = ICManager.splashTowerAttributes[3] / 10; //The firerate in the constants is multiplied by 10 to allow a range from 0.1 to infinity
 		this.maxLevel = ICManager.splashTowerAttributes[4];
 		this.totalCost = initialCost;
-		this.refundValue = (int)(totalCost * 0.7);
-		this.upgradeCost = (int)(totalCost * 0.5);
+		this.refundValue = (int)(totalCost * upgRefundFactor);
+		this.upgradeCost = (int)(totalCost * upgUpgradeFactor);
 		
 		this.image = ICManager.splashTower;
 		this.upgradable = true;
@@ -40,7 +38,8 @@ public class SplashTower extends Tower{
 	public void shootCritters(ArrayList <Critter> critters){
 		
 		//Check if tower is loaded.
-		if(Timer.getTravelTime()%(ICManager.frameRate / fireRate) == 0) {
+		if(time >= ICManager.frameRate / fireRate) {
+			time = 0;
 			double critPos;
 			ArrayList<Critter> crittersInRange = new ArrayList<Critter>();
 			
@@ -56,6 +55,8 @@ public class SplashTower extends Tower{
 			if(crittersInRange.size() != 0)
 				addProjectile(crittersInRange);
 		}
+		else
+			time++;
 	}
 	
 	/**

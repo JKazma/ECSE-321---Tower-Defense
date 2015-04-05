@@ -11,21 +11,28 @@ import CritterRush.model.tower.Tower;
 
 public class GameController {
 	
+	private int currentWave;
+	private int critterIndex;
+	private boolean playerReady;
+	private boolean waveCleared;
+	
 	private PlayerStats ps;
 	private TowerTool tt;
 	private ShopTower toBePurchased;
-	private int currentWave;
-	private boolean playerReady;
-	private int critterIndex;
 	private IObserver o;
+
 	
+	/**
+	 * Private Constructor
+	 */
 	public GameController(){
 		ps = new PlayerStats(ICManager.iniBankAmount, ICManager.iniLife);
 		tt = new TowerTool();
 		
 		currentWave = 0;
-		playerReady = false;
 		critterIndex = 0;
+		playerReady = false;
+		waveCleared = true;
 		
 		TowerManager.removeAllTowers();
 		CritterManager.removeAllCritters();
@@ -35,7 +42,7 @@ public class GameController {
 		
 		new Timer();
 	}
-	
+    
 	/**
 	 * Purchase tower of specified type
 	 * @return String
@@ -79,6 +86,7 @@ public class GameController {
 		if (TowerManager.getSelectedTower().getUpgradeCost() <= ps.getCurrencyPoints()){
 			if(TowerManager.getSelectedTower().getUpgradable()){
 				
+				ps.setCurrencyPoints(ps.getCurrencyPoints() - TowerManager.getSelectedTower().getUpgradeCost());
 				TowerManager.getSelectedTower().upgradeTower();
 				return "success";
 			}
@@ -107,14 +115,14 @@ public class GameController {
 	 * Spawn next wave only if current wave has been cleared.
 	 */
 	public void spawnCritterWave(){
+		//Create wave when player click next wave(ready)
 		if(playerReady)
 			createWave();
-		
-			//Spawn critters at a specific spawn rate
-			if(Timer.getSpawnTime() > ICManager.spawnRate && critterIndex < CritterManager.getCritters().size()){
-				CritterManager.getCritters().get(critterIndex).spawn();
-				Timer.setSpawnTime(0);
-				critterIndex++;
+		//Spawn critters at a specific spawn rate
+		if(Timer.getSpawnTime() > ICManager.spawnRate && critterIndex < CritterManager.getCritters().size()){
+			CritterManager.getCritters().get(critterIndex).spawn();
+			Timer.setSpawnTime(0);
+			critterIndex++;
 			}
 	}
 	
@@ -123,20 +131,24 @@ public class GameController {
 	 */
 	public void createWave(){
 		playerReady = false;
+		waveCleared = false;
+		
 		//Populate arraylist of critters
 		for (int i = 0; i < ICManager.critterCount[currentWave]; i++){
-			CritterManager.addCritter(new Critter("Critter", currentWave, this));
+				CritterManager.addCritter(new Critter("Critter", currentWave, this));
 		}
 	}
 	
+	/**
+	 * Update all objects on map: Critters, towers, projectiles.
+	 */
 	public void updateEntities(){
-			Timer.increment();
-			CritterManager.travelCritters();
-			TowerManager.shootCritters();
-			ProjectileManager.moveAllProjectiles();
-			ProjectileManager.checkAllCollisions();
+		Timer.increment();
+		CritterManager.travelCritters();
+		TowerManager.shootCritters();
+		ProjectileManager.moveAllProjectiles();
+		waveEnd();
 	}
-	
 	
 	
 	/**
@@ -144,18 +156,36 @@ public class GameController {
 	 */
 	public void checkCleared(){
 		boolean waveCleared = true;
+		
+		//Check if any critter or projectile is alive.
 		for(Critter c : CritterManager.getCritters()) {
 			if(c.isAlive()) waveCleared = false;
 		}
+		
+		//If cleared, start the waveEndTime in order to wait 1 second for the projectiles to fade away
+		//before stoping the GUI timer.
 		if(waveCleared){
-			//Game won
-			if(currentWave + 1 == ICManager.waveCount){
-				gameWon();
-			}
-			//Game continue
-			else{
-				currentWave++;
-				o.update("waveComplete");
+			Timer.setWaveEndTime(0);
+			this.waveCleared = waveCleared;
+		}
+	}
+	
+	/**
+	 * Determine what to do next when the wave is cleared.
+	 */
+	public void waveEnd(){
+		if (waveCleared){
+			//Wait half a second to clear the screen from projectile drawings before stoping the GUI timer.
+			if(Timer.getWaveEndTime() >= 30){
+				//Game won
+				if(currentWave + 1 == ICManager.waveCount && ps.getLifeCount() > 0){
+					gameWon();
+				}
+				//Game continue
+				else{
+					currentWave++;
+					o.update("waveComplete");
+				}
 			}
 		}
 	}
@@ -175,7 +205,8 @@ public class GameController {
 		
 		//If next wave exists
 		if(currentWave + 1 < ICManager.waveCount){
-			return new String[] {"", "WAVE INFO", 
+			return new String[] {"WAVE INFO",
+			"(current ==> next)",
 			"Health: " + String.valueOf(ICManager.critterHealth[currentWave]) + " ==> " + String.valueOf(ICManager.critterHealth[currentWave + 1]), 
 			"Speed: " + String.valueOf(ICManager.critterInitialSpeed[currentWave]) + " ==> " + String.valueOf(ICManager.critterInitialSpeed[currentWave + 1]),
 			"Amount: " + String.valueOf(ICManager.critterCount[currentWave]) + " ==> " + String.valueOf(ICManager.critterCount[currentWave + 1]),

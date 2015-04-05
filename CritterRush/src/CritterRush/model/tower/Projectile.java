@@ -36,7 +36,6 @@ public abstract class Projectile extends GameObject{
 		this.c = c;
 		appear();
 	}
-	
 	/**
 	 * Constructor
 	 */
@@ -71,7 +70,7 @@ public abstract class Projectile extends GameObject{
 			
 			//If it misses its target, clear when out of bounds
 			if(x < 0 || x > ICManager.fieldSizeX || y < 0 || y > ICManager.fieldSizeY) 
-				this.disappear();
+				this.despawn();
 			
 		}
 	}
@@ -80,7 +79,7 @@ public abstract class Projectile extends GameObject{
 	 * Check for collision with critters
 	 */
 	public void checkCollision(){
-			if(c.isAlive() && this.alive){
+			if(c.isVisible() && this.alive){
 				
 				//Create rectangles for the projectile and the critter to detect collisions when they intersect
 				Rectangle critterShape = new Rectangle((int) c.getX(), (int) c.getY(), ICManager.cellSize, ICManager.cellSize);
@@ -88,12 +87,12 @@ public abstract class Projectile extends GameObject{
 				if(critterShape.intersects(projectile)) 
 				{
 					//Inflict damage and kill projectile.
-					disappear();
 					doDamage(c);
+					despawn();
 				}
 			}
 			else
-				disappear();
+				despawn();
 		}
 	
 	/**
@@ -113,9 +112,10 @@ public abstract class Projectile extends GameObject{
 		show();
 	}
 	
-	public void disappear(){
-		this.alive = false;
+	public void despawn(){
+	//	ProjectileManager.removeProjectile(this);
 		hide();
+		this.alive = false;
 	}
 	
 	public int getX(){
@@ -138,6 +138,7 @@ public abstract class Projectile extends GameObject{
 		return damage;
 	}
 	
+
 	@Override
 	public void drawStrategy(Graphics g) {
 		if(alive){

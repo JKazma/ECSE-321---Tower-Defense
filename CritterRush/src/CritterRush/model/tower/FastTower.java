@@ -15,15 +15,14 @@ public class FastTower extends Tower {
 	{
 		super(x,y);
 		type = "Fast Tower";
-		this.level = 1;
 		this.initialCost = ICManager.fastTowerAttributes[0];
 		this.range = ICManager.fastTowerAttributes[1];
 		this.damage = ICManager.fastTowerAttributes[2];
 		this.fireRate = ICManager.fastTowerAttributes[3] / 10; //The firerate in the constants is multiplied by 10 to allow a range from 0.1 to infinity
 		this.maxLevel = ICManager.fastTowerAttributes[4];
 		this.totalCost = initialCost;
-		this.refundValue = (int)(totalCost * 0.7);
-		this.upgradeCost = (int)(totalCost * 0.5);
+		this.refundValue = (int)(totalCost * upgRefundFactor);
+		this.upgradeCost = (int)(totalCost * upgUpgradeFactor);
 		
 		this.image = ICManager.fastTower;
 		this.upgradable = true;

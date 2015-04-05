@@ -4,8 +4,23 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import CritterRush.model.tower.Projectile;
+
 public class ProjectileManager {
+	
+	private static ProjectileManager uniqueInstance = null;
+	
 	private static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	
+	/**
+	 * Return unique instance of game controller
+	 * @return
+	 */
+    public static synchronized ProjectileManager getUniqueInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new ProjectileManager();
+        }
+        return uniqueInstance;
+    }
 	
 	public static void addProjectile(Projectile p)
 	{
@@ -21,15 +36,15 @@ public class ProjectileManager {
 		projectiles.clear();
 	}
 	
-	public static void moveAllProjectiles() { 
-		for(Projectile p:projectiles) {
-			p.move();
-		}
+	public static void removeProjectile(Projectile p)
+	{
+		projectiles.remove(p);
 	}
 	
-	public static void checkAllCollisions() { 
-		for (Projectile p : projectiles) {
-			p.checkCollision();
+	public static void moveAllProjectiles() { 
+		for(Projectile p:projectiles) {
+				p.move();
+				p.checkCollision();
 		}
 	}
 	

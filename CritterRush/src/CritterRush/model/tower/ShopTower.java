@@ -1,7 +1,8 @@
 package CritterRush.model.tower;
 
 public class ShopTower {
-	private int initialCost, level, range, damage, fireRate;
+	private int initialCost, level, range, damage;
+	private double fireRate;
 	private String type;
 	
 	/**
@@ -19,7 +20,7 @@ public class ShopTower {
 		this.level = level;
 		this.range = range;
 		this.damage = damage;
-		this.fireRate = fireRate;
+		this.fireRate = ((float) fireRate)/10;
 	}
 	
 	//Getters
@@ -43,7 +44,7 @@ public class ShopTower {
 		return damage;
 	}
 
-	public int getFireRate() {
+	public double getFireRate() {
 		return fireRate;
 	}	
 	
@@ -56,7 +57,7 @@ public class ShopTower {
 				"Level: " + String.valueOf(level), 
 				"Damage: " + String.valueOf(damage), 
 				"Range: " + String.valueOf(range), 
-				"Fire Rate: " + String.valueOf(fireRate), 
+				"Fire Rate: " + String.valueOf(((double)((int)(fireRate*100))) /100), 
 				"Buy Cost: " + String.valueOf(initialCost)};
 	}
 	
