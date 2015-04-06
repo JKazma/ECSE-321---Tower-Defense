@@ -22,6 +22,9 @@ public abstract class Tower extends GameObject{
 	protected int totalCost;
 	protected int maxLevel;
 	
+	//Targeting strategy
+	protected ITargetStrategy strategy;
+	
 	protected int time; //Used for the fire rate
 	
 	protected double upgRangeFactor, upgDamageFactor, upgUpgradeFactor, upgRefundFactor;
@@ -29,8 +32,6 @@ public abstract class Tower extends GameObject{
 	protected Image image;
 	protected boolean hit;
 	protected boolean upgradable;
-	
-	
 
 
 	/**
@@ -46,6 +47,7 @@ public abstract class Tower extends GameObject{
 		upgDamageFactor = 1.2;
 		upgUpgradeFactor = 1.4;
 		upgRefundFactor = 0.7;
+		strategy = new ClosestToExitStrategy();
 		
 		time = 0;
 	}
@@ -55,32 +57,7 @@ public abstract class Tower extends GameObject{
 	 * @param critters
 	 */
 	public void shootCritters(ArrayList <Critter> critters){
-		
-		//Check if tower is loaded. The fire rate is bounded by the frame rate.
-		if(time >= ICManager.frameRate / fireRate) {
-			double critPos;
-			Critter temp = null;
-			
-			//For each critter in range, find closest to exit
-			for(Critter c: critters){
-				critPos = Math.pow((c.getX() - x), 2) + Math.pow ((c.getY() - y),2);
-				if(Math.sqrt(critPos) < range && c.isAlive() && c.isVisible()){
-					time = 0;
-					if(temp == null) 
-						temp = c;
-					
-					if(c.getCellIndex() > temp.getCellIndex()){
-						temp = c;
-					}
-				}
-			}
-			//Create projectile
-			if(temp != null) {
-				addProjectile(temp);
-			}
-		}
-		else
-			time ++;
+			strategy.shootTarget(critters, this);
 	}
 	
 	/**
@@ -103,6 +80,40 @@ public abstract class Tower extends GameObject{
 		//Disable upgradable if max level reached.
 		if(level == maxLevel)
 			upgradable  = false;
+	}
+	
+	
+	/**
+	 * Get Tower current info and next level info in an array to be display in the GUI.
+	 * @return
+	 */
+	public String[] getInfo(){
+		int upgRange = (int)(range * upgRangeFactor);
+		int upgdDamage = (int) (damage + damage * upgradeCost/totalCost * upgDamageFactor);
+		int upgTotalCost = totalCost + upgradeCost;
+		int upgUpgradeCost = (int)(upgradeCost * upgUpgradeFactor);
+		int upgRefundValue = (int)(upgTotalCost * upgRefundFactor);
+		int upgLevel = level + 1;
+		
+		//If max level not reached
+		if (level < maxLevel)
+			return new String[] {"Type: " + type, 
+				"Level: " + String.valueOf(level) + " ==> " + String.valueOf(upgLevel), 
+				"Damage: " + String.valueOf(damage) + " ==> " + String.valueOf(upgdDamage), 
+				"Range: " + String.valueOf(range) + " ==> " + String.valueOf(upgRange), 
+				"Fire Rate: " + String.valueOf( ((double)((int)(fireRate*100))) /100 ) + " ==> " + String.valueOf(((double)((int)(fireRate*100))) /100), 
+				"Up Cost: " + String.valueOf(upgradeCost) + " ==> " + String.valueOf(upgUpgradeCost ), 
+				"Refund: " + String.valueOf(refundValue) + " ==> " + String.valueOf(upgRefundValue)};
+		
+		//Max level reached
+		else
+			return new String[] {"Type: " + type, 
+				"Level: " + String.valueOf(level) + " ==> Max", 
+				"Damage: " + String.valueOf(damage) + " ==> Max", 
+				"Range: " + String.valueOf(range) + " ==> Max", 
+				"Fire Rate: " + String.valueOf( ((double)((int)(fireRate*100))) /100 ) + " ==> Max", 
+				"Up Cost: " + String.valueOf(upgradeCost) + " ==> Max", 
+				"Refund: " + String.valueOf(refundValue) + " ==> Max"};
 	}
 	
 	// getters
@@ -162,40 +173,14 @@ public abstract class Tower extends GameObject{
 	public int getMaxLevel(){
 		return maxLevel;
 	}
-	
-	/**
-	 * Get Tower current info and next level info in an array to be display in the GUI.
-	 * @return
-	 */
-	public String[] getInfo(){
-		int upgRange = (int)(range * upgRangeFactor);
-		int upgdDamage = (int) (damage + damage * upgradeCost/totalCost * upgDamageFactor);
-		int upgTotalCost = totalCost + upgradeCost;
-		int upgUpgradeCost = (int)(upgradeCost * upgUpgradeFactor);
-		int upgRefundValue = (int)(upgTotalCost * upgRefundFactor);
-		int upgLevel = level + 1;
-		
-		//If max level not reached
-		if (level < maxLevel)
-			return new String[] {"Type: " + type, 
-				"Level: " + String.valueOf(level) + " ==> " + String.valueOf(upgLevel), 
-				"Damage: " + String.valueOf(damage) + " ==> " + String.valueOf(upgdDamage), 
-				"Range: " + String.valueOf(range) + " ==> " + String.valueOf(upgRange), 
-				"Fire Rate: " + String.valueOf( ((double)((int)(fireRate*100))) /100 ) + " ==> " + String.valueOf(((double)((int)(fireRate*100))) /100), 
-				"Up Cost: " + String.valueOf(upgradeCost) + " ==> " + String.valueOf(upgUpgradeCost ), 
-				"Refund: " + String.valueOf(refundValue) + " ==> " + String.valueOf(upgRefundValue)};
-		
-		//Max level reached
-		else
-			return new String[] {"Type: " + type, 
-				"Level: " + String.valueOf(level) + " ==> Max", 
-				"Damage: " + String.valueOf(damage) + " ==> Max", 
-				"Range: " + String.valueOf(range) + " ==> Max", 
-				"Fire Rate: " + String.valueOf( ((double)((int)(fireRate*100))) /100 ) + " ==> Max", 
-				"Up Cost: " + String.valueOf(upgradeCost) + " ==> Max", 
-				"Refund: " + String.valueOf(refundValue) + " ==> Max"};
+
+	public int getTime(){
+		return time;
 	}
 	
+	public void setTime(int time){
+		this.time = time;
+	}
 
 	@Override
 	public void drawStrategy(Graphics g) {

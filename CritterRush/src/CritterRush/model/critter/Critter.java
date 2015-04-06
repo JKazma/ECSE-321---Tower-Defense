@@ -15,6 +15,7 @@ public class Critter extends GameObject{
 	private double y;
 	private double dx;
 	private double dy;
+	private double rate;
 	
 	private int initialHealth;
 	private int health;
@@ -47,7 +48,8 @@ public class Critter extends GameObject{
 		this.initialSpeed = ICManager.critterInitialSpeed[wave];
 		this.health= ICManager.critterHealth[wave];
 		this.initialHealth = health;
-		this.speed= ICManager.critterInitialSpeed[wave];;
+		this.speed= ICManager.critterInitialSpeed[wave];
+		calculateRate();
 		this.scoreReward = ICManager.critterScoreReward[wave];
 		this.currencyPointReward = ICManager.critterCurrencyPointReward[wave];
 		this.slowDuration = 0;
@@ -106,18 +108,17 @@ public class Critter extends GameObject{
 	 * Slowdown effect with slowdown time.
 	 * @param slowDuration
 	 */
-	public void slowdown(int slowDuration) {
-			for(int i = 0; i< ICManager.possibleSpeed.length; i++) 
-				if(initialSpeed == ICManager.possibleSpeed[i]){
-					speed =  ICManager.possibleSpeed[i - 1];
-					this.slowDuration = slowDuration;
-					break;
-				} 
+	public void slowdown(int slowDuration, double slowFactor) {
+		this.slowDuration = slowDuration;
+		this.speed = initialSpeed / slowFactor ;
+		calculateRate();
 		}
+	
 	/**
 	 * Travel the critter on the map.
 	 */
 	public void travelTo() {
+		
 		if(isVisible()) {
 			//Set the slowdown speed if the slow timer hasn't elapsed yet.
 			if (slowDuration > 0) {
@@ -126,30 +127,59 @@ public class Critter extends GameObject{
 			}
 			else {
 				speed = initialSpeed;
+				if(slowedDown == true)
+					calculateRate();
 				slowedDown = false;
+				
 			}
 				
-			//Set the speed of the critter
-			if(speed!=0) {
+			if(speed != 0) {
 				if(cellIndex >= MapManager.getSelectedMap().getPath().getPath().size()) {
 					reachedExit();
 					return;
 				}
-				//If reached next cell, increment cell index and set new direction
-				if(x == MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() && y == MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY()) {
+				
+				//Set next cell positional variables
+				int nextCellX = MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX();
+				int nextCellY = MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY();
+				
+				//If reached next cell, increment cell index and set new direction, use math round to give a range of error
+				if(x <= nextCellX + rate/1.8 && x >= nextCellX - rate/1.8 && y <= nextCellY + rate/1.8 && y >= nextCellY - rate/1.8 ) {
 					cellIndex++;
+					
+					//Fix x and y position
+					x = nextCellX;
+					y = nextCellY;
+					
+					//If end wasn't reached
 					if(cellIndex < MapManager.getSelectedMap().getPath().getPath().size()) {
-						dx = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() - x)/ICManager.cellSize*speed;
-						dy = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY() - y)/ICManager.cellSize*speed;
+						
+						//Compute new direction
+						if(MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() - x == 0) 
+							dx = 0;
+						else 
+							dx = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() - x) / Math.abs(MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX() - x);
+						
+						if(MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY() - y == 0) 
+							dy = 0;
+						else 
+							dy = (MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY() - y) / Math.abs(MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY() - y);
 					}
 				//Move critter
 				}else {
-					x+=dx;
-					y+=dy;
+					x+=dx*rate;
+					y+=dy*rate;
 				}
 			}
 		}
-	}			
+	}	
+	
+	/**
+	 * Compute the rate at which the critter should move.
+	 */
+	public void calculateRate(){
+		rate = ICManager.cellSize/speed/ICManager.frameRate;
+	}
 	
 	//setters and getters
 	public void setHealth(int health)

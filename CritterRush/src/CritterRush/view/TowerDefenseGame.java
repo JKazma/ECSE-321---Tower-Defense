@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import CritterRush.controller.*;
+import CritterRush.model.Mouse;
 import CritterRush.model.tools.EditorTools;
 
 import javax.swing.JOptionPane;
@@ -44,7 +45,9 @@ public class TowerDefenseGame extends JFrame {
         ProjectileManager.getUniqueInstance();
         
         //Tools for the mouse
+        new Mouse();
         new EditorTools();
+        
 
         mainMenuPanel = new MainMenuPanel(this, true);
         creditsPanel = new CreditsPanel(this, false);
@@ -82,6 +85,8 @@ public class TowerDefenseGame extends JFrame {
 	public static void main(String args[]){
 		EventQueue.invokeLater(new Runnable() {
            
+
+			
 			@Override
             public void run() {
                 TowerDefenseGame TDG = new TowerDefenseGame();

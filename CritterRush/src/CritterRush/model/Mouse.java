@@ -4,6 +4,20 @@ public class Mouse{
 	private static int x = 0;
 	private static int y = 0;
 	
+	private static Mouse uniqueInstance = null;
+	
+	
+	/**
+	 * Return unique instance of game controller
+	 * @return
+	 */
+    public static synchronized Mouse getUniqueInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Mouse();
+        }
+        return uniqueInstance;
+    }
+	
 	/**
 	 * Set x and y of the mouse object.
 	 * @param x

@@ -13,7 +13,7 @@ public class GameController {
 	
 	private int currentWave;
 	private int critterIndex;
-	private boolean playerReady;
+	private boolean playerStartWave;
 	private boolean waveCleared;
 	
 	private PlayerStats ps;
@@ -31,7 +31,7 @@ public class GameController {
 		
 		currentWave = 0;
 		critterIndex = 0;
-		playerReady = false;
+		playerStartWave = false;
 		waveCleared = true;
 		
 		TowerManager.removeAllTowers();
@@ -115,8 +115,8 @@ public class GameController {
 	 * Spawn next wave only if current wave has been cleared.
 	 */
 	public void spawnCritterWave(){
-		//Create wave when player click next wave(ready)
-		if(playerReady)
+		//Create wave when player click next wave(ready) waitOnPlayer
+		if(playerStartWave)
 			createWave();
 		//Spawn critters at a specific spawn rate
 		if(Timer.getSpawnTime() > ICManager.spawnRate[currentWave] && critterIndex < CritterManager.getCritters().size()){
@@ -130,7 +130,7 @@ public class GameController {
 	 * Generate wave to be spawned.
 	 */
 	public void createWave(){
-		playerReady = false;
+		playerStartWave = false;
 		waveCleared = false;
 		
 		//Populate arraylist of critters
@@ -143,6 +143,7 @@ public class GameController {
 	 * Update all objects on map: Critters, towers, projectiles.
 	 */
 	public void updateEntities(){
+		spawnCritterWave();
 		Timer.increment();
 		CritterManager.travelCritters();
 		TowerManager.shootCritters();
@@ -230,8 +231,8 @@ public class GameController {
 		this.o = o;
 	}
 	
-	public void setReady(boolean b){
-		playerReady = b;
+	public void setPlayerStartWave(boolean b){
+		playerStartWave = b;
 	}
 	
 	//Getter and setters
@@ -255,6 +256,18 @@ public class GameController {
 
 	public void setSelectedTower(Tower selectedTower) {
 		TowerManager.setSelectedTower(selectedTower);
+	}
+	
+	public boolean getPlayerStartWave(){
+		return playerStartWave;
+	}
+	
+	public boolean getWaveCleared(){
+		return waveCleared;
+	}
+	
+	public void setWaveCleared(boolean b){
+		waveCleared = b;
 	}
 
 	public void draw(Graphics g){

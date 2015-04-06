@@ -5,6 +5,7 @@ import CritterRush.model.critter.Critter;
 
 public class SlowProjectile extends Projectile{
 	private int slowDuration;
+	private double slowFactor;
 	
 	/**
 	 * Constructor
@@ -17,6 +18,7 @@ public class SlowProjectile extends Projectile{
 		super(x, y, damage, c);
 		image = ICManager.slowProjImage;
 		slowDuration = ICManager.slowDuration;
+		slowFactor = ICManager.slowFactor;
 		
 	}
 	
@@ -27,6 +29,6 @@ public class SlowProjectile extends Projectile{
 	@Override
 	protected void doDamage(Critter c) {
 		c.reduceHealth(damage);
-		c.slowdown(slowDuration);
+		c.slowdown(slowDuration, slowFactor);
 	}
 }

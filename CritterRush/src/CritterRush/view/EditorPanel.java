@@ -61,22 +61,21 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
      */
     public void mapScreenShot(){
 		
-    	BufferedImage bufImage = new BufferedImage(ICManager.fieldSizeX,
+    	BufferedImage buffImage = new BufferedImage(ICManager.fieldSizeX,
     			ICManager.fieldSizeY, BufferedImage.TYPE_INT_RGB);
 		
-    	this.paint(bufImage.createGraphics());
+    	this.paint(buffImage.createGraphics());
     	
 		File imageFile = new File("resources/map/map" +  String.valueOf(MapManager.getMapCount()) + ".png");
 
-		BufferedImage resized = new BufferedImage(195, 150,
-				bufImage.TYPE_INT_RGB);
+		BufferedImage resized = new BufferedImage(195, 150, buffImage.TYPE_INT_RGB);
 
 		// Paint scaled version of image to new image
 
 		Graphics2D graphics2D = resized.createGraphics();
 		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		graphics2D.drawImage(bufImage, 0, 0, 195, 150, null);
+		graphics2D.drawImage(buffImage, 0, 0, 195, 150, null);
 
 		// clean up
 		graphics2D.dispose();
@@ -88,6 +87,61 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
 		} catch (Exception ex) {
 		}
     }
+    
+    @Override
+	public void mouseDragged(MouseEvent e) {
+		Mouse.move(e.getX(), e.getY());
+		EditorTools.update();
+		
+		if (SwingUtilities.isLeftMouseButton(e)) 
+			EditorTools.performAction1();
+		else if (SwingUtilities.isRightMouseButton(e)) 
+			EditorTools.performAction2();
+		
+		repaint();
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Mouse.move(e.getX(), e.getY());
+		EditorTools.update();
+		repaint();
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (SwingUtilities.isLeftMouseButton(e)) 
+			EditorTools.performAction1();
+		else if (SwingUtilities.isRightMouseButton(e)) 
+			EditorTools.performAction2();
+		
+		repaint();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+    
      
     /**
      * This method is called from within the constructor to initialize the form.
@@ -294,57 +348,5 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
     private javax.swing.JRadioButton textureTool;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-	public void mouseDragged(MouseEvent e) {
-		Mouse.move(e.getX(), e.getY());
-		EditorTools.update();
-		
-		if (SwingUtilities.isLeftMouseButton(e)) 
-			EditorTools.performAction1();
-		else if (SwingUtilities.isRightMouseButton(e)) 
-			EditorTools.performAction2();
-		
-		repaint();
-		
-	}
 
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		Mouse.move(e.getX(), e.getY());
-		EditorTools.update();
-		repaint();
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (SwingUtilities.isLeftMouseButton(e)) 
-			EditorTools.performAction1();
-		else if (SwingUtilities.isRightMouseButton(e)) 
-			EditorTools.performAction2();
-		
-		repaint();
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub	
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }

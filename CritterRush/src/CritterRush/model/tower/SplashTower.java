@@ -29,6 +29,8 @@ public class SplashTower extends Tower{
 		
 		this.image = ICManager.splashTower;
 		this.upgradable = true;
+		
+		this.strategy = null;
 	}
 	
 	/**

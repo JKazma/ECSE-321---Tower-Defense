@@ -66,7 +66,7 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 		//Wave Started
 		if("waveStarted".equals(s)){
 			timer.start();
-			game.setReady(true);
+			game.setPlayerStartWave(true);
 			nextWave.setEnabled(false);
 		}
 		//Wave Complete
@@ -86,7 +86,6 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		game.spawnCritterWave();
 		game.updateEntities();
 		updatePlayerStats();
 		repaint();
@@ -233,6 +232,92 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
 		game.draw(g);
    }
 
+    
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (SwingUtilities.isLeftMouseButton(e)) 
+			
+			//Enable buttons except for the nextwave button when tower is placed
+			if(game.placeTower()){
+		  		for (Component b : getComponents()) {
+	    		    if((b instanceof JButton || b instanceof JToggleButton))
+	    		    	b.setEnabled(true);
+	    		    	if(game.getWaveCleared() == false)
+	    		    		nextWave.setEnabled(false);
+	    		}
+			}
+		repaint();
+		
+		//If a mouse press happens outside of the shop menu, set the tower related buttons to false.
+		if(e.getComponent() != fastTower || e.getComponent() != splashTower || e.getComponent() != slowTower || e.getComponent() != powerTower){
+			buttonGroup1.clearSelection();
+			purchaseButton.setEnabled(false);
+			upgradeButton.setEnabled(false);
+			sellButton.setEnabled(false);
+			game.setSelectedTower(null);
+			setVisibleTCInfo(false);
+		}
+	}
+	
+    //Select Tower on field and enable the upgrade and sell buttons
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		for (Tower t:TowerManager.getTowers()){
+			if (t.getX() == (e.getX()/ICManager.cellSize)*ICManager.cellSize && t.getY() == (e.getY()/ICManager.cellSize)*ICManager.cellSize){
+				game.setSelectedTower(t);
+				setVisibleTCInfo(true);
+				updateTCInfo(t.getInfo());
+				upgradeButton.setEnabled(true);
+				sellButton.setEnabled(true);
+				repaint();
+			}
+		}
+	}
+
+    @Override
+	public void mouseDragged(MouseEvent e) {
+		Mouse.move(e.getX(), e.getY());
+		repaint();
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Mouse.move(e.getX(), e.getY());
+		game.getTt().updatePosition();
+		repaint();
+	}
+	
+	public void setGame(GameController gc){
+		game = gc;
+	}
+
+	public GameController getGame() {
+		return game;
+	}
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -631,82 +716,4 @@ public class GamePanel extends javax.swing.JPanel implements MouseListener, Mous
     private javax.swing.JTextField stats;
     private javax.swing.JButton upgradeButton;
     // End of variables declaration//GEN-END:variables
-
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-	
-	
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (SwingUtilities.isLeftMouseButton(e)) 
-			
-			//Enable buttons when tower is placed
-			if(game.placeTower()){
-		  		for (Component b : getComponents()) {
-	    		    if(b instanceof JButton || b instanceof JToggleButton)
-	    		    	b.setEnabled(true);
-	    		}
-			}
-		repaint();
-		
-		//If a mouse press happens outside of the shop menu, set the tower related buttons to false.
-		if(e.getComponent() != fastTower || e.getComponent() != splashTower || e.getComponent() != slowTower || e.getComponent() != powerTower){
-			buttonGroup1.clearSelection();
-			purchaseButton.setEnabled(false);
-			upgradeButton.setEnabled(false);
-			sellButton.setEnabled(false);
-			game.setSelectedTower(null);
-			setVisibleTCInfo(false);
-		}
-	}
-	
-    //Select Tower on field and enable the upgrade and sell buttons
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		for (Tower t:TowerManager.getTowers()){
-			if (t.getX() == (e.getX()/ICManager.cellSize)*ICManager.cellSize && t.getY() == (e.getY()/ICManager.cellSize)*ICManager.cellSize){
-				game.setSelectedTower(t);
-				setVisibleTCInfo(true);
-				updateTCInfo(t.getInfo());
-				upgradeButton.setEnabled(true);
-				sellButton.setEnabled(true);
-				repaint();
-			}
-		}
-	}
-
-    @Override
-	public void mouseDragged(MouseEvent e) {
-		Mouse.move(e.getX(), e.getY());
-		repaint();
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		Mouse.move(e.getX(), e.getY());
-		game.getTt().updatePosition();
-		repaint();
-	}
-	
-	public void setGame(GameController gc){
-		game = gc;
-	}
-
-	public GameController getGame() {
-		return game;
-	}
 }

@@ -12,7 +12,6 @@ public class EditorTools{
 	private static Tool textureTool;
 	private static Tool spawnTool;
 	private static Tool obstacleTool;
-	//private static Tool towerTool;
 	private static Tool currentTool;
 	
 	
@@ -23,7 +22,6 @@ public class EditorTools{
 		textureTool = new TextureTool();
 		spawnTool = new SpawnTool();
 		obstacleTool = new ObstacleTool();
-	//	towerTool = new TowerTool();
 		currentTool = null;
 		
 	}
