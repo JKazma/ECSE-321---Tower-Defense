@@ -15,6 +15,7 @@ public class GameController {
 	private int critterIndex;
 	private boolean playerStartWave;
 	private boolean waveCleared;
+	private boolean firstWave;
 	
 	private PlayerStats ps;
 	private TowerTool tt;
@@ -33,6 +34,7 @@ public class GameController {
 		critterIndex = 0;
 		playerStartWave = false;
 		waveCleared = true;
+		firstWave = true;
 		
 		TowerManager.removeAllTowers();
 		CritterManager.removeAllCritters();
@@ -111,6 +113,19 @@ public class GameController {
 		}
 	}
 	
+	
+	/**
+	 * Update all objects on map: Critters, towers, projectiles.
+	 */
+	public void updateEntities(){
+		spawnCritterWave();
+		Timer.increment();
+		CritterManager.travelCritters();
+		TowerManager.shootCritters();
+		ProjectileManager.moveAllProjectiles();
+		waveEnd();
+	}
+	
 	/**
 	 * Spawn next wave only if current wave has been cleared.
 	 */
@@ -130,6 +145,13 @@ public class GameController {
 	 * Generate wave to be spawned.
 	 */
 	public void createWave(){
+		//Increment the wave count only for waves past the first one.
+		//This is because we consider wave 0 to be wave 1 for the inspect menu.
+		if(firstWave)
+			firstWave = false;
+		else
+			currentWave++;
+		
 		playerStartWave = false;
 		waveCleared = false;
 		
@@ -138,19 +160,6 @@ public class GameController {
 				CritterManager.addCritter(new Critter("Critter", currentWave, this));
 		}
 	}
-	
-	/**
-	 * Update all objects on map: Critters, towers, projectiles.
-	 */
-	public void updateEntities(){
-		spawnCritterWave();
-		Timer.increment();
-		CritterManager.travelCritters();
-		TowerManager.shootCritters();
-		ProjectileManager.moveAllProjectiles();
-		waveEnd();
-	}
-	
 	
 	/**
 	 * Check if the wave is cleared.
@@ -163,7 +172,6 @@ public class GameController {
 			if(c.isAlive()) waveCleared = false;
 			
 		}
-		
 		//If cleared, start the waveEndTime in order to wait 1 second for the projectiles to fade away
 		//before stoping the GUI timer.
 		if(waveCleared){
@@ -185,7 +193,7 @@ public class GameController {
 				}
 				//Game continue
 				else{
-					currentWave++;
+					//currentWave++;
 					o.update("waveComplete");
 				}
 			}
