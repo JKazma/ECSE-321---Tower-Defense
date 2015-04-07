@@ -25,12 +25,12 @@ public abstract class Tool {
 	/**
 	 * Left click.
 	 */
-	public abstract void action1();
+	public abstract void leftAction();
 	
 	/**
 	 * Right click.
 	 */
-	public abstract void action2();
+	public abstract void rightAction();
 	
 	
 	/**

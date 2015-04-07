@@ -2,6 +2,11 @@ package CritterRush.model.critter;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import CritterRush.controller.GameController;
 import CritterRush.controller.ICManager;
@@ -93,6 +98,7 @@ public class Critter extends GameObject{
 			gc.getPs().setCurrencyPoints(gc.getPs().getCurrencyPoints() + currencyPointReward);
 			gc.getPs().setScore(gc.getPs().getScore() + scoreReward);
 			despawn();
+			playDeathSound();
 		}
 	}
 	
@@ -120,20 +126,28 @@ public class Critter extends GameObject{
 	public void travelTo() {
 		
 		if(isVisible()) {
+			
+			//If it stops following the path, kill critter. This shouldn't happen but just in case.
+			if(x < 0 || x > ICManager.fieldSizeX || y < 0 || y > ICManager.fieldSizeY) 
+				despawn();
+			
 			//Set the slowdown speed if the slow timer hasn't elapsed yet.
 			if (slowDuration > 0) {
 				slowDuration--;
 				slowedDown = true;
 			}
 			else {
+				//Reset to original speed and calculate new rate.
 				speed = initialSpeed;
 				if(slowedDown == true)
 					calculateRate();
 				slowedDown = false;
 				
 			}
-				
+			
+			//If critter has speed.
 			if(speed != 0) {
+				//Reaches exit
 				if(cellIndex >= MapManager.getSelectedMap().getPath().getPath().size()) {
 					reachedExit();
 					return;
@@ -143,8 +157,12 @@ public class Critter extends GameObject{
 				int nextCellX = MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getX();
 				int nextCellY = MapManager.getSelectedMap().getPath().getPath().get(cellIndex).getY();
 				
-				//If reached next cell, increment cell index and set new direction, use math round to give a range of error
-				if(x <= nextCellX + rate/1.8 && x >= nextCellX - rate/1.8 && y <= nextCellY + rate/1.8 && y >= nextCellY - rate/1.8 ) {
+				//If reached next cell, increment cell index and set new direction, 
+				//use a range of error to make sure the critter detects the tile.
+				//Even though it shouldn't happen, if somehow the critter goes beyond the range
+				//of error, we adjust the critter's path by looking for that case.
+				if((x <= nextCellX + rate && x >= nextCellX - rate && y <= nextCellY + rate && y >= nextCellY - rate) 
+						|| ((nextCellX - x ) * dx < 0 || (nextCellY - y ) * dy < 0)) {
 					cellIndex++;
 					
 					//Fix x and y position
@@ -240,6 +258,24 @@ public class Critter extends GameObject{
 	public boolean isAlive() {
 		return alive;
 	}
+	
+    /**
+     * Play game music.
+     */
+    public void playDeathSound(){
+        try{
+        	File file = new File("resources/critterDeath.wav");
+        	
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+               
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        }
+        catch(Exception ex)
+        {
+        }
+    }
 	
 	@Override
 	public void drawStrategy(Graphics g) {

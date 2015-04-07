@@ -25,7 +25,7 @@ public class SupremeTower extends Tower {
 		this.upgradeCost = (int)(totalCost * upgUpgradeFactor);
 		
 		this.image = ICManager.supremeTower;
-		this.upgradable = false;
+		this.upgradable = true;
 	}
 	
 	/**

@@ -94,9 +94,9 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
 		EditorTools.update();
 		
 		if (SwingUtilities.isLeftMouseButton(e)) 
-			EditorTools.performAction1();
+			EditorTools.performLeftAction();
 		else if (SwingUtilities.isRightMouseButton(e)) 
-			EditorTools.performAction2();
+			EditorTools.performRightAction();
 		
 		repaint();
 		
@@ -112,9 +112,9 @@ public class EditorPanel extends javax.swing.JPanel implements MouseListener, Mo
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) 
-			EditorTools.performAction1();
+			EditorTools.performLeftAction();
 		else if (SwingUtilities.isRightMouseButton(e)) 
-			EditorTools.performAction2();
+			EditorTools.performRightAction();
 		
 		repaint();
 	}

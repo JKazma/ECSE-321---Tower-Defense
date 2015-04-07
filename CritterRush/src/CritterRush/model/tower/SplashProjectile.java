@@ -28,7 +28,7 @@ public class SplashProjectile extends Projectile{
 		this.critters = critters;
 		this.finalRadius = radius;
 		currentRadius = 0;
-		appear();
+		spawn();
 	}
 	
 	/**

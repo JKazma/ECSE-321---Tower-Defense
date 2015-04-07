@@ -1,5 +1,8 @@
 package CritterRush.controller;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import CritterRush.model.map.Map;
 
@@ -15,7 +18,7 @@ public class MapManager {
 	
 	private MapManager(){
 		maps = new ArrayList<Map>();
-        this.maxCount = 4;
+        maxCount = 4;
         
         //Add default map
         maps.add(new Map(ICManager.fieldSizeX/ICManager.cellSize, ICManager.fieldSizeY/ICManager.cellSize, 
@@ -67,6 +70,8 @@ public class MapManager {
 		editorMap = (new Map(ICManager.fieldSizeX/ICManager.cellSize, ICManager.fieldSizeY/ICManager.cellSize, CellTypeManager.scenery));
 	}
 	
+	
+	//Getters and setters
 	public static void setSelectedMap(Map m) {
 		MapManager.selectedMap = m;
 	}
@@ -109,5 +114,33 @@ public class MapManager {
 	
 	public static Map getMap(int i){
 		return maps.get(i - 1);
+	}
+	
+	public void loadMaps(){
+		
+	}
+	
+	public void saveMap() throws FileNotFoundException, UnsupportedEncodingException{
+		PrintWriter writer = new PrintWriter("map2.txt", "UTF-8");
+		
+		
+		//s -> scenery, e -> entry, x -> exit, o -> obstacle p -> path
+		for(int j = 0; j < MapManager.getSelectedMap().getSizeY(); j++){
+			for(int i = 0; i < MapManager.getSelectedMap().getSizeX(); i++){
+				if(MapManager.getSelectedMap().getCellAt(i*ICManager.cellSize, j*ICManager.cellSize).getType() == CellTypeManager.scenery)
+					writer.print("s");
+				else if(MapManager.getSelectedMap().getCellAt(i*ICManager.cellSize, j*ICManager.cellSize).getType() == CellTypeManager.entry)
+					writer.print("e");
+				else if(MapManager.getSelectedMap().getCellAt(i*ICManager.cellSize, j*ICManager.cellSize).getType() == CellTypeManager.exit)
+					writer.print("x");
+				else if(MapManager.getSelectedMap().getCellAt(i*ICManager.cellSize, j*ICManager.cellSize).getType() == CellTypeManager.obstacle)
+					writer.print("o");
+				else if(MapManager.getSelectedMap().getCellAt(i*ICManager.cellSize, j*ICManager.cellSize).getType() == CellTypeManager.path)
+					writer.print("p");
+				
+			}
+			writer.println("");
+		}
+		writer.close();
 	}
 }

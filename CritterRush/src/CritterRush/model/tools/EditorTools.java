@@ -38,18 +38,18 @@ public class EditorTools{
 	/**
 	 * Left mouse click.
 	 */
-	public static void performAction1() {
+	public static void performLeftAction() {
 		if(currentTool != null)
-			currentTool.action1();
+			currentTool.leftAction();
 		
 	}
 	
 	/**
 	 * Right mouse click.
 	 */
-	public static void performAction2() {
+	public static void performRightAction() {
 		if(currentTool != null)
-			currentTool.action2();
+			currentTool.rightAction();
 		
 	}
 	

@@ -22,20 +22,27 @@ public class ProjectileManager {
         return uniqueInstance;
     }
 	
+    /**
+     * Add a projectile to the ArrayList
+     * @param p
+     */
 	public static void addProjectile(Projectile p)
 	{
 		projectiles.add(p);
 	}
-	public static void removeProjectiles(Projectile p)
-	{
-		projectiles.remove(p);
-	}
 	
+	/**
+	 * Clear the ArrayList
+	 */
 	public static void removeAllProjectiles()
 	{
 		projectiles.clear();
 	}
 	
+	/**
+	 * Remove object p from ArrayList
+	 * @param p
+	 */
 	public static void removeProjectile(Projectile p)
 	{
 		projectiles.remove(p);
@@ -48,10 +55,18 @@ public class ProjectileManager {
 		}
 	}
 	
+	/**
+	 * Get Projetiles
+	 * @return
+	 */
 	public static ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}
 	
+	/**
+	 * Draw projectiles
+	 * @param g
+	 */
 	public static void draw(Graphics g) {
 		for(Projectile p:projectiles) {
 			p.draw(g);

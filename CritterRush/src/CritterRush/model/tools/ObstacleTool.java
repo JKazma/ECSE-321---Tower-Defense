@@ -21,7 +21,7 @@ public class ObstacleTool extends Tool{
 	 * Set cell type to obstacle.
 	 */
 	@Override
-	public void action1() {
+	public void leftAction() {
 		
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
 		if(c == null) return;
@@ -38,7 +38,7 @@ public class ObstacleTool extends Tool{
 		
 	}
 	@Override
-	public void action2() {
+	public void rightAction() {
 		//Nothing.
 	}
 }

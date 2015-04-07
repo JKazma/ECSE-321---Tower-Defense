@@ -81,6 +81,12 @@ public class Map extends GameObject{
         return count;
 	}
 	
+	/**
+	 * Get cell at a specific x and y in pixels
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Cell getCellAt(int x, int y){
 		if (x < ICManager.fieldSizeX && y < ICManager.fieldSizeY && x >= 0 && y >= 0) return cells[x/ICManager.cellSize][y/ICManager.cellSize];
 		else return null;

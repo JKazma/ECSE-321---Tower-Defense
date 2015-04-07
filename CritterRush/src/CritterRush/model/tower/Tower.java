@@ -3,7 +3,6 @@ package CritterRush.model.tower;
 import java.awt.*;
 import java.util.ArrayList;
 
-import CritterRush.controller.ICManager;
 import CritterRush.model.GameObject;
 import CritterRush.model.critter.Critter;
 
@@ -45,7 +44,7 @@ public abstract class Tower extends GameObject{
 		this.level = 1;
 		upgRangeFactor = 1.08;
 		upgDamageFactor = 1.2;
-		upgUpgradeFactor = 1.4;
+		upgUpgradeFactor = 1.25;
 		upgRefundFactor = 0.7;
 		strategy = new ClosestToExitStrategy();
 		

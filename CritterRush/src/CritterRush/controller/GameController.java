@@ -161,6 +161,7 @@ public class GameController {
 		//Check if any critter or projectile is alive.
 		for(Critter c : CritterManager.getCritters()) {
 			if(c.isAlive()) waveCleared = false;
+			
 		}
 		
 		//If cleared, start the waveEndTime in order to wait 1 second for the projectiles to fade away
@@ -177,7 +178,7 @@ public class GameController {
 	public void waveEnd(){
 		if (waveCleared){
 			//Wait half a second to clear the screen from projectile drawings before stoping the GUI timer.
-			if(Timer.getWaveEndTime() >= 30){
+			if(Timer.getWaveEndTime() >= ICManager.frameRate / 2){
 				//Game won
 				if(currentWave + 1 == ICManager.waveCount && ps.getLifeCount() > 0){
 					gameWon();

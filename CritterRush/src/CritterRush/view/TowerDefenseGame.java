@@ -1,6 +1,7 @@
 package CritterRush.view;
 
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -57,7 +58,7 @@ public class TowerDefenseGame extends JFrame {
      
         this.add(mainMenuPanel);
         this.pack();
-
+        
 	}
 	
 	/**
@@ -81,16 +82,16 @@ public class TowerDefenseGame extends JFrame {
     public void printMessage(String message){
     JOptionPane.showMessageDialog(this, message);
     }
+    
 
 	public static void main(String args[]){
 		EventQueue.invokeLater(new Runnable() {
            
-
-			
 			@Override
             public void run() {
                 TowerDefenseGame TDG = new TowerDefenseGame();
                 TDG.setVisible(true);
+                
             }
         });
 	}

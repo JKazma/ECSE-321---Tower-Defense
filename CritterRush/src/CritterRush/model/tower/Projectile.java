@@ -34,7 +34,7 @@ public abstract class Projectile extends GameObject{
 		this.damage = damage;
 		this.speed = ICManager.projectileSpeed;
 		this.c = c;
-		appear();
+		spawn();
 	}
 	/**
 	 * Constructor
@@ -107,7 +107,7 @@ public abstract class Projectile extends GameObject{
 		return alive;
 	}
 	
-	public void appear(){
+	public void spawn(){
 		this.alive = true;
 		show();
 	}

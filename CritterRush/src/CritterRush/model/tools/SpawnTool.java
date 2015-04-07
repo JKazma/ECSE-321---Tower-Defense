@@ -15,14 +15,14 @@ public class SpawnTool extends Tool{
 	private CellType normalPath = CellTypeManager.path;
 	
 	public SpawnTool() {
-		color=Color.magenta;
+		color=Color.orange;
 	}
 	
 	/**
 	 * Set cell type to entry cell.
 	 */
 	@Override
-	public void action1() {
+	public void leftAction() {
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
 		if(c != null) {
 			if(c.getType() == CellTypeManager.path && c != MapManager.getEditorMap().getPath().getExit()) {
@@ -44,7 +44,7 @@ public class SpawnTool extends Tool{
 	 * Set cell type to exit cell.
 	 */
 	@Override
-	public void action2() {
+	public void rightAction() {
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
 		if(c != null) {
 			if(c.getType() == CellTypeManager.path && c != MapManager.getEditorMap().getPath().getEntry()) {

@@ -30,12 +30,12 @@ public class TowerTool extends Tool{
 	}
 	
 	@Override
-	public void action1() {
+	public void leftAction() {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void action2() {
+	public void rightAction() {
 		// TODO Auto-generated method stub
 		 
 	}

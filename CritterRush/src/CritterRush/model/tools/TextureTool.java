@@ -15,7 +15,7 @@ public class TextureTool extends Tool{
 	 * Set cell type to path cell.
 	 */
 	@Override
-	public void action1() {
+	public void leftAction() {
 		
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
 		if(c == null) return;
@@ -30,7 +30,7 @@ public class TextureTool extends Tool{
 	 * Set cell type to scenery.
 	 */
 	@Override
-	public void action2() {
+	public void rightAction() {
 		
 		Cell c = MapManager.getEditorMap().getCellAt(x, y);
 		if(c == null) return;
